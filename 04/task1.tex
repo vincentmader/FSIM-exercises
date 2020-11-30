@@ -101,6 +101,11 @@ $v_K(1\textnormal{ AU})=\SI{2.98e4}{\meter\per\second}$
                 ys.append(rk_integrator.y)
         
             return np.array(ys)\end{lstlisting}
+    \begin{itemize}
+        \item energy is limited in Euler/Leapfrog, not limited in Rk
+        \item angular momentum is strictly conserved in Leapfrog
+        \item energy error grows linearilly (on average) in Rk4
+    \end{itemize}
     % \begin{figure}[h!]
     %     \centering
     %     \begin{minipage}{.5\linewidth}
@@ -133,7 +138,7 @@ $v_K(1\textnormal{ AU})=\SI{2.98e4}{\meter\per\second}$
     \end{figure} \ \\ 
 
     \newpage
-    \subsection{ Plot the time evolution of the relative error 
+    \subsection{Plot the time evolution of the relative error 
         of the total energy and the time evolution of the total kinetic
         energy of the system.}
     \begin{figure}[h!]
@@ -154,3 +159,7 @@ $v_K(1\textnormal{ AU})=\SI{2.98e4}{\meter\per\second}$
         \caption{total energy balance as well as relative energy error plotted 
             vs. time for fourth-order Runge-Kutta}
     \end{figure} \ \\ 
+
+    \begin{itemize}
+        \item add plot with comparison of all energy deviations 
+    \end{itemize}
