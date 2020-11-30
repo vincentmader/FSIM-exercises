@@ -10,12 +10,44 @@ $v_K(1\textnormal{ AU})=\SI{2.98e4}{\meter\per\second}$
     integration with the leapfrog algorithm. Find an appropriate 
     time step. Plot the result for the first few orbits.
 } \ \\
+\\
+    Leapfrog algoritm:
+    \begin{align}
+        v_{i+1/2}&=v_i+a(x_i)\cdot\frac{\Delta t}{2} \\
+        x_{i+1/2}&=x_{i}+v_{i+1/2}\cdot\frac{\Delta t}{2}
+    \end{align}
+    This can be implemented using the following iterative python function:
+    \begin{lstlisting}
+        def leapfrog(x, v):
+            norm = lambda x: np.sqrt(sum([i**2 for i in x]))
+            a = lambda x: -G * M_star * x / norm(x)**3
+        
+            new_v = v + a(x) * dt / 2
+            new_x = x + new_v * dt / 2
+            return new_x, new_v
+    \end{lstlisting} \ \\
+    After playing around a little bit with the parameters, it seems like 
+    a step-size of $\Delta t=\SI{1e-3}{}$ leads to a good trade-off between 
+    accuracy and integration time. With this step-size, one orbit takes 
+    approximately 5350 integration steps.
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[width=\textwidth]{./figures/task1_1_orbit.pdf}
+    \end{figure} \ \\ 
 
-\paragraph{Now integrate for 100 orbits and see how the orbit behaves.}
+\newpage
+\paragraph{Now integrate for 100 orbits and see how the orbit behaves.} \ \\
+\\
+    As can be seen below, the system is relatively stable even after 500 orbits.
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[width=\textwidth]{./figures/task1_1_orbit100}
+    \end{figure} \ \\ 
 
 \paragraph{Repeat this with the RK2 and RK4 algorithms and see how the 
     system behaves. Discuss the difference to the leapfrog algorithm.
     For this, also plot the time evolution of the relative error 
     of the total energy and the time evolution of the total kinetic
     energy of the system.
-}
+} \ \\ 
+\\
