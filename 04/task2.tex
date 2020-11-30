@@ -20,12 +20,20 @@ equation reads
         \item chain rule $\Rightarrow\phi=\xi/\tau$
     \end{itemize}
     \begin{align}
-        \frac{d\vec x_i'}{dt'}
-        &=\vec v_i' \\
-        m_i'\frac{d\vec v_i'}{dt'}
-        &=m_i'\cdot\sum_{k\neq i}m_k'\cdot
-        \frac{\vec x_k'-\vec x_i'}{|\vec x_k'-\vec x_i'|^3}
+        \tder{\vec{x_i}'}{t'}
+        &= \vec{v_i'} \label{wdim1}\\
+        m_i' \tder{\vec{v_i'}}{t'}
+        &= m_i' \sum_{k\neq i} m_k'
+        \frac{\vec{x_k}' -\vec{x_i}'}{|\vec{x_k}'-\vec{x_i}'|^3}
+ 		\label{wdim2}   
     \end{align}
+    From \ref{wdim1} we can calculate 
+   \begin{equation}
+   		\tder{\vec{x_i}'}{t'} \overset{CR}{=} \frac{\tau}{\xi} \tder{\vec{x}}{t} \overset{!}{=} \vec{v_i}' = \frac{\vec{v_i}}{\phi}  
+   \end{equation}
+   Therefore $ \phi = \frac{\xi}{\tau}$. Since $[G] = \frac{\text{m}^3}{\text{kg } \text{s}^2}$
+   
+    
     From now on we will do everything in dimensionless units.
 
 \newpage
