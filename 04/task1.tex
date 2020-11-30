@@ -5,18 +5,18 @@ coordinates $(1,0,0)$ in units of AU$=\SI{1.496e11}{\meter}$. The
 planet's velocity is $(0,0.5,0)$ in units of the Kepler velocity at the 
 that location, which is 
 $v_K(1\textnormal{ AU})=\SI{2.98e4}{\meter\per\second}$
+\\
 
-\paragraph{Solve the Kepler orbit of this planet using numerical
+\subsection{Solve the Kepler orbit of this planet using numerical
     integration with the leapfrog algorithm. Find an appropriate 
     time step. Plot the result for the first few orbits.
 } \ \\
-\\
-    Leapfrog algoritm:
+    The leapfrog algorithm reads:
     \begin{align}
         v_{i+1/2}&=v_i+a(x_i)\cdot\frac{\Delta t}{2} \\
         x_{i+1/2}&=x_{i}+v_{i+1/2}\cdot\frac{\Delta t}{2}
     \end{align}
-    This can be implemented using the following iterative python function:
+    It can be implemented using the following iterative python function: \\
     \begin{lstlisting}
         # define helper functions
         norm = lambda x: np.sqrt(sum([i**2 for i in x]))
@@ -38,40 +38,39 @@ $v_K(1\textnormal{ AU})=\SI{2.98e4}{\meter\per\second}$
                 xs.append(x)
                 vs.append(v)
 
-            return xs, vs\end{lstlisting} \ \\
+            return xs, vs\end{lstlisting} 
     After playing around a little bit with the parameters, it seems like 
-    a step-size of $\Delta t=\SI{1e-3}{}$ leads to a good trade-off between 
+    a step-size of $\Delta t=\SI{1e-2}{}$ leads to a good trade-off between 
     accuracy and integration time. With this step-size, one orbit takes 
     approximately 5350 integration steps.
     \begin{figure}[h!]
         \centering
-        \includegraphics[width=.8\textwidth]{./figures/task1_1_orbit_lf.pdf}
-        \caption{Trajectory of the planet after approximately one orbit.}
+        \includegraphics[width=\textwidth]{./figures/task1_1_orbit_lf.pdf}
+        \caption{Trajectory of the planet after approximately one orbit
+            ($N=5350$, $dt=10^{-2}$).
+        }
     \end{figure} \ \\ 
 
 \newpage
-\paragraph{Now integrate for 100 orbits and see how the orbit behaves.} \ \\
-\\
+\subsection{Now integrate for 100 orbits and see how the orbit behaves.}
     As can be seen below, the orbiting planet does not come back to exactly the 
-    same spot each time after circling the star, which is due to the discrete
+    same spot after each time it circles the star, which is due to the discrete
     nature of the simulation (e.g. finitely small $\Delta t$). The errors add 
     up after each orbit, and the simulated planet starts precessing around the 
     star.
     \begin{figure}[h!]
         \centering
-        \includegraphics[width=.8\textwidth]{./figures/task1_1_orbit_lf_100.pdf}
-        \caption{Trajectory of the planet after approximately 100 orbits.}
-    \end{figure} \ \\ 
+        \includegraphics[width=\textwidth]{./figures/task1_1_orbit_lf_100.pdf}
+        \caption{Trajectory of the planet after approximately 100 orbits
+            ($N=10^5$, $dt=10^{-2}$).
+        }
+    \end{figure}
 
 \newpage
-\paragraph{Repeat this with the RK2 and RK4 algorithms and see how the 
+\subsection{Repeat this with the RK2 and RK4 algorithms and see how the 
     system behaves. Discuss the difference to the leapfrog algorithm.
-    For this, also plot the time evolution of the relative error 
-    of the total energy and the time evolution of the total kinetic
-    energy of the system.
-} \ \\ 
-\\
-    To implement the Runge-Kutta solver, we can use the following function:
+} \ \\
+    To implement the Runge-Kutta solver, we can use the following function: \\
     \begin{lstlisting}
         def rk_integrate(x_0, v_0, dt, steps, order=2):
         
@@ -124,31 +123,34 @@ $v_K(1\textnormal{ AU})=\SI{2.98e4}{\meter\per\second}$
     As can be seen in the plots below, ...
     \begin{figure}[h!]
         \centering
-        \includegraphics[width=.8\textwidth]{./figures/task1_1_orbit_rk2.pdf}
+        \includegraphics[width=\textwidth]{./figures/task1_1_orbit_rk2.pdf}
         \caption{2nd order Runge-Kutta algorithm}
     \end{figure} \ \\ 
     \begin{figure}[h!]
         \centering
-        \includegraphics[width=.8\textwidth]{./figures/task1_1_orbit_rk4.pdf}
+        \includegraphics[width=\textwidth]{./figures/task1_1_orbit_rk4.pdf}
         \caption{4th order Runge-Kutta algorithm}
     \end{figure} \ \\ 
-    \newpage
 
+    \newpage
+    \subsection{ Plot the time evolution of the relative error 
+        of the total energy and the time evolution of the total kinetic
+        energy of the system.}
     \begin{figure}[h!]
         \centering
-        \includegraphics[width=.8\textwidth]{./figures/task1_1_energies_lf_test.pdf}
+        \includegraphics[width=\textwidth]{./figures/task1_1_energies_lf_test.pdf}
         \caption{total energy balance as well as relative energy error plotted 
             vs. time for leapfrog solver}
     \end{figure} \ \\ 
     \begin{figure}[h!]
         \centering
-        \includegraphics[width=.8\textwidth]{./figures/task1_1_energies_rk2.pdf}
+        \includegraphics[width=\textwidth]{./figures/task1_1_energies_rk2.pdf}
         \caption{total energy balance as well as relative energy error plotted 
             vs. time for second-order Runge-Kutta}
     \end{figure} \ \\ 
     \begin{figure}[h!]
         \centering
-        \includegraphics[width=.8\textwidth]{./figures/task1_1_energies_rk4.pdf}
+        \includegraphics[width=\textwidth]{./figures/task1_1_energies_rk4.pdf}
         \caption{total energy balance as well as relative energy error plotted 
             vs. time for fourth-order Runge-Kutta}
     \end{figure} \ \\ 

@@ -34,6 +34,7 @@ equation reads
     
     From now on we will do everything in dimensionless units.
 
+\newpage
 \subsection{Write an $N$-body code for arbitrary $N$ with the leapfrog 
     integration and a constant time step.
 } 
@@ -55,15 +56,20 @@ equation reads
 
     \paragraph{As a simple test problem, solve the following sample binary 
         star problem: two stars of mass $1$ at initial locations 
-        $\vec x_1=(-0.5,0,0)$, $\vec x_2=(_0.5,0,0)$ and initial velocities
+        $\vec x_1=(-0.5,0,0)$, $\vec x_2=(+0.5,0,0)$ and initial velocities
         $\vec v_1=(0,-0.5,0)$, $\vec v_2=(0,+0.5,0)$. Choose an appropriate
         time step! Plot the resulting trajectories of both starts in the 
         $(x,y)$-plane (projection). Plot also the time evolution of the 
         relative error of the total energy of the system.
     } \ \\
         \\
-        ...
+        \begin{figure}[h!]
+            \centering
+            \includegraphics[width=\textwidth]{./figures/task2_2body.pdf}
+            \caption{}
+        \end{figure} \ \\ 
     
+    \newpage
     \paragraph{Now add a third star with mass $0.1$ and initial position 
         $\vec x_3=(1,6,2)$ and initial velocity $\vec v_3=(0,0,0)$. Show how 
         this third star "falls into" the binary, interacts with it, and gets 
@@ -72,7 +78,11 @@ equation reads
         relative error of the total energy of the system.
     } \ \\
         \\
-        ... 
+        \begin{figure}[h!]
+            \centering
+            \includegraphics[width=\textwidth]{./figures/task2_3body.pdf}
+            \caption{}
+        \end{figure} \ \\ 
     
     \paragraph{Play with the time step by varying it at least a factor of 10 
         (but keep the final time of the integration fixed) and describe whether 
@@ -83,6 +93,7 @@ equation reads
         \\
         ...
 
+\newpage
 \subsection{Real $N$-body problem ($N>>3$)}
     \paragraph{Set up a spherical cloud of 30 randomly positioned stars of 
         mass 1. The cloud radius is 1. Use a uniform random number generator 
