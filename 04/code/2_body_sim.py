@@ -104,7 +104,7 @@ def plot_energies(xs, vs):
     plt.legend(loc='lower right')
 
 
-def plot_orbit(xs):
+def plot_orbit(xs, linewidth=1):
     x = [i[0] for i in xs]
     y = [i[1] for i in xs]
 
@@ -112,7 +112,7 @@ def plot_orbit(xs):
     plt.gca().add_artist(circ)
     plt.gca().set_aspect('equal', adjustable='box')
 
-    plt.plot(x, y)
+    plt.plot(x, y, linewidth=linewidth)
     plt.xlabel(r'$x$ coordinate')
     plt.ylabel(r'$y$ coordinate')
 
@@ -133,7 +133,7 @@ def main():
 
     print('Leapfrog 2')
     xs, vs = leapfrog_integrate(x_0, v_0, dt=1e-2, steps=int(1e5))
-    plot_orbit(xs)
+    plot_orbit(xs, linewidth=0.01)
     plt.savefig('../figures/task1_1_orbit_lf_100.pdf')
     plot_energies(xs, vs)
     plt.savefig('../figures/task1_1_energies_lf_100.pdf')
