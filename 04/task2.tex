@@ -16,7 +16,9 @@ equation reads
     into the variables. Which condistions must $\xi,\Phi,\tau$ and $\mu$ obey
     and how many of them can be freely chosen?
 }
-    ...
+    \begin{itemize}
+        \item chain rule $\Rightarrow\phi=\xi/\tau$
+    \end{itemize}
     \begin{align}
         \tder{\vec{x_i}'}{t'}
         &= \vec{v_i'} \label{wdim1}\\
@@ -68,7 +70,7 @@ equation reads
             \includegraphics[width=\textwidth]{./figures/task2_2body.pdf}
             \caption{}
         \end{figure} \ \\ 
-    
+
     \newpage
     \paragraph{Now add a third star with mass $0.1$ and initial position 
         $\vec x_3=(1,6,2)$ and initial velocity $\vec v_3=(0,0,0)$. Show how 
@@ -91,7 +93,11 @@ equation reads
         $\vec x_3=(1,6,3)$
     } \ \\
         \\
-        ...
+        \begin{enumerate}
+            \item overall behavior is similar: star falls in, gets 
+                "thrown around", then ejected
+            \item details are different, e.g. direction of ejection
+        \end{enumerate}
 
 \newpage
 \subsection{Real $N$-body problem ($N>>3$)}
@@ -111,7 +117,7 @@ equation reads
         \begin{equation}
             \Delta t = C\cdot\frac{d_{min}}{|\vec v_{max}|},
         \end{equation}
-        where $C=0.01\cdot d_{min}$ is the minimum distance between 2 particles 
+        where $C=0.01$. $d_{min}$ is the minimum distance between 2 particles 
         and $|\vec v_{max}|$ is the velocity of the fastest particle in the 
         system. If the evolution is unstable or if the relative error of the 
         total energy gets higher than 0.05, decrease the value of $C$ (note 
