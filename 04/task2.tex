@@ -1,0 +1,10 @@
+Let us now consider a $N$-body problem, with $N>2$ gravitationally interacting
+objects. We will solve this system with the \textit{direct summation method}.
+First, however, let us cast the problem in dimensionless units. The $N$-body
+equation reads
+\begin{align}
+    \frac{d\vec{x}_i}{dt}
+    &=\vec{v}_i \\
+    m_i\frac{d\vec{v}_i}{dt}
+    &=Gm_i\sum_{k\neq i}m_l\frac{\vec{x}_k-\vec{x}_i}{|\vec{x}_k-\vec{x}_i|^3}
+\end{align}
