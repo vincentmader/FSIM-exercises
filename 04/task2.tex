@@ -122,7 +122,10 @@ equation reads
         \begin{figure}[h!]
             \centering
             \includegraphics[width=\textwidth]{./figures/task2_3body.pdf}
-            \caption{}
+        \end{figure} \ \\ 
+        \begin{figure}[h!]
+            \centering
+            \includegraphics[width=\textwidth]{./figures/task2_3body_energy_new.pdf}
         \end{figure} \ \\ 
     
     \paragraph{Play with the time step by varying it at least a factor of 10 
@@ -203,20 +206,22 @@ equation reads
                     vs.append(norm(p.v))
                 d_min = min(ds)
                 v_max = max(vs)
-                return 0.01 * d_min / v_max \end{lstlisting}
+                return 0.1 * d_min / v_max \end{lstlisting} \ \\
         % \begin{figure}[h!]
         %     \centering
         %     \includegraphics[width=\textwidth]{./figures/task2_30body.pdf}
         % \end{figure} \ \\ 
+        We choose $C=1$ for reasons of computation time.
+
 
     \paragraph{Plot the time evolution of the relative error of the total 
         energy.
     } \ \\
         \\ 
-        ...
+        The simulation is run for $50000$ iterations:
         \begin{figure}[h!]
             \centering
-            \includegraphics[width=\textwidth]{./figures/task2_30body_energy.pdf}
+            \includegraphics[width=\textwidth]{./figures/task2_30body_energy_new.pdf}
         \end{figure} \ \\ 
 
     \newpage
@@ -227,7 +232,7 @@ equation reads
         ...
         \begin{figure}[h!]
             \centering
-            \includegraphics[width=\textwidth]{./figures/task2_30body_3D.pdf}
+            \includegraphics[width=\textwidth]{./figures/task2_30body_3D_new.pdf}
         \end{figure} \ \\ 
 
     \paragraph{Now redo the simulation with $N=60$ and masses $m=0.5$. Run this and 

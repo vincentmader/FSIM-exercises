@@ -1,3 +1,4 @@
+from datetime import datetime as dt
 import json
 from random import uniform
 from tqdm import tqdm
@@ -38,7 +39,7 @@ class Planet():
     def update_position(self, dt):
         self.r = np.add(self.r, self.v * dt)
         self.trajectory.append(self.r)
-        if self.r > 1e6:
+        if norm(self.r) > 1e6:
             print('divergence!')
             input()
 
@@ -114,7 +115,7 @@ def plot_system(planets):
         f'evolution of {len(planets)} planets after {steps} iteration steps'
     )
     plt.gca().set_aspect('equal', adjustable='box')
-    plt.savefig(f'../figures/task2_{len(planets)}body.pdf')
+    plt.savefig(f'../figures/task2_{len(planets)}body_new_c.pdf')
 
 
 def plot_system_3D(planets):
@@ -166,7 +167,8 @@ def plot_energy_deviation(planets):
     plt.title(f'evolution of energy for {len(planets)} planets')
     plt.xlabel('iteration step')
     plt.ylabel(r'energy deviation $\frac{E_0-E}{E_0}}$')
-    plt.savefig(f'../figures/task2_{len(planets)}body_energy_new.pdf')
+    plt.gca().set_aspect('auto')
+    plt.savefig(f'../figures/task2_{len(planets)}body_energy_new_c.pdf')
 
 
 def calculate_adaptive_dt(planets):
@@ -179,7 +181,7 @@ def calculate_adaptive_dt(planets):
         vs.append(norm(p.v))
     d_min = min(ds)
     v_max = max(vs)
-    return 0.1 * d_min / v_max
+    return .95 * d_min / v_max
 
 
 def run_system(planets, steps):
@@ -200,13 +202,21 @@ def main():
     # plot_system(planets, steps=30000)
     # plt.close()
 
-    # plt.figure(figsize=(8, 4))
     # planets = create_3_body_system()
-    # plot_system(planets, steps=30000)
+    # run_system(planets, steps)
+
+    # plt.figure(figsize=(8, 4))
+    # plot_system(planets)
+    # plt.close()
+    # plt.figure(figsize=(8, 4))
+    # plot_energy_deviation(planets)
     # plt.close()
 
     planets = create_30_body_system()
+    start_time = dt.now()
     run_system(planets, steps)
+    end_time = dt.now()
+    print(end_time - start_time)
 
     plt.figure(figsize=(8, 4))
     plot_system(planets)
