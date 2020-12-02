@@ -8,7 +8,7 @@ import numpy as np
 
 
 G = 1.
-steps = 50000
+steps = 100
 
 colors = ['blue', 'green', 'red']
 
@@ -83,7 +83,7 @@ def create_30_body_system():
             if np.sqrt(vx**2 + vy**2 + vz**2) <= .1:
                 valid_v = True
 
-        r, v, m = np.array([x, y, z]), np.array([vx, vy, vz]), 1
+        r, v, m = np.array([x, y, z]), np.array([vx, vy, vz]), .5
         p = Planet(r, v, m)
 
         planets.append(p)
@@ -101,7 +101,7 @@ def plot_system(planets):
             plt.xlabel(r'$y$ coordinate')
             plt.ylabel(r'$x$ coordinate')
             plt.plot(y, x, color=colors[idx])
-        elif len(planets) == 30:
+        elif len(planets) == 30 or len(planets) == 60:
             plt.xlabel(r'$x$ coordinate')
             plt.ylabel(r'$y$ coordinate')
             plt.plot(y, x, color='black')
@@ -115,7 +115,7 @@ def plot_system(planets):
         f'evolution of {len(planets)} planets after {steps} iteration steps'
     )
     plt.gca().set_aspect('equal', adjustable='box')
-    plt.savefig(f'../figures/task2_{len(planets)}body_new_c.pdf')
+    plt.savefig(f'../figures/task2_{len(planets)}body_new_d.pdf')
 
 
 def plot_system_3D(planets):
@@ -138,7 +138,7 @@ def plot_system_3D(planets):
     plt.title(
         f'3D evolution of {len(planets)} planets after {steps} iteration steps'
     )
-    plt.savefig(f'../figures/task2_{len(planets)}body_3D_new.pdf')
+    plt.savefig(f'../figures/task2_{len(planets)}body_3D_new_d.pdf')
 
 
 def get_energy_evolution(planets):
@@ -168,7 +168,7 @@ def plot_energy_deviation(planets):
     plt.xlabel('iteration step')
     plt.ylabel(r'energy deviation $\frac{E_0-E}{E_0}}$')
     plt.gca().set_aspect('auto')
-    plt.savefig(f'../figures/task2_{len(planets)}body_energy_new_c.pdf')
+    plt.savefig(f'../figures/task2_{len(planets)}body_energy_new_d.pdf')
 
 
 def calculate_adaptive_dt(planets):
@@ -181,7 +181,7 @@ def calculate_adaptive_dt(planets):
         vs.append(norm(p.v))
     d_min = min(ds)
     v_max = max(vs)
-    return .95 * d_min / v_max
+    return .1 * d_min / v_max
 
 
 def run_system(planets, steps):
