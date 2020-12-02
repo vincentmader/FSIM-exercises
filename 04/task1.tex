@@ -102,8 +102,8 @@ $v_K(1\textnormal{ AU})=\SI{2.98e4}{\meter\per\second}$
         
             return np.array(ys)\end{lstlisting}
     \begin{itemize}
-        \item energy is limited in Euler/Leapfrog, not limited in Rk
-        \item angular momentum is strictly conserved in Leapfrog
+        \item energy is bound from above and below in Leapfrog, in RK2 energy growth every year
+        \item angular momentum is strictly conserved in Leapfrog, not shown but proovable
         \item energy error grows linearilly (on average) in Rk4
     \end{itemize}
     % \begin{figure}[h!]
@@ -159,7 +159,27 @@ $v_K(1\textnormal{ AU})=\SI{2.98e4}{\meter\per\second}$
         \caption{total energy balance as well as relative energy error plotted 
             vs. time for fourth-order Runge-Kutta}
     \end{figure} \ \\ 
+   \begin{comment}
+    \begin{figure}[h!]
+        \centering
+        \begin{minipage}{.5\linewidth}
+          \centering
+          \subfloat[evolution of angular momentum]{
+            \label{:a}
+            \includegraphics[scale=.55]{./k/angularMom100.png}
+          }
+        \end{minipage}%
+        \begin{minipage}{.5\linewidth}
+          \centering
+          \subfloat[evolution of energy]{
+            \label{:b}
+            \includegraphics[scale=.55]{./k/energy100.png}
+          }
+        \end{minipage}
+        \caption{Energy and angular momentum for leapfrog, Rk2 and Rk4. 
+            The quantities are not conserved when using the second order 
+            Runge-Kutta scheme, but fourth order and leapfrog do respect 
+            the conservation laws.}
+    \end{figure} \ \\
 
-    \begin{itemize}
-        \item add plot with comparison of all energy deviations 
-    \end{itemize}
+\end{comment}
