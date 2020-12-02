@@ -229,7 +229,10 @@ equation reads
         emerge from the evolution. What are these? Why do they appear?
     } \ \\
         \\
-        ...
+        Even after 50000 iteration steps with $C=0.1$, the planets have not 
+        moved very much, so that patterns in the trajectories can not 
+        really be identified. One could rerun this with a longer integration 
+        time.
         \begin{figure}[h!]
             \centering
             \includegraphics[width=\textwidth]{./figures/task2_30body_3D_new.pdf}
@@ -241,14 +244,9 @@ equation reads
         results and run times between the two.
         } \ \\
         \\
-        \begin{figure}[h!]
-            \centering
-            \includegraphics[width=\textwidth]{./figures/task2_60body_energy_new_c.pdf}
-        \end{figure} \ \\ 
-        \begin{figure}[h!]
-            \centering
-            \includegraphics[width=\textwidth]{./figures/task2_60body_3D_new.pdf}
-        \end{figure} \ \\ 
+        \begin{itemize}
+            \item runtime: 1.14 s
+        \end{itemize}
         \begin{figure}[h!]
             \centering
             \includegraphics[width=\textwidth]{./figures/task2_30body_energy_new_d.pdf}
@@ -256,4 +254,17 @@ equation reads
         \begin{figure}[h!]
             \centering
             \includegraphics[width=\textwidth]{./figures/task2_30body_3D_new_d.pdf}
+        \end{figure} \ \\ 
+
+        \newpage
+        \begin{itemize}
+            \item runtime: 4.71 s
+        \end{itemize}
+        \begin{figure}[h!]
+            \centering
+            \includegraphics[width=\textwidth]{./figures/task2_60body_energy_new_e.pdf}
+        \end{figure} \ \\ 
+        \begin{figure}[h!]
+            \centering
+            \includegraphics[width=\textwidth]{./figures/task2_60body_3D_new_e.pdf}
         \end{figure} \ \\ 

@@ -68,7 +68,7 @@ def create_3_body_system():
 
 def create_30_body_system():
     planets = []
-    for _ in range(30):
+    for _ in range(60):
         valid_r, valid_v = False, False
         while not valid_r:
             x = uniform(-1, 1)
@@ -115,7 +115,7 @@ def plot_system(planets):
         f'evolution of {len(planets)} planets after {steps} iteration steps'
     )
     plt.gca().set_aspect('equal', adjustable='box')
-    plt.savefig(f'../figures/task2_{len(planets)}body_new_d.pdf')
+    plt.savefig(f'../figures/task2_{len(planets)}body_new_e.pdf')
 
 
 def plot_system_3D(planets):
@@ -138,7 +138,7 @@ def plot_system_3D(planets):
     plt.title(
         f'3D evolution of {len(planets)} planets after {steps} iteration steps'
     )
-    plt.savefig(f'../figures/task2_{len(planets)}body_3D_new_d.pdf')
+    plt.savefig(f'../figures/task2_{len(planets)}body_3D_new_e.pdf')
 
 
 def get_energy_evolution(planets):
@@ -168,7 +168,7 @@ def plot_energy_deviation(planets):
     plt.xlabel('iteration step')
     plt.ylabel(r'energy deviation $\frac{E_0-E}{E_0}}$')
     plt.gca().set_aspect('auto')
-    plt.savefig(f'../figures/task2_{len(planets)}body_energy_new_d.pdf')
+    plt.savefig(f'../figures/task2_{len(planets)}body_energy_new_e.pdf')
 
 
 def calculate_adaptive_dt(planets):

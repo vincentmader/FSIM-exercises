@@ -102,9 +102,13 @@ $v_K(1\textnormal{ AU})=\SI{2.98e4}{\meter\per\second}$
         
             return np.array(ys)\end{lstlisting}
     \begin{itemize}
-        \item energy is bound from above and below in Leapfrog, in RK2 energy growth every year
-        \item angular momentum is strictly conserved in Leapfrog, not shown but proovable
-        \item energy error grows linearilly (on average) in RK4, but much slower as RK2 and for a long times it's lower than the LF 
+        \item energy is bound from above and below in leapfrog, in 
+            RK2 the energy grows over time
+        \item angular momentum is strictly conserved in leapfrog, not shown 
+            but provable
+        \item energy error grows linearily (on average) in RK4, 
+            but much slower as RK2, and for long times it's lower than 
+            for leapfrog
     \end{itemize}
     % \begin{figure}[h!]
     %     \centering
@@ -123,9 +127,9 @@ $v_K(1\textnormal{ AU})=\SI{2.98e4}{\meter\per\second}$
     %       }
     %     \end{minipage}
     % \end{figure} \ \\
-    \newpage
-
-    As can be seen in the plots below, ...
+    \newpage \noindent
+    As can be seen in the plots below, energy is not conserved in Rk2, as the 
+    planet "spirals" inwards toward the star.
     \begin{figure}[h!]
         \centering
         \includegraphics[width=\textwidth]{./figures/task1_1_orbit_rk2.pdf}
