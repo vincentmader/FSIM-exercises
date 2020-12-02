@@ -104,6 +104,29 @@ def plot_energies(xs, vs):
     plt.legend(loc='lower right')
 
 
+# def plot_energy_error(xs, vs, label=''):
+#     E_kins, E_pots = [], []
+#     for idx, x in enumerate(xs):
+#         v = vs[idx]
+
+#         E_kin = M_planet / 2 * norm(v)**2
+#         E_pot = -G * M_star * M_planet / norm(x)
+
+#         E_kins.append(E_kin)
+#         E_pots.append(E_pot)
+
+#     E_kins = np.array(E_kins)
+#     E_pots = np.array(E_pots)
+#     E_tots = E_kins + E_pots
+#     E0 = E_tots[0]
+
+#     plt.plot(
+#         (E_tots-E0) / E0 * 100, label=r'$\frac{E-E_0}{E_0}\cdot 100$',
+#         color='black'
+#     )
+#     plt.legend(loc='lower right')
+
+
 def plot_orbit(xs, linewidth=1):
     x = [i[0] for i in xs]
     y = [i[1] for i in xs]
@@ -140,34 +163,40 @@ def main():
     fig.clear()
 
     print('Leapfrog 3')
-    xs, vs = leapfrog_integrate(x_0, v_0, dt=1e-2, steps=int(5e3))
-    plot_orbit(xs)
+    xs_lf, vs_lf = leapfrog_integrate(x_0, v_0, dt=1e-2, steps=int(5e3))
+    plot_orbit(xs_lf)
     plt.savefig('../figures/task1_1_orbit_lf_test.pdf')
-    plot_energies(xs, vs)
+    plot_energies(xs_lf, vs_lf)
     plt.savefig('../figures/task1_1_energies_lf_test.pdf')
     fig.clear()
 
     print('Runge-Kutta 1')
     y = rk_integrate(x_0, v_0, dt=1e-2, steps=int(5e3), order=2)
-    xs = [i[:3] for i in y]
-    vs = [i[3:] for i in y]
-    plot_orbit(xs)
+    xs_rk2 = [i[:3] for i in y]
+    vs_rk2 = [i[3:] for i in y]
+    plot_orbit(xs_rk2)
     plt.savefig('../figures/task1_1_orbit_rk2.pdf')
     fig.clear()
-    plot_energies(xs, vs)
+    plot_energies(xs_rk2, vs_rk2)
     plt.savefig('../figures/task1_1_energies_rk2.pdf')
     fig.clear()
 
     print('Runge-Kutta 2')
     y = rk_integrate(x_0, v_0, dt=1e-2, steps=int(5e3), order=4)
-    xs = [i[:3] for i in y]
-    vs = [i[3:] for i in y]
-    plot_orbit(xs)
+    xs_rk4 = [i[:3] for i in y]
+    vs_rk4 = [i[3:] for i in y]
+    plot_orbit(xs_rk4)
     plt.savefig('../figures/task1_1_orbit_rk4.pdf')
     fig.clear()
-    plot_energies(xs, vs)
+    plot_energies(xs_rk4, vs_rk4)
     plt.savefig('../figures/task1_1_energies_rk4.pdf')
     fig.clear()
+
+    # print('together')
+    # plot_energy_error(xs_lf, vs_lf, label='leapfrog')
+    # plot_energy_error(xs_rk2, vs_rk2, label='Rk2')
+    # plot_energy_error(xs_rk4, vs_rk4, label='Rk4')
+    # plt.savefig('../figures/energy_errors.pdf')
 
 # t_bound = steps * dt
 
