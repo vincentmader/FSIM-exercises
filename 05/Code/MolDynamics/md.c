@@ -20,48 +20,42 @@ typedef struct {
   int neighbors[MAXPART]; // neighbors (with index larger than current particle)
 } particle;
 
-// auxiliary function to create a Gaussian random deviate
+// auxiliary function to create a gaussian random deviate
 double gaussian_rnd(void) {
   // ---students ---
-  int r_1, r_2, n_max= 32767;
+  // imnplemented Box-Muller-Method
+  int r_1, r_2, n= 32767;
   time_t t;
-  double ;
+  double r, phi, rand1, rnad2, n_max = 32767;
    /* Intializes random number generator */
    srand((unsigned) time(&t));
-  r_1 = rand(n);
-  r_2 = rand(n);
+  rand1 = rand(n)/n_max;
+  rand2 = rand(n)/n_max;
 
-      double x, ret;
-   x = 2.7;
-
-   /* finding log(2.7) */
-   ret = log(x);
-   printf("log(%lf) = %lf", x, ret);
-
-   double sqrt(double x)
-
-
-
-  // --- end ---
+  r = sqrt(-2 * log(rand1));
+  phi = 2 * 3.1415 * rand2;
+  return r * cos(phi);
+   // --- end ---
 }
 
 // This function initializes our particle set.
 void initialize(particle *p, double L, int N1d, double sigma_v) {
   int n = 0;
-
+  // L = 5*sigma N => d bar = dl = 5*sigma
   double dl = L / N1d;
 
   for(int i = 0; i < N1d; i++) {
     for(int j = 0; j < N1d; j++) {
       for(int k = 0; k < N1d; k++) {
         // --- students ---
-        p[n].pos[0] = ;
-        p[n].pos[1] = ;
-        p[n].pos[2] = ;
-
-        p[n].vel[0] = ;
-        p[n].vel[1] = ;
-        p[n].vel[2] = ;
+        // points on regular grid
+        p[n].pos[0] = i * dl;
+        p[n].pos[1] = j * dl;
+        p[n].pos[2] = k * dl;
+        // velocities gaussian with width of sigma. Still normalized???
+        p[n].vel[0] = sigma_v * gaussian_rnd();
+        p[n].vel[1] = sigma_v * gaussian_rnd();
+        p[n].vel[2] = sigma_v * gaussian_rnd();
 
         // --- end ---
         n++;
