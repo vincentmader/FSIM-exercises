@@ -26,11 +26,13 @@ double gaussian_rnd(void) {
   // imnplemented Box-Muller-Method
   int r_1, r_2, n= 32767;
   time_t t;
-  double r, phi, rand1, rnad2, n_max = 32767;
+  double r, phi, rand1, rand2, n_max = 32767;
    /* Intializes random number generator */
    srand((unsigned) time(&t));
-  rand1 = rand(n)/n_max;
-  rand2 = rand(n)/n_max;
+  rand1 = rand() % n;
+  rand1 = rand1 / n_max;
+  rand2 = rand() % n;
+  rand2 = rand2 / n_max;
 
   r = sqrt(-2 * log(rand1));
   phi = 2 * 3.1415 * rand2;
@@ -52,7 +54,7 @@ void initialize(particle *p, double L, int N1d, double sigma_v) {
         p[n].pos[0] = i * dl;
         p[n].pos[1] = j * dl;
         p[n].pos[2] = k * dl;
-        // velocities gaussian with width of sigma. Still normalized???
+        // velocities gaussian with width of sigma.
         p[n].vel[0] = sigma_v * gaussian_rnd();
         p[n].vel[1] = sigma_v * gaussian_rnd();
         p[n].vel[2] = sigma_v * gaussian_rnd();
@@ -67,7 +69,11 @@ void initialize(particle *p, double L, int N1d, double sigma_v) {
 // This function updates the velocities by applying the accelerations for the given time interval.
 void kick(particle * p, int ntot, double dt) {
   // --- students ---
-
+  for (int i=0, i < ntot, i++){
+    for (int k=0, k<3, k++){
+      p[i].vel[k] += p[i].acc[k] * dt;
+    }
+  }
   // --- end ---
 }
 
@@ -76,6 +82,18 @@ void kick(particle * p, int ntot, double dt) {
 void drift(particle * p, int ntot, double boxsize, double dt) {
   // --- students ---
 
+  for (int i=0, i < ntot, i++){
+    for (int k=0, k<3, k++){
+      p[i].pos[k] += p[i].vel[k] * dt;
+      // Asume that acc *dt < boxsize
+      if (p[i].pos[k] >= boxsize){
+        p[i].pos[k] -= boxsize;
+      }
+      if (p[i].pos[k] < 0){
+        p[i].pos[k] += boxsize;
+      }
+    }
+  }
   // --- end ---
 }
 
@@ -125,13 +143,14 @@ void calc_forces(particle * p, int ntot, double boxsize, double rcut)
         r12 = r6 * r6;
 
         // now calculate the Lennard-Jones potential for the pair
-        pot = ;
+        pot = 4* (1 / r12 -1 /r6);
         p[i].pot += pot;
         p[j].pot += pot;
 
         // now calculate the Lennard-Jones force between the particles
         for (int k = 0; k < 3; k++) {
-          acc[k] = ;
+          // m * a = F = -grad V = 4(pos[i]-pos[j]) *(12/ r^13 - 6 /r^7)
+          acc[k] = (p[i].pos[k] - p[j].pos[k]) * (36 / (r*r12)-24/ (r*r6));   // VZ richitg?
           p[i].acc[k] += acc[k];
           p[j].acc[k] -= acc[k];
         }
