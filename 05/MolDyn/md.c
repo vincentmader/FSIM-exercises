@@ -25,15 +25,8 @@ double gaussian_rnd(void) {
   // ---students ---
   // imnplemented Box-Muller-Method
   int r_1, r_2, n= 32767;
-<<<<<<< HEAD
   double r, phi, rand1, rand2, n_max = 32767;
 
-=======
-  /* time_t t; */
-  double r, phi, rand1, rand2, n_max = 32767;
-   /* Intializes random number generator */
-   /* srand((unsigned) time(&t)); */
->>>>>>> 0ea7bd87b5ec2162787e8774fc9be92246c4a589
   rand1 = rand() % n;
   rand1 = rand1 / n_max;
   rand2 = rand() % n;
@@ -41,7 +34,7 @@ double gaussian_rnd(void) {
 
   r = sqrt(-2 * log(rand1));
   phi = 2 * 3.1415 * rand2;
-  printf("%10g", rand1);
+  //printf("%10g", rand1);
   return r * cos(phi);
    // --- end ---
 }
@@ -64,12 +57,8 @@ void initialize(particle *p, double L, int N1d, double sigma_v) {
         p[n].vel[0] = sigma_v * gaussian_rnd();
         p[n].vel[1] = sigma_v * gaussian_rnd();
         p[n].vel[2] = sigma_v * gaussian_rnd();
-<<<<<<< HEAD
 
-        p[n].n_neighbors = N1d * N1d *N1d-1;
-=======
         p[n].n_neighbors = N1d * N1d * N1d;
->>>>>>> 0ea7bd87b5ec2162787e8774fc9be92246c4a589
         // --- end ---
         n++;
       }
@@ -96,11 +85,11 @@ void drift(particle * p, int ntot, double boxsize, double dt) {
   for (int i=0; i < ntot; i++){
     for (int k=0; k<3; k++){
       p[i].pos[k] += p[i].vel[k] * dt;
-      // Asume that acc *dt < boxsize
-      if (p[i].pos[k] >= boxsize){
+
+      while (p[i].pos[k] >= boxsize){
         p[i].pos[k] -= boxsize;
       }
-      if (p[i].pos[k] < 0){
+      while (p[i].pos[k] < 0){
         p[i].pos[k] += boxsize;
       }
     }
@@ -174,11 +163,6 @@ void calc_forces(particle * p, int ntot, double boxsize, double rcut)
           // m * a = F = -grad V = 4(pos[i]-pos[j]) *(12/ r^13 - 6 /r^7)
           acc[k] = (p[i].pos[k] - p[j].pos[k]) * (36 / (r2*r12)-24/ (r2*r6));   // VZ richitg?
           p[i].acc[k] += acc[k];
-<<<<<<< HEAD
-          //p[j].acc[k] -= acc[k];
-=======
-          /* p[j].acc[k] -= acc[k]; */
->>>>>>> 0ea7bd87b5ec2162787e8774fc9be92246c4a589
         }
       }
 
@@ -200,7 +184,7 @@ void calc_energies(particle *p, int ntot, double *ekin, double *epot) {
       sum_kin += p[i].vel[k] * p[i].vel[k];
     }
   }
-    printf("%6g", sum_pot);
+    //printf("%6g", sum_pot);
 
   // --- end ---
 
