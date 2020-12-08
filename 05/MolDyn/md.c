@@ -25,10 +25,8 @@ double gaussian_rnd(void) {
   // ---students ---
   // imnplemented Box-Muller-Method
   int r_1, r_2, n= 32767;
-  time_t t;
   double r, phi, rand1, rand2, n_max = 32767;
-   /* Intializes random number generator */
-   srand((unsigned) time(&t));
+
   rand1 = rand() % n;
   rand1 = rand1 / n_max;
   rand2 = rand() % n;
@@ -36,6 +34,7 @@ double gaussian_rnd(void) {
 
   r = sqrt(-2 * log(rand1));
   phi = 2 * 3.1415 * rand2;
+  printf("%10g", rand1);
   return r * cos(phi);
    // --- end ---
 }
@@ -59,6 +58,7 @@ void initialize(particle *p, double L, int N1d, double sigma_v) {
         p[n].vel[1] = sigma_v * gaussian_rnd();
         p[n].vel[2] = sigma_v * gaussian_rnd();
 
+        p[n].n_neighbors = N1d * N1d *N1d-1;
         // --- end ---
         n++;
       }
@@ -150,9 +150,9 @@ void calc_forces(particle * p, int ntot, double boxsize, double rcut)
         // now calculate the Lennard-Jones force between the particles
         for (int k = 0; k < 3; k++) {
           // m * a = F = -grad V = 4(pos[i]-pos[j]) *(12/ r^13 - 6 /r^7)
-          acc[k] = (p[i].pos[k] - p[j].pos[k]) * (36 / (r*r12)-24/ (r*r6));   // VZ richitg?
+          acc[k] = (p[i].pos[k] - p[j].pos[k]) * (36 / (r2*r12)-24/ (r2*r6));   // VZ richitg?
           p[i].acc[k] += acc[k];
-          p[j].acc[k] -= acc[k];
+          //p[j].acc[k] -= acc[k];
         }
       }
 
@@ -195,12 +195,12 @@ int main(int argc, char **argv) {
 
   // Box parameters
   double L = 5 * N1d;
-  double rcut = 5;
+  double rcut = L;
   double boxsize = L;
 
   // Time control
   int output_frequency = 10;
-  int nsteps = 21000; // number of steps to take
+  int nsteps = 2000; // number of steps to take
   double dt = 0.01; // timestep size
 
 
@@ -212,6 +212,16 @@ int main(int argc, char **argv) {
 
   // let's initialize the particles
   initialize(p, L, N1d, sig_v);
+ /* for (int i=0; i<N;i++){
+   int k=0;
+   for (int j=0; j<N; i++){
+      if (i==j){
+        k = 1;
+        continue;}
+      p[i].neighbors[j-k] = j;
+   }
+  }
+  */
 
   // calculate the forces at t=0
   calc_forces(p, N, boxsize, rcut);
@@ -238,7 +248,7 @@ int main(int argc, char **argv) {
   for (int step = 0; step < nsteps; step++) {
     calc_forces(p, N, boxsize, rcut);
     calc_energies(p, N, &ekin, &epot);
-    fprintf(fd, "%6g %10g %10g %10.8g\n", step*dt, ekin, epot, ekin + epot);
+    fprintf(fd, "%6g %10g %10g %10g %10.8g\n", step*dt, p[0].vel[0], ekin, epot, ekin + epot);
 
     kick(p, N, dt/2);
     drift(p, N, boxsize, dt);
