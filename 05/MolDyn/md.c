@@ -25,8 +25,15 @@ double gaussian_rnd(void) {
   // ---students ---
   // imnplemented Box-Muller-Method
   int r_1, r_2, n= 32767;
+<<<<<<< HEAD
   double r, phi, rand1, rand2, n_max = 32767;
 
+=======
+  /* time_t t; */
+  double r, phi, rand1, rand2, n_max = 32767;
+   /* Intializes random number generator */
+   /* srand((unsigned) time(&t)); */
+>>>>>>> 0ea7bd87b5ec2162787e8774fc9be92246c4a589
   rand1 = rand() % n;
   rand1 = rand1 / n_max;
   rand2 = rand() % n;
@@ -57,8 +64,12 @@ void initialize(particle *p, double L, int N1d, double sigma_v) {
         p[n].vel[0] = sigma_v * gaussian_rnd();
         p[n].vel[1] = sigma_v * gaussian_rnd();
         p[n].vel[2] = sigma_v * gaussian_rnd();
+<<<<<<< HEAD
 
         p[n].n_neighbors = N1d * N1d *N1d-1;
+=======
+        p[n].n_neighbors = N1d * N1d * N1d;
+>>>>>>> 0ea7bd87b5ec2162787e8774fc9be92246c4a589
         // --- end ---
         n++;
       }
@@ -111,12 +122,22 @@ void calc_forces(particle * p, int ntot, double boxsize, double rcut)
     for (int k = 0; k < 3; k++) {
       p[i].acc[k] = 0;
     }
+    // set neighbors
+    /* p[i].neighbors = p; */
   }
 
   // sum over all distinct pairs
   for (int i = 0; i < ntot; i++) {
-    for (n = 0; n < p[i].n_neighbors; n++) {
-      int j = p[i].neighbors[n];
+    /* for (n = 0; n < p[i].n_neighbors; n++) { */
+    /*   int j = p[i].neighbors[n]; */
+    /* for (n = 0; n < p[i].n_neighbors; n++) { */
+    /*   int j = p[i].neighbors[n]; */
+    for (int j = 0; j < ntot; j++) {
+      /* int j = p[i].neighbors[n]; */
+
+      if (i == j) {
+        continue;
+      }
 
       // Calculate squared distance
       double r2 = 0;
@@ -145,14 +166,19 @@ void calc_forces(particle * p, int ntot, double boxsize, double rcut)
         // now calculate the Lennard-Jones potential for the pair
         pot = 4* (1 / r12 -1 /r6);
         p[i].pot += pot;
-        p[j].pot += pot;
+        /* printf("%6g", p[i].pot); */
+        /* p[j].pot += pot; */
 
         // now calculate the Lennard-Jones force between the particles
         for (int k = 0; k < 3; k++) {
           // m * a = F = -grad V = 4(pos[i]-pos[j]) *(12/ r^13 - 6 /r^7)
           acc[k] = (p[i].pos[k] - p[j].pos[k]) * (36 / (r2*r12)-24/ (r2*r6));   // VZ richitg?
           p[i].acc[k] += acc[k];
+<<<<<<< HEAD
           //p[j].acc[k] -= acc[k];
+=======
+          /* p[j].acc[k] -= acc[k]; */
+>>>>>>> 0ea7bd87b5ec2162787e8774fc9be92246c4a589
         }
       }
 
@@ -174,6 +200,7 @@ void calc_energies(particle *p, int ntot, double *ekin, double *epot) {
       sum_kin += p[i].vel[k] * p[i].vel[k];
     }
   }
+    printf("%6g", sum_pot);
 
   // --- end ---
 
