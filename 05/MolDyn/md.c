@@ -23,7 +23,6 @@ typedef struct {
 // auxiliary function to create a gaussian random deviate
 double gaussian_rnd(void) {
   // ---students ---
-  // imnplemented Box-Muller-Method
   int r_1, r_2, n= 32767;
   double r, phi, rand1, rand2, n_max = 32767;
 
@@ -34,9 +33,8 @@ double gaussian_rnd(void) {
 
   r = sqrt(-2 * log(rand1));
   phi = 2 * 3.1415 * rand2;
-  //printf("%10g", rand1);
   return r * cos(phi);
-   // --- end ---
+  // --- end ---
 }
 
 // This function initializes our particle set.
@@ -66,7 +64,8 @@ void initialize(particle *p, double L, int N1d, double sigma_v) {
   }
 }
 
-// This function updates the velocities by applying the accelerations for the given time interval.
+// This function updates the velocities by applying the accelerations 
+// for the given time interval.
 void kick(particle * p, int ntot, double dt) {
   // --- students ---
   for (int i=0; i < ntot; i++){
@@ -77,11 +76,11 @@ void kick(particle * p, int ntot, double dt) {
   // --- end ---
 }
 
-// This function drifts the particles with their velocities for the given time interval.
-// Afterwards, the particles are mapped periodically back to the box if needed.
+// This function drifts the particles with their velocities for the given 
+// time interval. Afterwards, the particles are mapped periodically back to 
+// the box if needed.
 void drift(particle * p, int ntot, double boxsize, double dt) {
   // --- students ---
-
   for (int i=0; i < ntot; i++){
     for (int k=0; k<3; k++){
       p[i].pos[k] += p[i].vel[k] * dt;
@@ -97,8 +96,9 @@ void drift(particle * p, int ntot, double boxsize, double dt) {
   // --- end ---
 }
 
-// This function calculates the potentials and forces for all particles. For simplicity,
-// we do this by going through all particle pairs i-j, and then adding the contributions both to i and j.
+// This function calculates the potentials and forces for all particles. For 
+// simplicity, we do this by going through all particle pairs i-j, and then 
+// adding the contributions both to i and j.
 void calc_forces(particle * p, int ntot, double boxsize, double rcut)
 {
   int n;
@@ -117,12 +117,12 @@ void calc_forces(particle * p, int ntot, double boxsize, double rcut)
 
   // sum over all distinct pairs
   for (int i = 0; i < ntot; i++) {
-    /* for (n = 0; n < p[i].n_neighbors; n++) { */
-    /*   int j = p[i].neighbors[n]; */
-    /* for (n = 0; n < p[i].n_neighbors; n++) { */
-    /*   int j = p[i].neighbors[n]; */
+    /* for (n = 0; n < p[i].n_neighbors; n++) { */
+    /*   int j = p[i].neighbors[n]; */
+    /* for (n = 0; n < p[i].n_neighbors; n++) { */
+    /*   int j = p[i].neighbors[n]; */
     for (int j = 0; j < ntot; j++) {
-      /* int j = p[i].neighbors[n]; */
+      /* int j = p[i].neighbors[n]; */
 
       if (i == j) {
         continue;
@@ -146,6 +146,9 @@ void calc_forces(particle * p, int ntot, double boxsize, double rcut)
       }
 
       // --- students ---
+      if (r2 < 0.01) {
+        continue;
+      }
 
       if (r2 < rcut2) {
         r = sqrt(r2);
@@ -156,22 +159,22 @@ void calc_forces(particle * p, int ntot, double boxsize, double rcut)
         pot = 4* (1 / r12 -1 /r6);
         p[i].pot += pot;
         /* printf("%6g", p[i].pot); */
-        /* p[j].pot += pot; */
+        /* p[j].pot += pot; */
 
         // now calculate the Lennard-Jones force between the particles
         for (int k = 0; k < 3; k++) {
           // m * a = F = -grad V = 4(pos[i]-pos[j]) *(12/ r^13 - 6 /r^7)
-          acc[k] = (p[i].pos[k] - p[j].pos[k]) * (36 / (r2*r12)-24/ (r2*r6));   // VZ richitg?
+          acc[k] = (p[i].pos[k] - p[j].pos[k]) * (48 / (r2*r12)-24/ (r2*r6));   // VZ richitg?
           p[i].acc[k] += acc[k];
         }
       }
-
       // --- end ---
     }
   }
 }
 
-// This function calculates the total kinetic and total potential energy, averaged per particle.
+// This function calculates the total kinetic and total potential 
+// energy, averaged per particle.
 void calc_energies(particle *p, int ntot, double *ekin, double *epot) {
   double sum_pot = 0, sum_kin = 0;
 
@@ -211,7 +214,7 @@ int main(int argc, char **argv) {
 
   // Time control
   int output_frequency = 10;
-  int nsteps = 2000; // number of steps to take
+  int nsteps = 5000; // number of steps to take
   double dt = 0.01; // timestep size
 
 
@@ -259,8 +262,10 @@ int main(int argc, char **argv) {
   for (int step = 0; step < nsteps; step++) {
     calc_forces(p, N, boxsize, rcut);
     calc_energies(p, N, &ekin, &epot);
-    fprintf(fd, "%6g %10g %10g %10g %10.8g\n", step*dt, p[0].vel[0], ekin, epot, ekin + epot);
-
+    fprintf(
+        fd, "%6g %10g %10g %10g %10.8g\n", step*dt, 
+        p[0].vel[0], ekin, epot, ekin + epot
+    );
     kick(p, N, dt/2);
     drift(p, N, boxsize, dt);
     calc_forces(p,N,boxsize, rcut);
