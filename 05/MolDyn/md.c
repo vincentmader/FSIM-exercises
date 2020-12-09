@@ -161,7 +161,7 @@ void calc_forces(particle * p, int ntot, double boxsize, double rcut)
         // now calculate the Lennard-Jones force between the particles
         for (int k = 0; k < 3; k++) {
           // m * a = F = -grad V = 4(pos[i]-pos[j]) *(12/ r^13 - 6 /r^7)
-          acc[k] = (p[i].pos[k] - p[j].pos[k]) * (36 / (r2*r12)-24/ (r2*r6));   // VZ richitg?
+          acc[k] = (p[i].pos[k] - p[j].pos[k]) * (48 / (r2*r12)-24/ (r2*r6));   // VZ richitg?
           p[i].acc[k] += acc[k];
         }
       }
