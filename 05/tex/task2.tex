@@ -30,6 +30,10 @@
 
 \newpage
 \subsection{Potential and kinetic energies}
+    \begin{equation}
+    	T=\frac{1}{k_B}\langle E\rangle \qquad
+        \Rightarrow T'=\langle E'\rangle
+    \end{equation}
     The energies can be calulated using the following \textit{C} code: \\
     \begin{lstlisting}
         void calc_energies(particle *p, int ntot, double *ekin, double *epot) {
@@ -45,16 +49,15 @@
           *ekin = 0.5 * sum_kin / ntot;
           *epot = 0.5 * sum_pot / ntot;
         }\end{lstlisting}
-
-    \begin{equation}
-    	T=\frac{1}{k_B}\langle E\rangle \qquad
-        \Rightarrow T'=\langle E'\rangle
-    \end{equation}
-
+    This leads to the following plot:
     \begin{figure}[h!]
         \centering
         \includegraphics[width=\textwidth]{../figures/energy.pdf}
     \end{figure} \ \\ 
+    The potential energy stays relatively constant with only small fluctuations,
+    but there is a positive trend in the kinetic (and thus total) energy.
+    These jumps might be related to events where two particles occupy 
+    positions which are very close to each other.
     \begin{itemize}
         \item jumps in energy
         \item maybe related to close-encounter events? \\
