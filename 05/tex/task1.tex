@@ -64,117 +64,82 @@
             }
         }\end{lstlisting}
 
-\subsubsection{Calculating a particle's acceleration during one timestep}
-    We should update our neigborlist. In our version, we put all particle as 
-    neigbours.
+\subsubsection{Calculating a particle's acceleration from the 
+    forces acting on it
+}
+    Now, we define the function to calculate the potentials and forces for all 
+    pairs of particles. \\
+    \begin{lstlisting}
+        void calc_forces(particle * p, int ntot, double boxsize, double rcut) {
+          int n;
+          double rcut2 = rcut * rcut;
+          double r2, r, r6, r12, dr[3], acc[3], pot;
+        
+          // first, set all the accelerations and potentials to zero
+          for (int i = 0; i < ntot; i++) {
+            p[i].pot = 0;
+            for (int k = 0; k < 3; k++) {
+              p[i].acc[k] = 0;
+            }
+            // set neighbors
+            /* p[i].neighbors = p; */
+          }
+        
+          // sum over all distinct pairs
+          for (int i = 0; i < ntot; i++) {
 
-        \begin{lstlisting}
-            // This function updates the velocities by applying the accelerations 
-            // for the given time interval.
-            void kick(particle * p, int ntot, double dt) {
-              // --- students ---
-              for (int i=0; i < ntot; i++){
-                for (int k=0; k<3; k++){
-                  p[i].vel[k] += p[i].acc[k] * dt;
-                }
+            /* for (n = 0; n < p[i].n_neighbors; n++) { */
+            /*   int j = p[i].neighbors[n]; */
+            /* for (n = 0; n < p[i].n_neighbors; n++) { */
+            /*   int j = p[i].neighbors[n]; */
+
+            for (int j = 0; j < ntot; j++) {
+              if (i == j) {
+                continue;
               }
-              // --- end ---
-            }
-            
-            // This function drifts the particles with their velocities for the given 
-            // time interval. Afterwards, the particles are mapped periodically back to 
-            // the box if needed.
-            void drift(particle * p, int ntot, double boxsize, double dt) {
-              // --- students ---
-              for (int i=0; i < ntot; i++){
-                for (int k=0; k<3; k++){
-                  p[i].pos[k] += p[i].vel[k] * dt;
-            
-                  while (p[i].pos[k] >= boxsize){
-                    p[i].pos[k] -= boxsize;
-                  }
-                  while (p[i].pos[k] < 0){
-                    p[i].pos[k] += boxsize;
-                  }
+        
+              // Calculate squared distance
+              double r2 = 0;
+              for (int k = 0; k < 3; k++) {
+                dr[k] = p[i].pos[k] - p[j].pos[k];
+        
+                // Ensure we find the shortest distance bewteen particles
+                if (dr[k] > 0.5 * boxsize) {
+                  dr[k] -= boxsize;
                 }
+        
+                if (dr[k] < -0.5 * boxsize) {
+                  dr[k] += boxsize;
+                }
+        
+                r2 += dr[k] * dr[k];
               }
-              // --- end ---
-            }
-            
-            // This function calculates the potentials and forces for all particles. For 
-            // simplicity, we do this by going through all particle pairs i-j, and then 
-            // adding the contributions both to i and j.
-            void calc_forces(particle * p, int ntot, double boxsize, double rcut)
-            {
-              int n;
-              double rcut2 = rcut * rcut;
-              double r2, r, r6, r12, dr[3], acc[3], pot;
-            
-              // first, set all the accelerations and potentials to zero
-              for (int i = 0; i < ntot; i++) {
-                p[i].pot = 0;
+        
+              // --- students ---
+              if (r2 < 0.01) {
+                continue;
+              }
+        
+              if (r2 < rcut2) {
+                r = sqrt(r2);
+                r6 = r2 * r2 * r2;
+                r12 = r6 * r6;
+        
+                // now calculate the Lennard-Jones potential for the pair
+                pot = 4* (1 / r12 -1 /r6);
+                p[i].pot += pot;
+                /* printf("%6g", p[i].pot); */
+                /* p[j].pot += pot; */
+        
+                // now calculate the Lennard-Jones force between the particles
                 for (int k = 0; k < 3; k++) {
-                  p[i].acc[k] = 0;
-                }
-                // set neighbors
-                /* p[i].neighbors = p; */
-              }
-            
-              // sum over all distinct pairs
-              for (int i = 0; i < ntot; i++) {
-                /* for (n = 0; n < p[i].n_neighbors; n++) { */
-                /*   int j = p[i].neighbors[n]; */
-                /* for (n = 0; n < p[i].n_neighbors; n++) { */
-                /*   int j = p[i].neighbors[n]; */
-                for (int j = 0; j < ntot; j++) {
-                  /* int j = p[i].neighbors[n]; */
-            
-                  if (i == j) {
-                    continue;
-                  }
-            
-                  // Calculate squared distance
-                  double r2 = 0;
-                  for (int k = 0; k < 3; k++) {
-                    dr[k] = p[i].pos[k] - p[j].pos[k];
-            
-                    // Ensure we find the shortest distance bewteen particles
-                    if (dr[k] > 0.5 * boxsize) {
-                      dr[k] -= boxsize;
-                    }
-            
-                    if (dr[k] < -0.5 * boxsize) {
-                      dr[k] += boxsize;
-                    }
-            
-                    r2 += dr[k] * dr[k];
-                  }
-            
-                  // --- students ---
-                  if (r2 < 0.01) {
-                    continue;
-                  }
-            
-                  if (r2 < rcut2) {
-                    r = sqrt(r2);
-                    r6 = r2 * r2 * r2;
-                    r12 = r6 * r6;
-            
-                    // now calculate the Lennard-Jones potential for the pair
-                    pot = 4* (1 / r12 -1 /r6);
-                    p[i].pot += pot;
-                    /* printf("%6g", p[i].pot); */
-                    /* p[j].pot += pot; */
-            
-                    // now calculate the Lennard-Jones force between the particles
-                    for (int k = 0; k < 3; k++) {
-                      // m * a = F = -grad V = 4(pos[i]-pos[j]) *(12/ r^13 - 6 /r^7)
-                      acc[k] = (p[i].pos[k] - p[j].pos[k]) * (48 / (r2*r12)-24/ (r2*r6));   // VZ richitg?
-                      p[i].acc[k] += acc[k];
-                    }
-                  }
-                  // --- end ---
+                  // m * a = F = -grad V = 4(pos[i]-pos[j]) *(12/ r^13 - 6 /r^7)
+                  acc[k] = (p[i].pos[k] - p[j].pos[k]) * (48 / (r2*r12)-24/ (r2*r6));   // VZ richitg?
+                  p[i].acc[k] += acc[k];
                 }
               }
-            }\end{lstlisting}
+              // --- end ---
+            }
+          }
+        }\end{lstlisting}
 

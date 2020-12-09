@@ -1,6 +1,36 @@
 \subsection{Leapfrog}
+    First, we define two function \textit{kick}  and \textit{drift}, which
+    we will use to update the velocity and position of the particles, 
+    respectively. When updating the position, the periodicity of the system 
+    needs to be respected. \\
+    \begin{lstlisting}
+        void kick(particle * p, int ntot, double dt) {
+          for (int i=0; i < ntot; i++){
+            for (int k=0; k<3; k++){
+              p[i].vel[k] += p[i].acc[k] * dt;
+            }
+          }
+        }
+        
+        void drift(particle * p, int ntot, double boxsize, double dt) {
+          for (int i=0; i < ntot; i++){
+            for (int k=0; k<3; k++){
+              p[i].pos[k] += p[i].vel[k] * dt;
+        
+              while (p[i].pos[k] >= boxsize){
+                p[i].pos[k] -= boxsize;
+              }
+              while (p[i].pos[k] < 0){
+                p[i].pos[k] += boxsize;
+              }
+            }
+          }
+        }
+        }\end{lstlisting}
 
+\newpage
 \subsection{Potential and kinetic energies}
+    The energies can be calulated using the following \textit{C} code: \\
     \begin{lstlisting}
         void calc_energies(particle *p, int ntot, double *ekin, double *epot) {
           double sum_pot = 0, sum_kin = 0;
@@ -33,4 +63,9 @@
             which again are smaller than without setting $d_{min}$ at all 
             (i.e. taking all interactions into account).
     \end{itemize}
+    
+    % \begin{figure}[h!]
+    %     \centering
+    %     \includegraphics[width=\textwidth]{../figures/relative_energy.pdf}
+    % \end{figure} \ \\ 
 
