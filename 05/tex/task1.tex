@@ -82,16 +82,10 @@
               p[i].acc[k] = 0;
             }
             // set neighbors
-            /* p[i].neighbors = p; */
           }
         
           // sum over all distinct pairs
           for (int i = 0; i < ntot; i++) {
-
-            /* for (n = 0; n < p[i].n_neighbors; n++) { */
-            /*   int j = p[i].neighbors[n]; */
-            /* for (n = 0; n < p[i].n_neighbors; n++) { */
-            /*   int j = p[i].neighbors[n]; */
 
             for (int j = 0; j < ntot; j++) {
               if (i == j) {
@@ -128,8 +122,6 @@
                 // now calculate the Lennard-Jones potential for the pair
                 pot = 4* (1 / r12 -1 /r6);
                 p[i].pot += pot;
-                /* printf("%6g", p[i].pot); */
-                /* p[j].pot += pot; */
         
                 // now calculate the Lennard-Jones force between the particles
                 for (int k = 0; k < 3; k++) {

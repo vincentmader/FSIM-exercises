@@ -31,8 +31,8 @@
 \newpage
 \subsection{Potential and kinetic energies}
     \begin{equation}
-    	T=\frac{1}{k_B}\langle E\rangle \qquad
-        \Rightarrow T'=\langle E'\rangle
+        T=\frac{1}{k_B}\langle E_\textnormal{kin}\rangle \qquad
+        \Rightarrow T'=\langle E_\textnormal{kin}'\rangle
     \end{equation}
     The energies can be calulated using the following \textit{C} code: \\
     \begin{lstlisting}
@@ -56,19 +56,29 @@
     \end{figure} \ \\ 
     The potential energy stays relatively constant with only small fluctuations,
     but there is a positive trend in the kinetic (and thus total) energy.
-    These jumps might be related to events where two particles occupy 
+    In between those jumps, the energy stays relatively constant though.
+    The jumps might be related to events where two particles occupy 
     positions which are very close to each other.
-    \begin{itemize}
-        \item jumps in energy
-        \item maybe related to close-encounter events? \\
-            $\Rightarrow$ ignore interactions between very close particles
-        \item with $d_{min}=0.1$: smaller jumps than with $d_{min}=0.01$,
-            which again are smaller than without setting $d_{min}$ at all 
-            (i.e. taking all interactions into account).
-    \end{itemize}
-    
+    We tested this by adjusting the code such that interactions
+    between very close particles are ignored.
+    Setting a minimum distance $d_{min}=0.1$ leads to smaller jumps than with 
+    $d_{min}=0.01$, which again are smaller than without setting $d_{min}$ at 
+    all (i.e. taking all interactions into account). This suggests that the 
+    jumps might indeed have something to do with these close-encounter 
+    events.
     % \begin{figure}[h!]
     %     \centering
     %     \includegraphics[width=\textwidth]{../figures/relative_energy.pdf}
     % \end{figure} \ \\ 
+    % \begin{figure}[h!]
+    %     \centering
+    %     \includegraphics[width=\textwidth]{energy_AC.pdf}
+    % \end{figure} \ \\ 
+
+\subsection{20000 time steps}
+    For some reason, the computation time increases very fast with rising 
+    number of integration steps. For 2000 steps, it takes about 2 seconds,
+    for 5000 steps, it takes about 10 seconds, but for 20000 steps we've 
+    left the simulation running for over an hour and it still was not finished.
+    Thus, we unfortunately could not work on the remaining exercises.
 
