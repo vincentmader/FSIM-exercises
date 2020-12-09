@@ -1,0 +1,33 @@
+\subsection{Unit redefinitions}
+    Let us define
+    \begin{equation}\label{redef1}
+        \vec{r}'=\frac{\vec{r}}{\sigma} \qquad 
+        E'=\frac{E}{\epsilon} \qquad 
+        m'=\frac{m}{\mu}
+    \end{equation}
+    with $\mu=6.69\cdot 10^{-26}\mathrm{kg}$. For the velocity we can calculate
+    \begin{equation}\label{redef_v}
+        \sqrt{\frac{\epsilon}{\mu}}
+        =:\nu \approx 157.0 \frac{\mathrm{m}}{\mathrm{s}} \qquad 
+        \Rightarrow\qquad v'=\frac{\vec{v}}{\nu}
+    \end{equation}
+    and therefore 
+    \begin{equation}\label{redef_t}
+        \frac{\sigma}{\nu}
+        =:\tau \approx2.2\cdot10^{-12}\mathrm{s}\qquad\Rightarrow
+        \qquad t'=\frac{t}{\tau}
+    \end{equation}
+    later we'll need 
+    \begin{equation}\label{redef_T}
+        \frac{\epsilon}{k_B}=:\theta
+        =120\mathrm{K}\qquad\Rightarrow\qquad T'=\frac{T}{\theta}
+    \end{equation}
+
+\subsection{Particle initialization}
+    We implemented the Box-Muller-Method to get a Gaussian distribution. 
+    For the velocities we multiplied the result from the Gaussian distribution 
+    with the given sigma. This streches the velocity distribution, 
+    s.t. the sigma of the velocity distribution is equal to the given sigma.
+\subsubsection{Calculating a particle's acceleration during one timestep}
+    We should update our neigborlist. In our version, we put all particle as 
+    neigbours.

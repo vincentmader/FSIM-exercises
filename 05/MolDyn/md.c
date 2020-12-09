@@ -211,7 +211,7 @@ int main(int argc, char **argv) {
 
   // Time control
   int output_frequency = 10;
-  int nsteps = 2000; // number of steps to take
+  int nsteps = 20000; // number of steps to take
   double dt = 0.01; // timestep size
 
 
