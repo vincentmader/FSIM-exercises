@@ -210,7 +210,7 @@ int main(int argc, char **argv) {
 
   // Time control
   int output_frequency = 10;
-  int nsteps = 2000; // number of steps to take
+  int nsteps = 20000; // number of steps to take
   double dt = 0.01; // timestep size
 
 
@@ -258,7 +258,7 @@ int main(int argc, char **argv) {
     calc_forces(p,N,boxsize, rcut);
     kick(p, N, dt/2);
     if ((step % 100) == 0){
-    printf("%d", step);
+    printf(" %d", step);
     }
   }
 
