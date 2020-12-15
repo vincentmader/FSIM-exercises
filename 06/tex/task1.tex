@@ -45,3 +45,80 @@ kernel is normalized to unity.}
     \begin{equation}
         k\overset{!}{=}\frac{4}{3\pi h}
     \end{equation}
+
+% \newpage
+\subsection{Use the supplied code to smooth an image}
+    We have to modify the code at two positions.
+    First, we initialize the kernel:
+    \begin{lstlisting}
+        # now set the values of the kernel
+        for i in np.arange(pixel):
+            for j in np.arange(pixel):
+                # TODO: do something sensible here to set the real part of the kernel
+                r = np.sqrt(i**2 + j**2)
+                x = r / hsml
+                if 0 <= x < .5:
+                    kernel_value = 1 - 6*x**2 + 6*x**3
+                elif .5 <= x < 1:
+                    kernel_value = 2 * (1 - x)**3
+                else:
+                    kernel_value = 0
+        
+                kernel_real[i][j] = kernel_value\end{lstlisting}
+    \newpage \noindent
+    Then, at a later point in the supplied code, 
+    we multiply the colors (in $k$-space) with the kernel:
+    \begin{lstlisting}
+        # multiply with kernel in Fourier space
+        # TODO: fill in code here
+        color_kspace *= kernel_real\end{lstlisting}
+    The results can be seen below. On the left is the original image, 
+    and on the right is the smoothed one.
+    \begin{figure}[h!]
+        \centering
+        \begin{minipage}{.5\linewidth}
+          \centering
+          \subfloat[original image]{
+            \label{:a}
+            \includegraphics[scale=.45]{../figures/aq-original.pdf}
+          }
+        \end{minipage}%
+        \begin{minipage}{.5\linewidth}
+          \centering
+          \subfloat[smoothed image (with $h=10$px)]{
+            \label{:b}
+            \includegraphics[scale=.45]{../figures/aq-smoothed.pdf}
+          }
+        \end{minipage}
+        % \caption{}
+        % \label{}
+    \end{figure} \ \\
+
+\subsection{Calculate the sum of all channels}
+    To check our results, we determine the sum of all red, green 
+    and blue pixel values both before and after the smoothing.
+    For this, we define the following function:
+    \begin{lstlisting}
+        def print_color_sums(img):
+            r_sum, g_sum, b_sum, total_sum = 0, 0, 0, 0
+            for row in img:
+                for px in row:
+                    r, g, b = px[0], px[1], px[2]
+                    r_sum += r
+                    g_sum += g
+                    b_sum += b
+                    total_sum += r + g + b
+            print('r:', int(r_sum))
+            print('g:', int(g_sum))
+            print('b:', int(b_sum))
+            print('total:', int(total_sum))\end{lstlisting}
+    Calling this function both before and after the smoothing prints out
+    the same following values: \\
+    $$
+        \textnormal{r: 25182443} \ \ \ \ \
+        \textnormal{g: 12287845} \ \ \ \ \
+        \textnormal{b: 24795222} \ \ \ \ \
+        \textnormal{total: 62265510} \ \ \ \ \
+    $$
+    Thus, smoothing the image leaves both the sum of pixel values of a 
+    given color as well as the total sum of pixel values unchanged.
