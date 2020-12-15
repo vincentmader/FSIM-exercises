@@ -15,31 +15,31 @@ kernel is normalized to unity.}
     Normalization condition:
     \begin{align}
         1
-        &\overset{!}{=}\int_{\mathbb{R}^2}W(|\vec r|)\cdot d^2\vec r \\
-        &=\int_0^{2\pi}d\varphi\cdot\int_0^\infty W(r)\cdot dr \\
+        &\overset{!}{=}\int_{\mathbb{R}^2}W(|\vec r|) \dd^2\vec r \\
+        &=\int_0^{2\pi}d\varphi\cdot\int_0^\infty W(r)\cdot r \dd r \\
         &=2\pi k\cdot\bigg[
             \int_0^{h/2}\bigg(
                 1-6\bigg(\frac{r}{h}\bigg)^2+
                 6\bigg(\frac{r}{h}\bigg)^3
-            \bigg)\cdot dr+2\int_{h/2}^h\bigg(1-\frac{r}{h}\bigg)^3\cdot dr
+            \bigg)\cdot r \dd r+2\int_{h/2}^h\bigg(1-\frac{r}{h}\bigg)^3\cdot r \dd r
         \bigg] \\
-        &=2\pi hk\cdot\bigg[
+        &=2\pi kh^2\cdot\bigg[
             \int_0^{1/2}\bigg(
-                1-6x^2+
-                6x^3
-            \bigg)\cdot dx+2\int_{1/2}^1(1-x)^3\cdot dx
+                x-6x^3+
+                6x^4
+            \bigg) \dd x+2\int_{1/2}^1 x - 3x^2 + 3x^3 - x^4 \dd x
         \bigg] \ \ \ \ \ \ \ \ \textnormal{with $x:=\frac{r}{h}$} \\
-        &=2\pi hk\cdot\bigg[
+        &=2\pi h^2k\cdot\bigg[
             \bigg(
-                x-2x^3+\frac{3}{2}x^4
-            \bigg)\bigg|_0^{1/2}-\frac{1}{2}\bigg(
-                (1-x)^4
+                \frac{1}{2}x^2-\frac{3}{2}x^4 + \frac{6}{5}x^5 
+            \bigg)\bigg|_0^{1/2}+2\bigg(
+                \frac{1}{2}x^2 - x^3 + \frac{3}{4}x^4 - \frac{1}{5}x^5
             \bigg)\bigg|_{1/2}^{1}
         \bigg] \\
-        &=2\pi hk\cdot\bigg[
-            \frac{1}{2}-\frac{1}{4}+\frac{3}{32}+\frac{1}{32}    
+        &=2\pi h^2k\cdot\bigg[
+            \frac{1}{8} - \frac{3}{32} + \frac{3}{80} + 2 \cdot \left(\frac{1}{2}- 1 + \frac{3}{4} -\frac{1}{5} - \frac{1}{8} + \frac{1}{8} -\frac{3}{64} + \frac{1}{160}\right)  
         \bigg] \\
-        &=\frac{3}{4}\pi hk
+        &=\frac{7}{40}\pi h^2k
     \end{align}
     Therefore, the normalization constant $k$ has to be
     \begin{equation}
