@@ -2,9 +2,9 @@ Let's take a look at the following 2D convolution kernel:
 \begin{equation}
     W(r)=k\begin{cases}
         1-6(\frac{r}{h})^2+6(\frac{r}{h})^3 
-        & \textnormal{for }\frac{1}{2}\leq\frac{r}{h}<1 \\
-        2(1-\frac{r}{h})^3
         & \textnormal{for }0\leq\frac{r}{h}<\frac{1}{2} \\
+        2(1-\frac{r}{h})^3
+        & \textnormal{for }\frac{1}{2}\leq\frac{r}{h}<1 \\
         0 
         & \textnormal{otherwise} \\
     \end{cases}
@@ -15,7 +15,7 @@ kernel is normalized to unity.}
     Normalization condition:
     \begin{align}
         1
-        &\overset{!}{=}\int_{\mathbb{R}^2}W(|\vec r|) \dd^2\vec r \\
+        &\overset{!}{=}\int_{\mathbb{R}^2}W(|\vec r|)\cdot\dd^2\vec r \\
         &=\int_0^{2\pi}d\varphi\cdot\int_0^\infty W(r)\cdot r \dd r \\
         &=2\pi k\cdot\bigg[
             \int_0^{h/2}\bigg(
@@ -64,7 +64,7 @@ kernel is normalized to unity.}
                 else:
                     kernel_value = 0
         
-                kernel_real[i][j] = kernel_value\end{lstlisting}
+                kernel_real[i][j] = k * kernel_value\end{lstlisting}
     Then, at a later point in the supplied code, 
     we multiply the colors (in $k$-space) with the kernel:
     \begin{lstlisting}
