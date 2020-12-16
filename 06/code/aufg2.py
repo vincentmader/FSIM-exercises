@@ -4,10 +4,10 @@ import numpy.fft as ft
 import scipy.interpolate as spinter
 # asume quadratic mesh x
 
-def density(x, pos):
+def setup_density_field(x, pos):
     dx = x[1]-x[0]
     N = int(1/dx)   # L=1
-    # calc partins in different cells with index of lower left cell
+    # calc parts in different cells with index of lower left cell
     flpos = pos/dx - 1/2
     index = np.array(np.floor(flpos), dtype=int)
     part = flpos - index
@@ -38,19 +38,20 @@ def density(x, pos):
 
 def calc_potential(x,pos):
     # calc density and forces
-    den = density(x_1d,pos)
+    den = setup_density_field(x_1d,pos)
     # calc wavevectors and avoid muliply/add with infty
     k = ft.fft(x_1d)
     lenk = len(list(k))
+    # apply Laplace in fourierspace
     kLapl =np.zeros((lenk, lenk),dtype=complex)
     for i in range(lenk):
         for j in range(lenk):
             if (k[i] == 0) and (k[j]==0):
                 continue
-            kLapl[i,j] = -4 * np.pi * 1/(k[i]*k[j])
+            kLapl[i,j] = -4 * np.pi * 1/(k[i] * np.conj(k[i]) + k[j] * np.conj(k[j]))
     # kinv[np.isinf(kinv)] = 0
     # apply Laplace in fourierspace
-    # kLapl = -4* np.pi *np.tensordot(kinv, kinv, axes=0)
+
     kDen = ft.fft2(den)
     kpot = kLapl * kDen
     # ift to get potential and Force
@@ -111,14 +112,14 @@ for i in range(10):
     a_all[i*100:(i+1)*100] = a_as
 
 
-'''
+
 cmap = plt.get_cmap('PiYG')
 fig, ax0 = plt.subplots(nrows=1)
-im = ax0.pcolormesh(x, y, density(x_1d,pos))
+im = ax0.pcolormesh(x, y, setup_density_field(x_1d,pos))
 fig.colorbar(im, ax=ax0)
 ax0.set_title('pcolormesh with levels')
 fig.tight_layout()
-'''
+plt.savefig("../figures/pot.pdf")
 # plt.show()
 plt.figure()
 plt.plot(r_all, a_all, '.', label="acc")
@@ -128,7 +129,7 @@ plt.legend()
 plt.title("acceleration vs radius")
 plt.xscale("log")
 plt.yscale("log")
-plt.ylim(1e-4, 1e2)
+# plt.ylim(1e-6, 1e2)
 plt.savefig("../figures/acc2.pdf")
 # plt.show()
 
