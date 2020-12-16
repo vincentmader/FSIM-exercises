@@ -41,7 +41,6 @@ def calc_potential(x,pos):
     den = setup_density_field(x_1d,pos)
     # calc wavevectors and avoid muliply/add with infty
     k = ft.fft(x_1d)
-    k = ft.fftshift(k)
     lenk = len(list(k))
     # apply Laplace in fourierspace
     kLapl =np.zeros((lenk, lenk),dtype=complex)
@@ -49,13 +48,10 @@ def calc_potential(x,pos):
         for j in range(lenk):
             if (k[i] == 0) and (k[j]==0):
                 continue
-            kLapl[i,j] = -4 * np.pi /(k[i] * np.conj(k[i]) + k[j] * np.conj(k[j]))
-    # kinv[np.isinf(kinv)] = 0
-    # apply Laplace in fourierspace
+            kLapl[i,j] = -4 * np.pi / (k[i]*np.conj(k[i]) + k[j]*np.conj(k[j]))
 
     kDen = ft.fft2(den)
-    kDen1 = ft.fftshift(kDen, axes=(0,1))
-    kpot = kLapl * kDen1
+    kpot = kLapl * kDen
     # ift to get potential and Force
     pot = np.real(ft.ifft2(kpot))
     return pot
@@ -111,13 +107,12 @@ for i in range(10):
 
 
 
-cmap = plt.get_cmap('PiYG')
 fig, ax0 = plt.subplots(nrows=1)
 im = ax0.pcolormesh(x, y, setup_density_field(x_1d,pos))
 fig.colorbar(im, ax=ax0)
 ax0.set_title('pcolormesh with levels')
 fig.tight_layout()
-plt.savefig("../figures/pot.pdf")
+plt.savefig("../figures/density.pdf")
 # plt.show()
 plt.figure()
 plt.plot(r_all, a_all, '.', label="acc")
