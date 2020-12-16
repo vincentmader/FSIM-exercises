@@ -36,6 +36,32 @@ def density(x, pos):
             rho[index[0], index[1]+1] = (1-part[0]) * part[1]
     return rho
 
+def calc_potential(x,pos):
+    # calc density and forces
+    den = density(x_1d,pos)
+    # calc wavevectors and avoid muliply/add with infty
+    k = ft.fft(x_1d)
+    kinv = 1/k
+    kinv[np.isinf(kinv)] = 0
+    # apply Laplace in fourierspace
+    kLapl = -4* np.pi *np.tensordot(kinv, kinv, axes=0)
+    kDen = ft.fft2(den)
+    kpot = kLapl * kDen
+    # ift to get potential and Force
+    pot = np.real(ft.ifft2(kpot))
+    return pot
+
+
+def initialize_particles(r_min, r_max, N=100):
+    # assemble 100 testparticles
+    randNo = np.random.uniform(size=(100,100))
+    testpart = np.zeros((100,100))
+    testpart[0]= pos[0] + r_min * (r_max/r_min) ** randNo[:,0] * np.sin(2* np.pi*randNo[:,1])
+    testpart[1]= pos[1] + r_min * (r_max/r_min) ** randNo[:,0] * np.cos(2* np.pi*randNo[:,1])
+    testpart[testpart<0] += 1
+    testpart[testpart>1] -= 1
+    return testpart
+
 
 # initalize data
 NGrid = 256
@@ -45,29 +71,13 @@ x, y = np.meshgrid(x_1d, x_1d)
 # position of mass
 pos = np.array([0.45354, 0.19182])
 
-# calc density and forces
-den = density(x_1d,pos)
-# calc wavevectors and avoid muliply/add with infty
-k = ft.fft(x_1d)
-kinv = 1/k
-kinv[np.isinf(kinv)] = 0
-# apply Laplace in fourierspace
-kLapl = -4* np.pi *np.tensordot(kinv, kinv, axes=0)
-kDen = ft.fft2(den)
-kpot = kLapl * kDen
-# ift to get potential and Force
-pot = np.real(ft.ifft2(kpot))
+
+pot = calc_potential(x_1d, pos)
 Forcx, Forcy = np.gradient(-pot,1/NGrid)
 
-# assemble 100 testparticles
+
 r_min = 0.3 / NGrid
 r_max = 0.5
-randNo = np.random.uniform(size=(100,100))
-testpart = np.zeros((100,100))
-testpart[0]= pos[0] + r_min * (r_max/r_min) ** randNo[:,0] * np.sin(2* np.pi*randNo[:,1])
-testpart[1]= pos[1] + r_min * (r_max/r_min) ** randNo[:,0] * np.cos(2* np.pi*randNo[:,1])
-testpart[testpart<0] += 1
-testpart[testpart>1] -= 1
 
 # 2D interpolation for forces
 f_x = spinter.interp2d(x_1d, x_1d, Forcx)
