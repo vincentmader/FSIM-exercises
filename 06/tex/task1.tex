@@ -46,7 +46,7 @@ kernel is normalized to unity.}
         k=\frac{40}{7\pi h^2}
     \end{equation}
 
-% \newpage
+\newpage
 \subsection{Use the supplied code to smooth an image}
     We have to modify the code at two positions.
     First, we initialize the kernel:
@@ -65,7 +65,6 @@ kernel is normalized to unity.}
                     kernel_value = 0
         
                 kernel_real[i][j] = kernel_value\end{lstlisting}
-    \newpage \noindent
     Then, at a later point in the supplied code, 
     we multiply the colors (in $k$-space) with the kernel:
     \begin{lstlisting}
@@ -94,6 +93,7 @@ kernel is normalized to unity.}
         % \label{}
     \end{figure} \ \\
 
+\newpage
 \subsection{Calculate the sum of all channels}
     To check our results, we determine the sum of all red, green 
     and blue pixel values both before and after the smoothing.
@@ -112,13 +112,23 @@ kernel is normalized to unity.}
             print('g:', int(g_sum))
             print('b:', int(b_sum))
             print('total:', int(total_sum))\end{lstlisting}
-    Calling this function both before and after the smoothing prints out
-    the same following values: \\
+    Calling this function both before the smoothing process prints out
+    the following values: \\
     $$
         \textnormal{r: 25182443} \ \ \ \ \
         \textnormal{g: 12287845} \ \ \ \ \
         \textnormal{b: 24795222} \ \ \ \ \
         \textnormal{total: 62265510} \ \ \ \ \
     $$
-    Thus, smoothing the image leaves both the sum of pixel values of a 
-    given color as well as the total sum of pixel values unchanged.
+    And afterwards:
+    $$
+        \textnormal{r: 8127774} \ \ \ \ \
+        \textnormal{g: 3965970} \ \ \ \ \
+        \textnormal{b: 8002796} \ \ \ \ \
+        \textnormal{total: 20096540} \ \ \ \ \
+    $$
+    As can also be seen by looking directly at the images, the total sum of 
+    pixel values decreases during the smoothing, i.e. the image gets darker.
+    \textcolor{red}{TODO: explain why}
+    % Thus, smoothing the image leaves both the sum of pixel values of a 
+    % given color as well as the total sum of pixel values unchanged.
