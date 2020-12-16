@@ -7,7 +7,7 @@
 #include <sys/types.h>
 #include <math.h>
 #include <time.h>
-#define MAXPART 10000
+#define MAXPART 200
 
 // this is our data type for storing the information for the particles
 typedef struct {
@@ -64,7 +64,7 @@ void initialize(particle *p, double L, int N1d, double sigma_v) {
   }
 }
 
-// This function updates the velocities by applying the accelerations 
+// This function updates the velocities by applying the accelerations
 // for the given time interval.
 void kick(particle * p, int ntot, double dt) {
   // --- students ---
@@ -76,8 +76,8 @@ void kick(particle * p, int ntot, double dt) {
   // --- end ---
 }
 
-// This function drifts the particles with their velocities for the given 
-// time interval. Afterwards, the particles are mapped periodically back to 
+// This function drifts the particles with their velocities for the given
+// time interval. Afterwards, the particles are mapped periodically back to
 // the box if needed.
 void drift(particle * p, int ntot, double boxsize, double dt) {
   // --- students ---
@@ -96,8 +96,8 @@ void drift(particle * p, int ntot, double boxsize, double dt) {
   // --- end ---
 }
 
-// This function calculates the potentials and forces for all particles. For 
-// simplicity, we do this by going through all particle pairs i-j, and then 
+// This function calculates the potentials and forces for all particles. For
+// simplicity, we do this by going through all particle pairs i-j, and then
 // adding the contributions both to i and j.
 void calc_forces(particle * p, int ntot, double boxsize, double rcut)
 {
@@ -117,12 +117,8 @@ void calc_forces(particle * p, int ntot, double boxsize, double rcut)
 
   // sum over all distinct pairs
   for (int i = 0; i < ntot; i++) {
-    /* for (n = 0; n < p[i].n_neighbors; n++) { */
-    /*   int j = p[i].neighbors[n]; */
-    /* for (n = 0; n < p[i].n_neighbors; n++) { */
-    /*   int j = p[i].neighbors[n]; */
     for (int j = 0; j < ntot; j++) {
-      /* int j = p[i].neighbors[n]; */
+
 
       if (i == j) {
         continue;
@@ -164,17 +160,17 @@ void calc_forces(particle * p, int ntot, double boxsize, double rcut)
         // now calculate the Lennard-Jones force between the particles
         for (int k = 0; k < 3; k++) {
           // m * a = F = -grad V = 4(pos[i]-pos[j]) *(12/ r^13 - 6 /r^7)
-          acc[k] = (p[i].pos[k] - p[j].pos[k]) * (48 / (r2*r12)-24/ (r2*r6));   // VZ richitg?
+          acc[k] = (p[i].pos[k] - p[j].pos[k]) * (48 / (r2*r12)-24/ (r2*r6));
           p[i].acc[k] += acc[k];
         }
       }
+
       // --- end ---
     }
   }
 }
 
-// This function calculates the total kinetic and total potential 
-// energy, averaged per particle.
+// This function calculates the total kinetic and total potential energy, averaged per particle.
 void calc_energies(particle *p, int ntot, double *ekin, double *epot) {
   double sum_pot = 0, sum_kin = 0;
 
@@ -214,7 +210,7 @@ int main(int argc, char **argv) {
 
   // Time control
   int output_frequency = 10;
-  int nsteps = 5000; // number of steps to take
+  int nsteps = 20000; // number of steps to take
   double dt = 0.01; // timestep size
 
 
@@ -226,16 +222,7 @@ int main(int argc, char **argv) {
 
   // let's initialize the particles
   initialize(p, L, N1d, sig_v);
- /* for (int i=0; i<N;i++){
-   int k=0;
-   for (int j=0; j<N; i++){
-      if (i==j){
-        k = 1;
-        continue;}
-      p[i].neighbors[j-k] = j;
-   }
-  }
-  */
+
 
   // calculate the forces at t=0
   calc_forces(p, N, boxsize, rcut);
@@ -263,13 +250,16 @@ int main(int argc, char **argv) {
     calc_forces(p, N, boxsize, rcut);
     calc_energies(p, N, &ekin, &epot);
     fprintf(
-        fd, "%6g %10g %10g %10g %10.8g\n", step*dt, 
+        fd, "%6g %10g %10g %10g %10.8g\n", step*dt,
         p[0].vel[0], ekin, epot, ekin + epot
     );
     kick(p, N, dt/2);
     drift(p, N, boxsize, dt);
     calc_forces(p,N,boxsize, rcut);
     kick(p, N, dt/2);
+    if ((step % 100) == 0){
+    printf(" %d", step);
+    }
   }
 
   // --- end ---
