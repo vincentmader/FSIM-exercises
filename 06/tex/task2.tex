@@ -1,0 +1,54 @@
+\paragraph{a) Implement code that constructs a density field for a single 
+    particle that is randomly placed into a box of unit length $L=1$. 
+    Take care of periodic wrap-around where needed.
+} \ \\
+
+
+\paragraph{b) Now implement code that Fourier-transforms the density field, 
+    multiplies it with the Fourier transform of the Green's function of the 
+    Poisson equation, $-4\pi/|\vec k|^2$ (assuming a periodic space and 
+    $G=1$, also set $\hat{\Phi}_{\vec k}=0$ for $\vec k=0$), and transform back 
+    to obtain the gravitational potential on the grid. Adopt 
+    $N_\textnormal{grid}=256$ for the grid resolution.
+} \ \\
+
+
+\paragraph{c) Add code that produces force fields in the $x$- and 
+    $y$-direction from the potential by finite differencing.
+} \ \\
+
+
+\paragraph{d) Now write code that selects 100 randomly chosen positions in a 
+    disk of radius equal to half the box size around the point you placed at 
+    a). We would like the distances $r$ to to be uniformly distributed in the 
+    log between $r_\textnormal{min}=0.3L/N_\textnormal{grid}$ and 
+    $r_\textnormal{max}=L/2$. You can achieve this by calculating 
+    displacements $\Delta x$ and $\Delta y$ relative to the coordinates of the 
+    point placed in a), where $p$ and $q$ are uniformly distributed random 
+    numbers in the interval $[0,1)$. Determine the force $(a_x,a_y)$ and its 
+    magnitude $a=\sqrt{a_x^2+a_y^2}$ at the resulting positions by 
+    CIC-interpolating from the force fields obtained in step c). Note that 
+    the position may have to be mapped by periodic wrapping into the primary 
+    domain in order to allow reading out of the force.
+}
+    \begin{equation}
+        \Delta x=
+        r_\textnormal{min}\cdot\bigg(
+            \frac{r_\textnormal{max}}{r_\textnormal{min}}
+        \bigg)^P\cdot\cos(2\pi q)
+    \end{equation}
+    \begin{equation}
+        \Delta y=
+        r_\textnormal{min}\cdot\bigg(
+            \frac{r_\textnormal{max}}{r_\textnormal{min}}
+        \bigg)^P\cdot\sin(2\pi q)
+    \end{equation}
+
+\paragraph{e) Repeat the whole procedure for 10 different random locations of 
+    the point chosen in a) such that you obtain 1000 pairs of distances $r$ and 
+    corresponding forces $a$. Plot these points in a scatter plot of $a$ versus
+    $r$ using logarithmic axes for both. Overplot the $a\sim2/r$ power law 
+    expeced for Newtonian gravity, and a vertical line at the grid scale 
+    $L/N_\textnormal{grid}$. Why do we not expect $a\sim1/r^2$? Interpret the 
+    differences at small and large separations, if any.
+}
