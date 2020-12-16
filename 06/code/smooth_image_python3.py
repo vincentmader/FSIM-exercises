@@ -54,6 +54,9 @@ kernel_real = np.zeros((pixel, pixel), dtype=np.complex)
 # set smoothing length
 hsml = 10.
 
+# set normalization constant
+k = 40 / (7 * np.pi * hsml**2)
+print(k)
 # now set the values of the kernel
 for i in np.arange(pixel):
     for j in np.arange(pixel):
@@ -67,7 +70,7 @@ for i in np.arange(pixel):
         else:
             kernel_value = 0
 
-        kernel_real[i][j] = kernel_value
+        kernel_real[i][j] = kernel_value * k
 
 
 # Let's calculate the Fourier transform of the kernel
@@ -86,7 +89,7 @@ for colindex in np.arange(3):
 
     # multiply with kernel in Fourier space
     # TODO: fill in code here
-    color_kspace *= kernel_real
+    color_kspace *= kernel_kspace
 
     # backward transform
     color_real = np.fft.ifft2(color_kspace)
