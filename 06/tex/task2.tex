@@ -165,7 +165,7 @@
             pos = np.random.uniform(size=(2))
 
             pot = calc_potential(x_1d, pos)
-            Forcx, Forcy = np.gradient(-pot,1/NGrid)
+            Forcx, Forcy = np.gradient(-pot, 1/NGrid)
 
             # get random particles
             testpart = initialize_particles(r_min, r_max)
@@ -200,4 +200,6 @@
             \centering
             \includegraphics[width=\textwidth]{../figures/acc2.pdf}
         \end{figure} \ \\ 
-        This is not what we expected. 
+
+        This is unfortunately not what we expected. 
+
