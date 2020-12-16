@@ -1,0 +1,168 @@
+\documentclass[11 pt]{article}
+
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+\usepackage{fancyhdr}
+\usepackage{listings}
+\usepackage{xcolor}
+
+
+\definecolor{commentsColor}{rgb}{0.497495, 0.497587, 0.497464}
+\definecolor{keywordsColor}{rgb}{0.000000, 0.000000, 0.635294}
+\definecolor{stringColor}{rgb}{0.558215, 0.000000, 0.135316}
+\lstset{ %
+  backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
+  basicstyle=\footnotesize,        % the size of the fonts that are used for the code
+  breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+  breaklines=true,                 % sets automatic line breaking
+  captionpos=b,                    % sets the caption-position to bottom
+  commentstyle=\color{commentsColor}\textit,    % comment style
+  deletekeywords={...},            % if you want to delete keywords from the given language
+  escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+  extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+  frame=tb,	                   	   % adds a frame around the code
+  keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+  keywordstyle=\color{keywordsColor}\bfseries,       % keyword style
+  language=Python,                 % the language of the code (can be overrided per snippet)
+  otherkeywords={*,...},           % if you want to add more keywords to the set
+  numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+  numbersep=5pt,                   % how far the line-numbers are from the code
+  numberstyle=\tiny\color{commentsColor}, % the style that is used for the line-numbers
+  rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+  showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+  showstringspaces=false,          % underline spaces within strings only
+  showtabs=false,                  % show tabs within strings adding particular underscores
+  stepnumber=1,                    % the step between two line-numbers. If it's 1, each line will be numbered
+  stringstyle=\color{stringColor}, % string literal style
+  tabsize=2,	                   % sets default tabsize to 2 spaces
+  title=\lstname,                  % show the filename of files included with \lstinputlisting; also try caption instead of title
+  columns=fixed                    % Using fixed column width (for e.g. nice alignment)
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{Fundamentals of Simulation Methods}
+\chead{Exercise 01}
+\rhead{V. Mader}
+\setlength{\headheight}{15pt}
+
+
+\begin{document}
+
+    \section{Packing of numbers}
+        Estimate how many numbers there are in the interval from 1.0 
+        and 2.0; and in between the interval of 255.0 to 256.0, for 
+        IEEE-754.
+
+        \paragraph{a) single precision} \ \\
+        A single precision (binary 32) floating point number has 1 sign bit,
+        8 exponent bits and 24 bits of significand precision. Its range is 
+        from $\pm1.18\cdot10^{-38}$ to $\pm3.4\cdot10^{38}$
+
+        \paragraph{b) double precision} \ \\
+        A double precision float can take on values from 
+        $\pm2.23\cdot10^{-308}$ to $\pm1.80\cdot10^{308}$.
+        
+
+    \section{Pitfalls of integer \& floating point arithmetic}
+        \paragraph{a)  Consider the following \textit{C/C++} code: } \ 
+            \begin{lstlisting}
+                int i = 7;
+                float y = 2*(i/2);
+                float z = 2*(i/2.);
+                printf("%e %e \n", y,z) \end{lstlisting}
+            The two variables $y$ and $z$ do not hold the same values, 
+            since $i/2$ is evaluated to 3, while for $i/2.$ it is 2.5.
+            Thus, multiplying with 2 once yields the integer 4, and once the 
+            float 5.
+        \paragraph{b) Again, consider the following \textit{C/C++} code: } \
+            \begin{lstlisting}
+                double a = 1.0e17;
+                double b = -1.0e17;
+                double c = 1.0;
+                double x = (a + b) + c;
+                double y = a + (b + c); \end{lstlisting}
+
+    \newpage
+    \section{Machine epsilon} 
+        \paragraph{For the datatypes float, double \& long double, 
+            determine the smallest number $\varepsilon_{min}$, such 
+            that $1+\varepsilon_{min}$ still returns something different than 1.
+        } \ \\ \\
+        To find $\varepsilon_{min}$ for floats, we can utilize the following \textit{C} code 
+        snippet: 
+        \begin{lstlisting}
+            #include <stdio.h>
+            #include <stdbool.h>
+            
+            
+            float find_epsilon () {
+            
+                float one = 1;
+                float epsilon = 1;
+                float new_epsilon;
+            
+                bool found_epsilon = false;
+                while (!found_epsilon) {
+                    new_epsilon = epsilon / 2.;
+                    if (one + new_epsilon == one) {
+                        return epsilon;
+                    }
+                    epsilon = new_epsilon;
+                }
+            }
+            
+            int main(void) {
+                printf(
+                    "%e \n", find_epsilon()
+                );
+            }
+        \end{lstlisting}
+        All occurences of \textit{float} can be switched out for \textit{double} 
+        or \textit{long double} to get the other values of  $\varepsilon_{min}$. \\
+        \\
+        This yields:
+        \begin{table}[h!]
+            \begin{center}
+                \begin{tabular}{r|l}
+                    type & $\varepsilon_{min}$ \\
+                    \hline
+                    long double & 0 \\
+                    double & $\approx10^{-16}$ \\
+                    float & $\approx10^{-7}$ 
+                \end{tabular}
+            \end{center}
+        \end{table} 
+        \paragraph{
+            Evaluate and print out $1+\varepsilon$. Do you see something strange?
+        } \ \\
+    
+
+    \newpage
+    \section{Near-cancellation of numbers}
+        Consider the following function:
+        \begin{equation}
+            f(x)=\frac{x+e^{-x}-1}{x^2}
+        \end{equation}
+
+        \paragraph{a)}
+            Determine $\lim_{x\to0}f(x)$
+
+        \paragraph{b)}
+            Write a computer program that asks for a value of $x$ from the 
+            user and then prints $f(x)$.
+
+        \paragraph{c)}
+            For small $x>0$ this evaluation goes wrong. Determine 
+            experimentally at which values of $x$ the formula goes wrong.
+
+        \paragraph{d)}
+            Explain why this happens.
+
+        \paragraph{e)}
+            Add an if-clause to the program such that for small values the 
+            function is evaluated in another way that does not break down, so 
+            that for all positive values of $x$ the program produces a 
+            reasonable result.
+
+\end{document}
+
