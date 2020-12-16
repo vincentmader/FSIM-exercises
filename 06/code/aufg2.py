@@ -41,6 +41,7 @@ def calc_potential(x,pos):
     den = setup_density_field(x_1d,pos)
     # calc wavevectors and avoid muliply/add with infty
     k = ft.fft(x_1d)
+    k = ft.fftshift(k)
     lenk = len(list(k))
     # apply Laplace in fourierspace
     kLapl =np.zeros((lenk, lenk),dtype=complex)
@@ -48,12 +49,13 @@ def calc_potential(x,pos):
         for j in range(lenk):
             if (k[i] == 0) and (k[j]==0):
                 continue
-            kLapl[i,j] = -4 * np.pi * 1/(k[i] * np.conj(k[i]) + k[j] * np.conj(k[j]))
+            kLapl[i,j] = -4 * np.pi /(k[i] * np.conj(k[i]) + k[j] * np.conj(k[j]))
     # kinv[np.isinf(kinv)] = 0
     # apply Laplace in fourierspace
 
     kDen = ft.fft2(den)
-    kpot = kLapl * kDen
+    kDen1 = ft.fftshift(kDen, axes=(0,1))
+    kpot = kLapl * kDen1
     # ift to get potential and Force
     pot = np.real(ft.ifft2(kpot))
     return pot
@@ -87,10 +89,6 @@ testpart = initialize_particles(r_min, r_max)
 # 2D interpolation for forces
 f_x = spinter.interp2d(x_1d, x_1d, Forcx)
 f_y = spinter.interp2d(x_1d, x_1d, Forcy)
-
-
-
-
 
 a_all = np.zeros(1000)
 r_all = np.zeros(1000)
