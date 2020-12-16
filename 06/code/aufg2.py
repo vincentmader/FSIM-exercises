@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-
+import numpy.fft as ft
 # asume quadratic mesh x
 
 def density(x, pos):
@@ -19,7 +19,7 @@ def density(x, pos):
 #    loc[loc >= (N-1) * dx] -=
 
     index = np.array(np.floor(flpos), dtype=int)
-    
+
     part = flpos - index
     rho = np.zeros((N,N))
     rho[index[0], index[1]] = (1-part[0]) * (1-part[1])
@@ -44,10 +44,25 @@ def density(x, pos):
             rho[index[0], index[1]+1] = (1-part[0]) * part[1]
 
     return rho
-
-x_1d = np.linspace(0,1,10, endpoint=False)
+NGrid = 256
+x_1d = np.linspace(0,1,NGrid, endpoint=False)
 x, y = np.meshgrid(x_1d, x_1d)
 pos = np.array([0.45354, 0.19182])
 den = density(x_1d,pos)
-print(den)
+k = ft.fft(x_1d)
+kinv = 1/k
+kinv[np.isinf(kinv)] = 0
+# kinv[kinv==-inf] = 0
+kLapl = -4* np.pi *np.tensordot(kinv, kinv, axes=0)
+kDen = ft.fft2(den)
+kpot = kLapl * kDen
+pot = np.real(ft.ifft2(kpot))
+Forcx, Forcy = np.gradient(-pot,1/NGrid)
+
+
+print("Density =", den)
+print("Potential = ", pot)
+print("Force in x=", Forcx)
+print("Force in y = ", Forcy)
+
 print('Done.')
