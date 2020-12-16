@@ -54,6 +54,9 @@ kernel_real = np.zeros((pixel, pixel), dtype=np.complex)
 # set smoothing length
 hsml = 10.
 
+# set normalization constant
+k = 40 / (7 * np.pi * hsml**2)
+print(k)
 # now set the values of the kernel
 for i in np.arange(pixel):
     for j in np.arange(pixel):
