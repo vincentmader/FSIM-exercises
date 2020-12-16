@@ -50,8 +50,8 @@ def calc_potential(x, pos):
         for j in range(lenk):
             if (k[i] == 0) and (k[j] == 0):
                 continue
-            kLapl[i, j] = -4 * np.pi * 1 / \
-                (k[i] * np.conj(k[i]) + k[j] * np.conj(k[j]))
+            kLapl[i, j] = -4 * np.pi / \
+                (k[i]*np.conj(k[i]) + k[j]*np.conj(k[j]))
     # kinv[np.isinf(kinv)] = 0
     # apply Laplace in fourierspace
 
@@ -94,7 +94,6 @@ testpart = initialize_particles(r_min, r_max)
 f_x = spinter.interp2d(x_1d, x_1d, Forcx)
 f_y = spinter.interp2d(x_1d, x_1d, Forcy)
 
-
 a_all = np.zeros(1000)
 r_all = np.zeros(1000)
 # position of mass
@@ -124,7 +123,7 @@ im = ax0.pcolormesh(x, y, calc_potential(x_1d, pos))
 fig.colorbar(im, ax=ax0)
 ax0.set_title('pcolormesh with levels')
 fig.tight_layout()
-plt.savefig("../figures/pot.pdf")
+plt.savefig("../figures/density.pdf")
 # plt.show()
 plt.figure(figsize=(8, 4))
 plt.plot(r_all, a_all, '.', label="acc")
