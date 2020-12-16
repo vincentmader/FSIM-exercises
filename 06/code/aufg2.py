@@ -41,10 +41,16 @@ def calc_potential(x,pos):
     den = density(x_1d,pos)
     # calc wavevectors and avoid muliply/add with infty
     k = ft.fft(x_1d)
-    kinv = 1/k
-    kinv[np.isinf(kinv)] = 0
+    lenk = len(list(k))
+    kLapl =np.zeros((lenk, lenk),dtype=complex)
+    for i in range(lenk):
+        for j in range(lenk):
+            if (k[i] == 0) and (k[j]==0):
+                continue
+            kLapl[i,j] = -4 * np.pi * 1/(k[i]*k[j])
+    # kinv[np.isinf(kinv)] = 0
     # apply Laplace in fourierspace
-    kLapl = -4* np.pi *np.tensordot(kinv, kinv, axes=0)
+    # kLapl = -4* np.pi *np.tensordot(kinv, kinv, axes=0)
     kDen = ft.fft2(den)
     kpot = kLapl * kDen
     # ift to get potential and Force
