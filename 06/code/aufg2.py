@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import numpy.fft as ft
+import scipy.interpolate as spinter
 # asume quadratic mesh x
 
 def density(x, pos):
@@ -58,6 +59,23 @@ kDen = ft.fft2(den)
 kpot = kLapl * kDen
 pot = np.real(ft.ifft2(kpot))
 Forcx, Forcy = np.gradient(-pot,1/NGrid)
+
+r_min = 0.3 / NGrid
+r_max = 0.5
+randNo = np.random.uniform(size=(100,100))
+testpart = np.zeros((100,100))
+testpart[0]= pos[0] + r_min * (r_max/r_min) ** randNo[:,0] * np.sin(2* np.pi*randNo[:,1])
+testpart[1]= pos[1] + r_min * (r_max/r_min) ** randNo[:,0] * np.cos(2* np.pi*randNo[:,1])
+testpart[testpart<0] += 1
+testpart[testpart>1] -= 1
+f_x = spinter.interp2d(x_1d, x_1d, Forcx)
+f_y = spinter.interp2d(x_1d, x_1d, Forcy)
+
+acc_x = f_x(testpart[0], testpart[1])
+acc_y = f_y(testpart[0], testpart[1])
+
+a_as = np.sqrt(acc_x ** 2 + acc_y ** 2)
+
 
 
 print("Density =", den)
