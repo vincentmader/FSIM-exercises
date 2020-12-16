@@ -181,9 +181,10 @@
             r_all[i*100:(i+1)*100] = np.sqrt(testpart[:,0]**2 + testpart[:,1]**2)
             a_all[i*100:(i+1)*100] = a_as
         
+        plt.figure(figsize=(8, 4))
         cmap = plt.get_cmap('PiYG')
         fig, ax0 = plt.subplots(nrows=1)
-        im = ax0.pcolormesh(x, y, setup_density_field(x_1d,pos))
+        im = ax0.pcolormesh(x, y, calc_potential(x_1d,pos))
         fig.colorbar(im, ax=ax0)
         ax0.set_title('pcolormesh with levels')
         fig.tight_layout()
@@ -207,4 +208,12 @@
             \centering
             \includegraphics[width=\textwidth]{../figures/acc2.pdf}
         \end{figure} \ \\ 
-        This is unfortunately not what we expected. 
+        This is unfortunately not what we expected. \\
+        \\
+        We can also plot the potential as a heat map. If you look closely, 
+        you see a peak. Weirdly, the surrounding area around the peak is 
+        positive, which is not what we would expect from the potential.
+        \begin{figure}[h!]
+            \centering
+            \includegraphics[width=.7\textwidth]{../figures/pot.pdf}
+        \end{figure} \ \\ 

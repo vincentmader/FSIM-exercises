@@ -115,9 +115,12 @@ for i in range(10):
     a_all[i*100:(i+1)*100] = a_as
 
 
+plt.figure(figsize=(8, 4))
 cmap = plt.get_cmap('PiYG')
 fig, ax0 = plt.subplots(nrows=1)
-im = ax0.pcolormesh(x, y, setup_density_field(x_1d, pos))
+im = ax0.pcolormesh(x, y, calc_potential(x_1d, pos))
+# plt.xlim(.1, .1)
+# plt.ylim(.9, 1)
 fig.colorbar(im, ax=ax0)
 ax0.set_title('pcolormesh with levels')
 fig.tight_layout()
