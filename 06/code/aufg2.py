@@ -54,10 +54,10 @@ def calc_potential(x,pos):
 
 def initialize_particles(r_min, r_max, N=100):
     # assemble 100 testparticles
-    randNo = np.random.uniform(size=(100,100))
-    testpart = np.zeros((100,100))
-    testpart[0]= pos[0] + r_min * (r_max/r_min) ** randNo[:,0] * np.sin(2* np.pi*randNo[:,1])
-    testpart[1]= pos[1] + r_min * (r_max/r_min) ** randNo[:,0] * np.cos(2* np.pi*randNo[:,1])
+    randNo = np.random.uniform(size=(N,2))
+    testpart = np.zeros((N,2))
+    testpart[:,0]= pos[0] + r_min * (r_max/r_min) ** randNo[:,0] * np.sin(2* np.pi*randNo[:,1])
+    testpart[:,1]= pos[1] + r_min * (r_max/r_min) ** randNo[:,0] * np.cos(2* np.pi*randNo[:,1])
     testpart[testpart<0] += 1
     testpart[testpart>1] -= 1
     return testpart
@@ -68,30 +68,62 @@ NGrid = 256
 x_1d = np.linspace(0,1,NGrid, endpoint=False) # Endpoint False, since periodic
 # grid for plotting
 x, y = np.meshgrid(x_1d, x_1d)
-# position of mass
-pos = np.array([0.45354, 0.19182])
-
-
-pot = calc_potential(x_1d, pos)
-Forcx, Forcy = np.gradient(-pot,1/NGrid)
-
-
+#L=1
 r_min = 0.3 / NGrid
 r_max = 0.5
 
+pos = np.array([0.45354, 0.19182])
+pot = calc_potential(x_1d, pos)
+Forcx, Forcy = np.gradient(-pot,1/NGrid)
+# get random particles
+testpart = initialize_particles(r_min, r_max)
 # 2D interpolation for forces
 f_x = spinter.interp2d(x_1d, x_1d, Forcx)
 f_y = spinter.interp2d(x_1d, x_1d, Forcy)
 
-acc_x = f_x(testpart[0], testpart[1])
-acc_y = f_y(testpart[0], testpart[1])
-a_as = np.sqrt(acc_x ** 2 + acc_y ** 2)
 
 
 
-print("Density =", den)
-print("Potential = ", pot)
-print("Force in x=", Forcx)
-print("Force in y = ", Forcy)
+
+a_all = np.zeros(1000)
+r_all = np.zeros(1000)
+# position of mass
+for i in range(10):
+    pos = np.random.uniform(size=(2))
+    pot = calc_potential(x_1d, pos)
+    Forcx, Forcy = np.gradient(-pot,1/NGrid)
+    # get random particles
+    testpart = initialize_particles(r_min, r_max)
+    # 2D interpolation for forces
+    f_x = spinter.interp2d(x_1d, x_1d, Forcx)
+    f_y = spinter.interp2d(x_1d, x_1d, Forcy)
+
+    acc_x = f_x(testpart[:,0], testpart[:,1])
+    acc_y = f_y(testpart[:,0], testpart[:,1])
+    a_as = np.sqrt(np.diag(acc_x) ** 2 + np.diag(acc_y) ** 2)
+    r_all[i*100:(i+1)*100] = np.sqrt(testpart[:,0]**2 + testpart[:,1]**2)
+    a_all[i*100:(i+1)*100] = a_as
+
+
+'''
+cmap = plt.get_cmap('PiYG')
+fig, ax0 = plt.subplots(nrows=1)
+im = ax0.pcolormesh(x, y, density(x_1d,pos))
+fig.colorbar(im, ax=ax0)
+ax0.set_title('pcolormesh with levels')
+fig.tight_layout()
+'''
+# plt.show()
+plt.figure()
+plt.plot(r_all, a_all, '.', label="acc")
+plt.plot(r_all, 1/r_all, label="1/r")
+plt.plot(r_all, 1/NGrid*r_all/r_all,label="L/N")
+plt.legend()
+plt.title("acceleration vs radius")
+plt.xscale("log")
+plt.yscale("log")
+plt.ylim(1e-4, 1e2)
+plt.savefig("../figures/acc2.pdf")
+# plt.show()
 
 print('Done.')
