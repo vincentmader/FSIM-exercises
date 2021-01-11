@@ -1,0 +1,32 @@
+This problem is not obligatory, as it can be quite time-consuming and 
+may require a bit of frustration-resistance. The assignment is to 
+design and test a 3D Poission equation solver on a cartesian grid of 
+$n\times n\times n$ grid points. Take for a start $n=10$. At the 
+boundary cells, ribbon cells and corner cells we set $\Phi=0$. At the 
+center of the grid we make a $2\times 2\times 2$ block of cells with a 
+non-zero density, whereas the rest of the grid has zero density. \\ 
+\\
+\paragraph{
+    a) Use the Biconjugate Gradient (or Biconjugate Gradient Stabilized) 
+    method to solve this equation. Advice: make sure that you normalize 
+    the equations such that the diagonal elements of the boundary cells 
+    are not vastly larger or smaller (in their absolute values) than 
+    those of the inner grid cells.
+} \ \\
+    \\
+
+% For Python users: you can use scipy.sparse.linalg.bicgstab().
+% For C or Fortran users, we’ve uploaded the Numerical Recipes routines you need
+% for calling linbcg() in both C and Fortran versions. You can find the documen-
+% tation online: http://numerical.recipes
+
+\paragraph{
+    b) Make plots of the solution by taking a 1D or 2D cut along the 
+    center of the box.
+} \ \\
+    \\
+
+\paragraph{
+    c) Does the result look reasonable?
+} \ \\
+    \\

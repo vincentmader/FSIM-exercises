@@ -1,0 +1,116 @@
+To "warm up" to the solving of complicated boundary value problems, we 
+start with a simple 1D heat diffusion problem. Consider a 1-D block of 
+radioactive material that produces heat at a rate $\varepsilon$, 
+measured in Joules per meter. In 3D this would be in J/m$^3$, but 
+since we reduce the problem to 1D, it is just per meter. The heat 
+diffusion coefficient is $D$. The temperature at the edges at $x=\pm L$ 
+is kept fixed at $T_0$. The steady-state temperature profile obeys
+\begin{equation}
+    -D\cdot\frac{\partial^2T(x)}{\partial x^2}=\varepsilon
+    \label{eq:temp_diffusion_equation}
+\end{equation}
+For simplicity let us set $D=0.5$, $\varepsilon=1$, $T_0=1$ and $L=1$. 
+We use $N=100$ grid points.
+
+\paragraph{
+    a) Write down the numeric form of this equation on the grid.
+} \ \\
+    \\
+    If the temperature difference between two grid cells is expressed as 
+    $\Delta T$, and the two grid cells have a distance of 
+    $\Delta x=L/N$, then equation 
+    \ref{eq:temp_diffusion_equation} can be rewritten into discrete 
+    form as
+    \begin{equation}
+        -D\cdot\frac{\Delta T}{(\Delta x)^2}=\varepsilon
+    \end{equation}
+
+\paragraph{
+    b) Write this in a matrix notation.
+} \ \\
+    \\
+
+\paragraph{
+    c) Now let us think of how to put this into a computer program. The 
+    matrix is sparse: most of the elements are zero. In fact, it is a 
+    special kind of sparse matrix: a tridiagonal matrix. Come up with a 
+    way to store the matrix elements of this tridiagonal matrix into 
+    only three 1D arrays of $N$ elements.
+} \ \\
+    \\
+    A general tridiagonal matrix 
+    \begin{equation}
+        M=
+        \begin{pmatrix}
+            a_1 & b_1 & 0      & 0       & 0 \\        
+            c_1 & a_2 & b_2    & 0       & 0 \\        
+            0   & c_2 & \ddots & \ddots  & 0 \\        
+            0   & 0   & \ddots & \ddots  & b_{n-1} \\        
+            0   & 0   & 0      & c_{n-1} & a_n
+        \end{pmatrix}
+    \end{equation} \ \\
+    can be stored in three separate arrays $A$, $B$ and $C$, each with 
+    length $n$, e.g. like this:
+    \begin{align}
+        A&=[a_1,\ a_2,\ ...,\ a_n] \\
+        B&=[b_1,\ b_2,\ ...,\ b_{n-1},\ 0] \\
+        C&=[c_1,\ c_2,\ ...,\ c_{n-1},\ 0]    
+    \end{align}
+
+\paragraph{
+    d) Design a function/subroutine that multiplies such a matrix with 
+    any given vector. Test that it performs the multiplication correctly.
+} \ \\
+    \\
+
+\paragraph{
+    e) Design and test a function/subroutine that uses the 
+    forward-elimination backward-substition method to solve a matrix 
+    equation.
+} \ \\
+    \\
+
+\paragraph{
+    f) Apply it to the above problem, and plot the solution to the 
+    above problem.
+} \ \\
+    \\
+
+\paragraph{
+    g) Verify that the result is correct by multiplying the solution 
+    with the matrix and computing the residual, and show that the 
+    residual is almost zero.
+} \ \\
+    \\
+
+\paragraph{
+    h) Why is it not exactly zero?
+} \ \\
+    \\
+
+\paragraph{
+    i) Change $N$ to e.g. 1000 and see that the result is the same, but 
+    smoother. As you can see, this is a very efficient method for 1D 
+    boundary value problems. Now let us see how the Jacobi iteration 
+    performs.
+} \ \\
+    \\
+
+\paragraph{
+    j) Design a function/subroutine to perform a single Jacobi iteration 
+    step for this problem. Take initially $N=8$ (yes, really that low!). 
+    Perform 30 iteration steps.
+} \ \\
+    \\
+
+\paragraph{
+    k) Plot the result of each iteration over each other, and overplot 
+    the true solution that we found with the forward elimination, 
+    backward substitution.
+} \ \\
+    \\
+
+\paragraph{
+    l) Now do the same, but for $N=100$. Explain the behavior and the 
+    difference to the case for $N=8$.
+}
