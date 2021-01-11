@@ -29,6 +29,7 @@ We use $N=100$ grid points.
     b) Write this in a matrix notation.
 } \ \\
     \\
+    \red{?}
 
 \paragraph{
     c) Now let us think of how to put this into a computer program. The 
@@ -57,11 +58,14 @@ We use $N=100$ grid points.
         C&=[c_1,\ c_2,\ ...,\ c_{n-1},\ 0]    
     \end{align}
 
+\newpage
 \paragraph{
     d) Design a function/subroutine that multiplies such a matrix with 
     any given vector. Test that it performs the multiplication correctly.
 } \ \\
     \\
+    \red{should look something like this, haven't tested yet though...}
+    \lstinputlisting{../code/tridiag_matrix_mult.py}
 
 \paragraph{
     e) Design and test a function/subroutine that uses the 
