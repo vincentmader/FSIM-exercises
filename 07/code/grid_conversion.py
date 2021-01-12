@@ -1,10 +1,6 @@
 import numpy as np
 
 
-n = 100
-grid_3D = np.zeros(shape=(n, n, n))
-
-
 def convert_3D_grid_to_1D_vector(grid, n):
 
     vector = []
@@ -14,7 +10,7 @@ def convert_3D_grid_to_1D_vector(grid, n):
                 grid_cell = grid[i][j][k]
                 vector.append(grid_cell)
 
-    return vector
+    return np.array(vector)
 
 
 def convert_1D_vector_to_3D_grid(vector, n):
@@ -29,8 +25,10 @@ def convert_1D_vector_to_3D_grid(vector, n):
     return grid
 
 
+# test whether functions do what they should
+n = 100
 grid = np.random.rand(n, n, n)
 vector = convert_3D_grid_to_1D_vector(grid, n)
 new_grid = convert_1D_vector_to_3D_grid(vector, n)
 
-print((new_grid == grid).all())
+print((new_grid == grid).all())  # True -> it works
