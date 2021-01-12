@@ -1,5 +1,16 @@
-def main(a, b, c, v):
+import numpy as np
 
+
+def mult(a, b, c, v):
+    # a = main diag, b upper diag, c sub, v vektor to multiply with
+
+    c = np.append([0], c)
+    b = np.append(b, [0])
+    # alternative:
+    return v*a + np.roll(v, -1)*b + np.roll(v, 1)*c
+
+
+'''
     n = len(a)
     out = np.zeros(shape=(n, n))
 
@@ -13,7 +24,7 @@ def main(a, b, c, v):
             if i == j:
                 out[i][j] = a[i] * v[i]
             elif i == j-1:
-                out[i][j] = b[i] * v[j]
+                out[i][j] = b[i] * v[j] # b und c sollten hier vertauscht sein
             elif i == j+1:
                 out[i][j] = c[i] * v[j]
 
@@ -22,3 +33,13 @@ def main(a, b, c, v):
     out[-1][-1] = a[-1] * v[-1]
 
     return out
+'''
+'''
+N = 4
+a = np.array([2]*N)
+b = - 1 * np.array([1., 2., 3.])
+c = np.array([1, 2, 3])
+v = np.arange(0, N)
+x = mult(a, b, c, v)
+print(x)
+'''
