@@ -168,7 +168,7 @@ We use $N=100$ grid points.
 \newpage
 \paragraph{
     e) Design and test a function/subroutine that uses the
-    forward-elimination backward-substition (febs) method to solve a 
+    forward-elimination backward-substition (febs) method to solve a
     matrix equation.
 } \ \\
     \\
@@ -233,7 +233,7 @@ We use $N=100$ grid points.
     residual is almost zero.
 } \ \\
     \\
-    The maximum of the residuals is $5\cdot10^{-16}$. 
+    The maximum of the residuals is $5\cdot10^{-16}$.
     This is on the order of $\varepsilon$. \\
     \lstinputlisting[firstline=30, lastline=31]{../code/Aufg1.py}
 
@@ -242,7 +242,7 @@ We use $N=100$ grid points.
 } \ \\
     \\
     It is not exactly zero due to numerical errors,
-    which are on the order of $\varepsilon$.
+    which are on the order of machine $\varepsilon$.
 
 \newpage
 \paragraph{
@@ -252,7 +252,7 @@ We use $N=100$ grid points.
     performs.
 } \ \\
     \\
-    Output plot: 
+    Output plot:
     \begin{figure}[h!]
 	\centering
 	\includegraphics[width=.7\textwidth]{../figures/Aufg1h.pdf}
@@ -287,6 +287,7 @@ We use $N=100$ grid points.
         \includegraphics[width=.7\textwidth]{../figures/Aufg1k.pdf}
         % \caption{}
     \end{figure} \ \\
+	We see that it converges slow to the exact solution.
 
 \newpage
 \paragraph{
@@ -299,13 +300,13 @@ We use $N=100$ grid points.
         \includegraphics[width=.7\textwidth]{../figures/Aufg1l.pdf}
         % \caption{}
     \end{figure} \ \\
-    As we can see clearly in the plot below, the convergence is much, 
+    As we can see clearly in the plot below, the convergence is much,
     much slower. \\
     \\
     From the lecture script: \\
-    \\ 
-    In every iteration, only neighboring points communicate, so the 
-    information travels only by one cell (or more generally, one 
-    stencil length) per iteration. And for convergence, it has to 
+    \\
+    In every iteration, only neighboring points communicate, so the
+    information travels only by one cell (or more generally, one
+    stencil length) per iteration. And for convergence, it has to
     propagate back and forth over the whole domain a few times.
 
