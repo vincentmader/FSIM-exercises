@@ -3,15 +3,6 @@ from multigrid_martices import *
 from create_Diffmatrix import create_matrices
 
 
-def Jacobi(M, b, x, n):
-    D = np.diag(M)
-    LU = M - np.diag(D)
-    for i in range(n):
-        x = (b + LU@x)/D
-    return x
-
-
-
 D = 0.5
 T0 = 1
 L = 1
