@@ -3,15 +3,7 @@ import matplotlib.pyplot as plt
 from febs import febs
 from tridiag_matrix_mult import mult
 from Jacobi import Jacobi_step
-
-
-def create_matrices(N, constant, T0):
-    a = np.array([1.] + [-2.]*(N-2) + [1.])
-    b = np.array([0] + [1.]*(N-2))
-    c = np.array([1.]*(N-2) + [0])
-    v = np.array([T0] + [-4.0*constant/(N*N)]*(N-2) + [T0])
-    return a, b, c, v
-
+from create_Diffmatrix import create_matrices
 
 D = 0.5
 T0 = 1
