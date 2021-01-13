@@ -16,85 +16,81 @@ We use $N=100$ grid points.
     a) Write down the numeric form of this equation on the grid.
 } \ \\
     \\
-    The intervall L is dicretized in N equidistant points $(x_i)_{i \in \{1, \dots N\}}$ with $\Delta x = x_{i+1}-x_i = \frac{2L}{N}$. Therefore $T(x)$ become $T(x_i)$ with the boundary conditions $T(x_1)=T(x_N)=1$. For the second derivative we used the three-point stencil and got
-  \begin{comment}  If the temperature difference between two grid cells is expressed as
-    $\Delta T$, and the two grid cells have a distance of
-    $\Delta x=L/N$, then equation
-    \ref{eq:temp_diffusion_equation} can be rewritten into discrete
-    form as
-\end{comment}
-
+    The interval L is dicretized into $N$ equidistant points 
+    $(x_i)_{i \in \{1, \dots N\}}$ with 
+    $\Delta x = x_{i+1}-x_i = \frac{2L}{N}$. Therefore $T(x)$ 
+    becomes $T(x_i)$, with the boundary conditions 
+    $T(x_1)=T(x_N)=1$. For the second derivative we use the 
+    three-point stencil, which yields
     \begin{align}
-        -D\cdot\frac{T(x_{i+1}) - 2 T(x_i) + T(x_{i-1})}{(\Delta x)^2}&=\varepsilon \qquad \text{ for } i = 2, \dots, N-1.\\
-        T(x_1) &= 1 \\
-        T(x_N) &= 1
+        -D\cdot\frac{T(x_{i+1}) - 2 T(x_i) + T(x_{i-1})}
+        {(\Delta x)^2}&=\varepsilon \qquad \text{ for }i=2, 
+        \dots, N-1.
     \end{align}
+
 \paragraph{
-    b) Write this in a matrix notation.
+    b) Write this in matrix notation.
 } \ \\
     \\
-    To get the Matrix notation, we interpret $T(x_i)$ as the i-th compotnet of the vector $\vec{T}$. Therefore the equations above are equal to
-    \begin{equation}
-    -\frac{D}{(\Delta x)^2} \cdot
-    \begin{pmatrix}
-    1     & 0     &        &\cdots &       & 0 \\
-    1     &-2     & 1      & 0     &       &   \\
-    0     & 1     & -2     & 1     &       &\vdots \\
-    \vdots&       &\ddots  &\ddots & \ddots&  0\\
-          &       &        &    1  &  -2   & 1 \\
-    0     & \dots &        &      &   0   &1    \\
-    \end{pmatrix}
-    \begin{pmatrix}
-    T(x_1) \\
-    T(x_2)\\
-    \vdots \\
+    To get the matrix notation, we interpret $T(x_i)$ as the 
+    $i$-th component of a vector $\vec{T}$. \\
     \\
-    T(x_{N-1})\\
-    T(x_N) \\
-    \end{pmatrix}
-     =
-     \begin{pmatrix}
-     -T_0D/(\Delta x)^2 \\
-     \epsilon \\
-     \vdots \\
-     \\
-     \epsilon \\
-     -T_0D/(\Delta x)^2
-     \end{pmatrix}
-    \end{equation}
-
-
-	\begin{comment}
-    To avoind cancelation, we pull the - into the matrix and multiply $ \frac{(\Delta x)^2}{D} = \frac{4 L^2}{D N^2}$. The first and the last row are boundary conditions,therefore we can remove this to get regular matrix. We have to update the second and the (N-1)th equation while adding $T(x_1), T(x_N) = T_0$. Together we get
+    Then, the equations above can be expressed as
     \begin{equation}
-    %\underbrace{
-	\begin{pmatrix}
-	2    & -1    & 0      & \dots  & 0   \\
-	-1   & 2     & -1     &        &\vdots \\
-	0    &\ddots & \ddots & \ddots &  0\\
-	\vdots&      &    -1  &    2   & -1\\
-	0    & \dots &0       &    -1  &  2 \\
-	\end{pmatrix} %}_{M}
-	%\underbrace{
-	\begin{pmatrix}
-	T(x_2)\\
-	\vdots \\
-	\\ \\ \\
-	T(x_{N-1})\\
-	\end{pmatrix} %}_{\vec{T}}
-	= \frac{4L^2 \epsilon}{D N^2}
-	\begin{pmatrix}
-	1 \\
-	\vdots \\ \\ \\ \\
-	1 \\
-	\end{pmatrix}
-	+ \begin{pmatrix}
-	T_0 \\
-	0\\ \vdots \\ \\ 0\\
-	T_0
-	\end{pmatrix}
-	\end{equation}
-	\end{comment}
+        -\frac{D}{(\Delta x)^2} \cdot
+        \begin{pmatrix}
+            1     & 0     &        &\cdots &       & 0 \\
+            1     &-2     & 1      & 0     &       &   \\
+            0     & 1     & -2     & 1     &       &\vdots \\
+            \vdots&       &\ddots  &\ddots & \ddots&  0\\
+            &       &        &    1  &  -2   & 1 \\
+            0     & \dots &        &      &   0   &1    \\
+        \end{pmatrix}
+        \begin{pmatrix}
+            T(x_1) \\
+            T(x_2)\\
+            \vdots \\
+            \\
+            T(x_{N-1})\\
+            T(x_N) \\
+        \end{pmatrix}=\begin{pmatrix}
+            -T_0D/(\Delta x)^2 \\
+            \epsilon \\
+            \vdots \\
+            \\
+            \epsilon \\
+            -T_0D/(\Delta x)^2
+        \end{pmatrix}
+    \end{equation}
+    %To avoid cancelation, we pull the - into the matrix and multiply $ \frac{(\Delta x)^2}{D} = \frac{4 L^2}{D N^2}$. The first and the last row are boundary conditions,therefore we can remove this to get regular matrix. We have to update the second and the (N-1)th equation while adding $T(x_1), T(x_N) = T_0$. Together we get
+    %\begin{equation}
+    %%\underbrace{
+    %\begin{pmatrix}
+    %2    & -1    & 0      & \dots  & 0   \\
+    %-1   & 2     & -1     &        &\vdots \\
+    %0    &\ddots & \ddots & \ddots &  0\\
+    %\vdots&      &    -1  &    2   & -1\\
+    %0    & \dots &0       &    -1  &  2 \\
+    %\end{pmatrix} %}_{M}
+    %%\underbrace{
+    % \begin{pmatrix}
+    % T(x_2)\\
+    % \vdots \\
+    % \\ \\ \\
+    % T(x_{N-1})\\
+    % \end{pmatrix} %}_{\vec{T}}
+    % = \frac{4L^2 \epsilon}{D N^2}
+    % \begin{pmatrix}
+    % 1 \\
+    % \vdots \\ \\ \\ \\
+    % 1 \\
+    % \end{pmatrix}
+    % + \begin{pmatrix}
+    % T_0 \\
+    % 0\\ \vdots \\ \\ 0\\
+    % T_0
+    % \end{pmatrix}
+    % \end{equation}
 
 \paragraph{
     c) Now let us think of how to put this into a computer program. The
@@ -115,50 +111,55 @@ We use $N=100$ grid points.
             0   & 0   & 0      & c_{n-1} & a_n
         \end{pmatrix}
     \end{equation} \ \\
-    can be stored in three separate arrays $A$ with length $n$ and $B$ and $C$, each with
-    length $n-1$, e.g. like this:
+    can be stored in three separate arrays $A$ (with length $n$) as well as
+    $B$ and $C$, each with length $n-1$ as demonstrated below:
     \begin{align}
         A&=[a_1,\ a_2,\ ...,\ a_n] \\
         B&=[b_1,\ b_2,\ ...,\ b_{n-1}] \\
         C&=[c_1,\ c_2,\ ...,\ c_{n-1}]
     \end{align}
 
+\newpage
 \paragraph{
     d) Design a function/subroutine that multiplies such a matrix with
     any given vector. Test that it performs the multiplication correctly.
 } \ \\
     \\
-    If we are multiplying the $M$ with a vector $v = (v_1, \dots, v_n)^T$ we will calculate
+    If we are multiplying the $M$ with a vector 
+    $v = (v_1, \dots, v_n)^T$ we will calculate
     \begin{align}
-    \begin{pmatrix}
-    a_1 & b_1 & 0      & 0       & 0 \\
-    c_1 & a_2 & b_2    & 0       & 0 \\
-    0   & c_{i-1} & a_i & b_i    &0    \\
-    0   & 0   & 0      & c_{n-1} & a_n
-    \end{pmatrix}
-    \begin{pmatrix}
-    v_1 \\ v_2 \\v_i \\ v_n\\
-    \end{pmatrix}
-    =
-    \begin{pmatrix}
-    a_1 v_1 + b_1 v_2 \\
-    c_1 v_1 + a_2 v_2 + b_2 v_3 \\
-    c_{i-1} v_{i-1} + a_i v_i + b_i v_{i+1} \\
-    c_{n-1} v_{n-1} + a_n v_n\\
-    \end{pmatrix}
+        \begin{pmatrix}
+            a_1 & b_1 & 0      & 0       & 0 \\
+            c_1 & a_2 & b_2    & 0       & 0 \\
+            0   & c_{i-1} & a_i & b_i    &0    \\
+            0   & 0   & 0      & c_{n-1} & a_n
+        \end{pmatrix}
+        \begin{pmatrix}
+            v_1 \\ v_2 \\v_i \\ v_n\\
+        \end{pmatrix}=\begin{pmatrix}
+            a_1 v_1 + b_1 v_2 \\
+            c_1 v_1 + a_2 v_2 + b_2 v_3 \\
+            c_{i-1} v_{i-1} + a_i v_i + b_i v_{i+1} \\
+            c_{n-1} v_{n-1} + a_n v_n\\
+        \end{pmatrix}
     \end{align}
-    We see, that the indices are sometimes shifted. To do it in python with numpy multiplcation $\circ$ (each component), we define $\check{v} = (v_n, v_1, \dots, v_{n-1})^T$ and $\hat{v} = (v_2, v_3, \dots, v_n , v_1)^T$. With this we can write this multiplikation
+    We see that the indices are sometimes shifted. To do this
+    python using numpy multiplcation $\circ$ (each component), we 
+    define $\check{v} = (v_n, v_1, \dots, v_{n-1})^T$ and 
+    $\hat{v} = (v_2, v_3, \dots, v_n , v_1)^T$. With this we 
+    can rewrite the multiplication as
     \begin{equation}
     	Mv =
     	\begin{pmatrix} 0 \\ C \\	\end{pmatrix}
     	\circ \check{v} + A \circ v +
     	\begin{pmatrix} B \\ 0	\end{pmatrix} \circ \hat{v}
     \end{equation}  
-    We've tested it with, $n=4$, $a_i = 2$, $b_i = -5$, $c_i = -1$ $ \forall i$ and $v = (0,1,2,3)^T$. We got as the result:
+    We've tested this with $n=4$, $a_i = 2$, $b_i = -5$, 
+    $c_i = -1$ $ \forall i$ and $v = (0,1,2,3)^T$. The code returns
     \begin{equation}
     	Mv = (-5, -8, -12, 4)
     \end{equation}
-    which is correct.
+    which is what one would expect. The python code is shown below:
     \lstinputlisting{../code/tridiag_matrix_mult.py}
 
 \newpage
@@ -168,7 +169,11 @@ We use $N=100$ grid points.
     equation.
 } \ \\
     \\
-    We do forward elimination for the eqation $Mx = r$. $R_i$ is the i-th row, $\tilde{a}_i = a_i - \frac{c_{i-1} b_{i-1}}{\tilde{a}_{i-1}}$, $\tilde{a}_1 = a_1$, $\tilde{r}_i = r_i - \frac{\tilde{r}_{i-1} c_{i-1}}{\tilde{a}_{i-1}}$ and $\tilde{r}_1 = r_1$
+    We do forward elimination for the eqation $Mx = r$.  $R_i$ is the i-th row, 
+    $\tilde{a}_i = a_i - \frac{c_{i-1} b_{i-1}}{\tilde{a}_{i-1}}$, 
+    $\tilde{a}_1 = a_1$, 
+    $\tilde{r}_i = r_i - \frac{\tilde{r}_{i-1} c_{i-1}}{\tilde{a}_{i-1}}$ and 
+    $\tilde{r}_1 = r_1$
     \begin{align}
 	\begin{pmatrix}
 	a_1 & b_1 & 0      & 0       & 0   & r_1\\
@@ -194,15 +199,22 @@ We use $N=100$ grid points.
 	0   & 0   & 0      & 0 & \tilde{a}_n& \tilde{r}_n
 	\end{pmatrix}
     \end{align}
-    Now we can substitute backwards and get $x_n = \frac{\tilde{r}_n}{\tilde{a}_n} $ and $x_i = \frac{\tilde{r}_{i} - b_{i} x_{i+1}}{\tilde{a}_{i}}$.
-
+    Now we can substitute back in to get 
+    $x_n = \frac{\tilde{r}_n}{\tilde{a}_n} $ and 
+    $x_i = \frac{\tilde{r}_{i} - b_{i} x_{i+1}}{\tilde{a}_{i}}$.
 
 \paragraph{
     f) Apply it to the above problem, and plot the solution to the
     above problem.
 } \ \\
     \\
-	This algorithm works in our case, since M is diagonally dominant matrix and regular.
+    This algorithm works in our case, since $M$ is diagonally 
+    dominant matrix and regular.
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[width=\textwidth]{../figures/Aufg1f.pdf}
+        % \caption{}
+    \end{figure} \ \\ 
 
 \paragraph{
     g) Verify that the result is correct by multiplying the solution
@@ -215,6 +227,11 @@ We use $N=100$ grid points.
     h) Why is it not exactly zero?
 } \ \\
     \\
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[width=\textwidth]{../figures/Aufg1h.pdf}
+        % \caption{}
+    \end{figure} \ \\ 
 
 \paragraph{
     i) Change $N$ to e.g. 1000 and see that the result is the same, but
@@ -237,8 +254,21 @@ We use $N=100$ grid points.
     backward substitution.
 } \ \\
     \\
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[width=\textwidth]{../figures/Aufg1k.pdf}
+        % \caption{}
+    \end{figure} \ \\ 
 
+\newpage
 \paragraph{
     l) Now do the same, but for $N=100$. Explain the behavior and the
     difference to the case for $N=8$.
-}
+} \ \\
+    \\
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[width=\textwidth]{../figures/Aufg1l.pdf}
+        % \caption{}
+    \end{figure} \ \\ 
+    
