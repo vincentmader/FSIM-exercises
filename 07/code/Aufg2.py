@@ -14,7 +14,7 @@ M = np.diag(a) + np.diag(b, 1) + np.diag(c, -1)
 
 # c
 P = prolongation(N)
-R = restriction(N)
+R = restriction((N-1)/2 + 1)
 print(M)
 print(P@R@M)
 
