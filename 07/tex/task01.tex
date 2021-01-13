@@ -120,7 +120,6 @@ We use $N=100$ grid points.
         C&=[c_1,\ c_2,\ ...,\ c_{n-1}]    
     \end{align}
 
-\newpage
 \paragraph{
     d) Design a function/subroutine that multiplies such a matrix with 
     any given vector. Test that it performs the multiplication correctly.
@@ -152,9 +151,9 @@ We use $N=100$ grid points.
     	\circ \check{v} + A \circ v + 
     	\begin{pmatrix} B \\ 0	\end{pmatrix} \circ \hat{v}
     \end{equation}  
-    \red{should look something like this, haven't tested yet though...}
     \lstinputlisting{../code/tridiag_matrix_mult.py}
 
+\newpage
 \paragraph{
     e) Design and test a function/subroutine that uses the 
     forward-elimination backward-substition method to solve a matrix 
