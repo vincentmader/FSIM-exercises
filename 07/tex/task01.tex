@@ -1,15 +1,15 @@
-To "warm up" to the solving of complicated boundary value problems, we 
-start with a simple 1D heat diffusion problem. Consider a 1-D block of 
-radioactive material that produces heat at a rate $\varepsilon$, 
-measured in Joules per meter. In 3D this would be in J/m$^3$, but 
-since we reduce the problem to 1D, it is just per meter. The heat 
-diffusion coefficient is $D$. The temperature at the edges at $x=\pm L$ 
+To "warm up" to the solving of complicated boundary value problems, we
+start with a simple 1D heat diffusion problem. Consider a 1-D block of
+radioactive material that produces heat at a rate $\varepsilon$,
+measured in Joules per meter. In 3D this would be in J/m$^3$, but
+since we reduce the problem to 1D, it is just per meter. The heat
+diffusion coefficient is $D$. The temperature at the edges at $x=\pm L$
 is kept fixed at $T_0$. The steady-state temperature profile obeys
 \begin{equation}
     -D\cdot\frac{\partial^2T(x)}{\partial x^2}=\varepsilon
     \label{eq:temp_diffusion_equation}
 \end{equation}
-For simplicity let us set $D=0.5$, $\varepsilon=1$, $T_0=1$ and $L=1$. 
+For simplicity let us set $D=0.5$, $\varepsilon=1$, $T_0=1$ and $L=1$.
 We use $N=100$ grid points.
 
 \paragraph{
@@ -17,10 +17,10 @@ We use $N=100$ grid points.
 } \ \\
     \\
     The intervall L is dicretized in N equidistant points $(x_i)_{i \in \{1, \dots N\}}$ with $\Delta x = x_{i+1}-x_i = \frac{2L}{N}$. Therefore $T(x)$ become $T(x_i)$ with the boundary conditions $T(x_1)=T(x_N)=1$. For the second derivative we used the three-point stencil and got
-  \begin{comment}  If the temperature difference between two grid cells is expressed as 
-    $\Delta T$, and the two grid cells have a distance of 
-    $\Delta x=L/N$, then equation 
-    \ref{eq:temp_diffusion_equation} can be rewritten into discrete 
+  \begin{comment}  If the temperature difference between two grid cells is expressed as
+    $\Delta T$, and the two grid cells have a distance of
+    $\Delta x=L/N$, then equation
+    \ref{eq:temp_diffusion_equation} can be rewritten into discrete
     form as
 \end{comment}
 
@@ -33,16 +33,16 @@ We use $N=100$ grid points.
     b) Write this in a matrix notation.
 } \ \\
     \\
-    To get the Matrix notation, we interpret $\{T(x_i)\}$ as a vector. Therefore the equations above are equal to
+    To get the Matrix notation, we interpret $T(x_i)$ as the i-th compotnet of the vector $\vec{T}$. Therefore the equations above are equal to
     \begin{equation}
-    -\frac{D}{(\Delta x)^2} \cdot 
+    -\frac{D}{(\Delta x)^2} \cdot
     \begin{pmatrix}
     1     & 0     &        &\cdots &       & 0 \\
     1     &-2     & 1      & 0     &       &   \\
     0     & 1     & -2     & 1     &       &\vdots \\
-    \vdots&       &\ddots & \ddots & \ddots&  0\\
+    \vdots&       &\ddots  &\ddots & \ddots&  0\\
           &       &        &    1  &  -2   & 1 \\
-    0     & \dots &        &       &   0   &1    \\
+    0     & \dots &        &      &   0   &1    \\
     \end{pmatrix}
     \begin{pmatrix}
     T(x_1) \\
@@ -52,20 +52,21 @@ We use $N=100$ grid points.
     T(x_{N-1})\\
     T(x_N) \\
     \end{pmatrix}
-     = 
+     =
      \begin{pmatrix}
-     -D/(\Delta x)^2 \\
+     -T_0D/(\Delta x)^2 \\
      \epsilon \\
      \vdots \\
      \\
      \epsilon \\
-     -D/(\Delta x)^2
+     -T_0D/(\Delta x)^2
      \end{pmatrix}
     \end{equation}
-    
+
+
+	\begin{comment}
     To avoind cancelation, we pull the - into the matrix and multiply $ \frac{(\Delta x)^2}{D} = \frac{4 L^2}{D N^2}$. The first and the last row are boundary conditions,therefore we can remove this to get regular matrix. We have to update the second and the (N-1)th equation while adding $T(x_1), T(x_N) = T_0$. Together we get
-    
-    \begin{equation} 
+    \begin{equation}
     %\underbrace{
 	\begin{pmatrix}
 	2    & -1    & 0      & \dots  & 0   \\
@@ -89,50 +90,52 @@ We use $N=100$ grid points.
 	\end{pmatrix}
 	+ \begin{pmatrix}
 	T_0 \\
-	0\\ \vdots \\ \\ \\ 0\\
-	T_0 
+	0\\ \vdots \\ \\ 0\\
+	T_0
 	\end{pmatrix}
 	\end{equation}
+	\end{comment}
+
 \paragraph{
-    c) Now let us think of how to put this into a computer program. The 
-    matrix is sparse: most of the elements are zero. In fact, it is a 
-    special kind of sparse matrix: a tridiagonal matrix. Come up with a 
-    way to store the matrix elements of this tridiagonal matrix into 
+    c) Now let us think of how to put this into a computer program. The
+    matrix is sparse: most of the elements are zero. In fact, it is a
+    special kind of sparse matrix: a tridiagonal matrix. Come up with a
+    way to store the matrix elements of this tridiagonal matrix into
     only three 1D arrays of $N$ elements.
 } \ \\
     \\
-    A general tridiagonal matrix 
+    A general tridiagonal matrix
     \begin{equation}
         M=
         \begin{pmatrix}
-            a_1 & b_1 & 0      & 0       & 0 \\        
-            c_1 & a_2 & b_2    & 0       & 0 \\        
-            0   & c_2 & \ddots & \ddots  & 0 \\        
-            0   & 0   & \ddots & \ddots  & b_{n-1} \\        
+            a_1 & b_1 & 0      & 0       & 0 \\
+            c_1 & a_2 & b_2    & 0       & 0 \\
+            0   & c_2 & \ddots & \ddots  & 0 \\
+            0   & 0   & \ddots & \ddots  & b_{n-1} \\
             0   & 0   & 0      & c_{n-1} & a_n
         \end{pmatrix}
     \end{equation} \ \\
-    can be stored in three separate arrays $A$ with length $n$ and $B$ and $C$, each with 
+    can be stored in three separate arrays $A$ with length $n$ and $B$ and $C$, each with
     length $n-1$, e.g. like this:
     \begin{align}
         A&=[a_1,\ a_2,\ ...,\ a_n] \\
         B&=[b_1,\ b_2,\ ...,\ b_{n-1}] \\
-        C&=[c_1,\ c_2,\ ...,\ c_{n-1}]    
+        C&=[c_1,\ c_2,\ ...,\ c_{n-1}]
     \end{align}
 
 \paragraph{
-    d) Design a function/subroutine that multiplies such a matrix with 
+    d) Design a function/subroutine that multiplies such a matrix with
     any given vector. Test that it performs the multiplication correctly.
 } \ \\
     \\
     If we are multiplying the $M$ with a vector $v = (v_1, \dots, v_n)^T$ we will calculate
     \begin{align}
     \begin{pmatrix}
-    a_1 & b_1 & 0      & 0       & 0 \\        
-    c_1 & a_2 & b_2    & 0       & 0 \\        
+    a_1 & b_1 & 0      & 0       & 0 \\
+    c_1 & a_2 & b_2    & 0       & 0 \\
     0   & c_{i-1} & a_i & b_i    &0    \\
     0   & 0   & 0      & c_{n-1} & a_n
-    \end{pmatrix} 
+    \end{pmatrix}
     \begin{pmatrix}
     v_1 \\ v_2 \\v_i \\ v_n\\
     \end{pmatrix}
@@ -142,34 +145,68 @@ We use $N=100$ grid points.
     c_1 v_1 + a_2 v_2 + b_2 v_3 \\
     c_{i-1} v_{i-1} + a_i v_i + b_i v_{i+1} \\
     c_{n-1} v_{n-1} + a_n v_n\\
-    \end{pmatrix}	
+    \end{pmatrix}
     \end{align}
     We see, that the indices are sometimes shifted. To do it in python with numpy multiplcation $\circ$ (each component), we define $\check{v} = (v_n, v_1, \dots, v_{n-1})^T$ and $\hat{v} = (v_2, v_3, \dots, v_n , v_1)^T$. With this we can write this multiplikation
     \begin{equation}
-    	Mv = 
+    	Mv =
     	\begin{pmatrix} 0 \\ C \\	\end{pmatrix}
-    	\circ \check{v} + A \circ v + 
+    	\circ \check{v} + A \circ v +
     	\begin{pmatrix} B \\ 0	\end{pmatrix} \circ \hat{v}
     \end{equation}  
+    We've tested it with, $n=4$, $a_i = 2$, $b_i = -5$, $c_i = -1$ $ \forall i$ and $v = (0,1,2,3)^T$. We got as the result:
+    \begin{equation}
+    	Mv = (-5, -8, -12, 4)
+    \end{equation}
+    which is correct.
     \lstinputlisting{../code/tridiag_matrix_mult.py}
 
 \newpage
 \paragraph{
-    e) Design and test a function/subroutine that uses the 
-    forward-elimination backward-substition method to solve a matrix 
+    e) Design and test a function/subroutine that uses the
+    forward-elimination backward-substition method to solve a matrix
     equation.
 } \ \\
     \\
+    We do forward elimination for the eqation $Mx = r$. $R_i$ is the i-th row, $\tilde{a}_i = a_i - \frac{c_{i-1} b_{i-1}}{\tilde{a}_{i-1}}$, $\tilde{a}_1 = a_1$, $\tilde{r}_i = r_i - \frac{\tilde{r}_{i-1} c_{i-1}}{\tilde{a}_{i-1}}$ and $\tilde{r}_1 = r_1$
+    \begin{align}
+	\begin{pmatrix}
+	a_1 & b_1 & 0      & 0       & 0   & r_1\\
+	c_1 & a_2 & b_2    & 0       & 0 & r_2\\
+	0   & c_2 & \ddots & \ddots  & 0 & \vdots\\
+	0   & 0   & \ddots & \ddots  & b_{n-1} &\\
+	0   & 0   & 0      & c_{n-1} & a_n& r_n
+	\end{pmatrix}
+	\overset{R_2 = R_2 - c_1/a_1 R_1}{\sim}
+	\begin{pmatrix}
+	a_1 & b_1 & 0      & 0       & 0   & r_1\\
+	0 & \tilde{a}_2 & b_2    & 0       & 0 & \tilde{r}_2\\
+	0   & c_2 & \ddots & \ddots  & 0 & \vdots\\
+	0   & 0   & \ddots & \ddots  & b_{n-1} &\\
+	0   & 0   & 0      & c_{n-1} & a_n& r_n
+	\end{pmatrix}
+	\dots
+	\begin{pmatrix}
+	a_1 & b_1 & 0      & 0       & 0   & r_1\\
+	0 & \tilde{a}_2 & b_2    & 0       & 0 & \tilde{r}_2\\
+	0   & 0 & \ddots & \ddots  & 0 & \vdots\\
+	0   & 0   & \ddots & \ddots  & b_{n-1} &\\
+	0   & 0   & 0      & 0 & \tilde{a}_n& \tilde{r}_n
+	\end{pmatrix}
+    \end{align}
+    Now we can substitute backwards and get $x_n = \frac{\tilde{r}_n}{\tilde{a}_n} $ and $x_i = \frac{\tilde{r}_{i} - b_{i} x_{i+1}}{\tilde{a}_{i}}$.
+
 
 \paragraph{
-    f) Apply it to the above problem, and plot the solution to the 
+    f) Apply it to the above problem, and plot the solution to the
     above problem.
 } \ \\
     \\
+	This algorithm works in our case, since M is diagonally dominant matrix and regular.
 
 \paragraph{
-    g) Verify that the result is correct by multiplying the solution 
-    with the matrix and computing the residual, and show that the 
+    g) Verify that the result is correct by multiplying the solution
+    with the matrix and computing the residual, and show that the
     residual is almost zero.
 } \ \\
     \\
@@ -180,28 +217,28 @@ We use $N=100$ grid points.
     \\
 
 \paragraph{
-    i) Change $N$ to e.g. 1000 and see that the result is the same, but 
-    smoother. As you can see, this is a very efficient method for 1D 
-    boundary value problems. Now let us see how the Jacobi iteration 
+    i) Change $N$ to e.g. 1000 and see that the result is the same, but
+    smoother. As you can see, this is a very efficient method for 1D
+    boundary value problems. Now let us see how the Jacobi iteration
     performs.
 } \ \\
     \\
 
 \paragraph{
-    j) Design a function/subroutine to perform a single Jacobi iteration 
-    step for this problem. Take initially $N=8$ (yes, really that low!). 
+    j) Design a function/subroutine to perform a single Jacobi iteration
+    step for this problem. Take initially $N=8$ (yes, really that low!).
     Perform 30 iteration steps.
 } \ \\
     \\
 
 \paragraph{
-    k) Plot the result of each iteration over each other, and overplot 
-    the true solution that we found with the forward elimination, 
+    k) Plot the result of each iteration over each other, and overplot
+    the true solution that we found with the forward elimination,
     backward substitution.
 } \ \\
     \\
 
 \paragraph{
-    l) Now do the same, but for $N=100$. Explain the behavior and the 
+    l) Now do the same, but for $N=100$. Explain the behavior and the
     difference to the case for $N=8$.
 }
