@@ -34,7 +34,7 @@ def main(A, b, x, coarser, N, smooth=1, solve=10):
         # solve on coarse test grid
         err = Jacobi(A_2h, r_2h, err, solve)
     else:
-        err = Vcycle(np.copy(A_2h), r_2h, err, coarser-1, Nnext)
+        err = main(np.copy(A_2h), r_2h, err, coarser-1, Nnext)
 
     x = x + P@err
     x = Jacobi(A, b, x, smooth)
