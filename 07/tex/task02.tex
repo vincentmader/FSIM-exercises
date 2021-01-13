@@ -85,7 +85,6 @@ have $2^0+1=2$ points.
     Implementation in python: 
     \lstinputlisting[firstline=16, lastline=26]{../code/multigrid_matrices.py}
 
-\newpage
 \paragraph{
     c) Take the $9\times9$ matrix of the previous section (or the one
     from the 1D diffusion problem in the lecture notes), again in full
@@ -94,6 +93,7 @@ have $2^0+1=2$ points.
     Check that the result makes sense.
 } \ \\
     \\
+    \lstinputlisting[firstline=22, lastline=25]{../code/Aufg2.py}
 
 \newpage
 \paragraph{
@@ -101,10 +101,20 @@ have $2^0+1=2$ points.
     $V$-shaped multi-grid procedure using Jacobi iteration.
 } \ \\
     \\
-    \lstinputlisting{../code/v_cycle.py}
-    \lstinputlisting{../code/Aufg2.py}
+    V-cycle function:
+    \lstinputlisting{../code/v_cycle.py} \ \\
+    Execute:
+    \lstinputlisting[firstline=28, lastline=29]{../code/Aufg2.py}
 
+\newpage
 \paragraph{
     e) Compare to the solution you found in the previous exercise.
 } \ \\
     \\
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[width=.7\textwidth]{../figures/Aufg2e.pdf}
+        % \caption{}
+    \end{figure} \ \\ 
+    The V-cycle method leads to a notable improvement compared to the 
+    Jacobi method.

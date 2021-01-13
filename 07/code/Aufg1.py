@@ -47,14 +47,16 @@ plt.savefig("../figures/Aufg1h.pdf")
 N = 8
 a, b, c, v = create_matrices(N, L*L*e/D, T0)
 T_ja = np.ones(N)
-n = 32
+
+n = 30
 x = np.linspace(-L, L, num=N)
-plt.figure()
+plt.figure()  # needed later
+
 for i in range(n):
     T_ja = Jacobi_step(a, b, c, v, T_ja)
     plt.plot(x, T_ja)
 
-plt.plot(x_1000, T_sp, label="true sol")
+plt.plot(x_1000, T_sp, label="true solution")
 plt.title("Temperature of radioactive block with Jacobi")
 plt.xlabel("Location $x$")
 plt.ylabel("Temperature $T$")
@@ -65,14 +67,16 @@ plt.savefig("../figures/Aufg1k.pdf")
 N = 100
 a, b, c, v = create_matrices(N, L*L*e/D, T0)
 T_ja = np.ones(N)
-n = 32
+
+n = 30
 x = np.linspace(-L, L, num=N)
-plt.figure()
+plt.figure()  # needed later
+
 for i in range(n):
     T_ja = Jacobi_step(a, b, c, v, T_ja)
     plt.plot(x, T_ja)
 
-plt.plot(x_1000, T_sp, label="true sol")
+plt.plot(x_1000, T_sp, label="true solution")
 plt.title("Temperature of radioactive block with Jacobi")
 plt.xlabel("Location $x$")
 plt.ylabel("Temperature $T$")

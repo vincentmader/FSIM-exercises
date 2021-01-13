@@ -1,6 +1,6 @@
 import numpy as np
 
-from multigrid_matrices import *
+from multigrid_matrices import prolongation, restriction
 
 
 def Jacobi(M, b, x, n):

@@ -168,8 +168,8 @@ We use $N=100$ grid points.
 \newpage
 \paragraph{
     e) Design and test a function/subroutine that uses the
-    forward-elimination backward-substition method to solve a matrix
-    equation.
+    forward-elimination backward-substition (febs) method to solve a 
+    matrix equation.
 } \ \\
     \\
     We do forward elimination for the eqation $Mx = r$. \\
@@ -206,8 +206,15 @@ We use $N=100$ grid points.
     \end{align}
     Now we can substitute back in to get
     $x_n = \frac{\tilde{r}_n}{\tilde{a}_n} $ and
-    $x_i = \frac{\tilde{r}_{i} - b_{i} x_{i+1}}{\tilde{a}_{i}}$.
+    $x_i = \frac{\tilde{r}_{i} - b_{i} x_{i+1}}{\tilde{a}_{i}}$. \\
+    \\
+    We constructed it this way in python: \\
+    \lstinputlisting[firstline=4, lastline=18]{../code/febs.py} \ \\
+    Then, we tested it with
+    \lstinputlisting[firstline=22, lastline=28]{../code/febs.py} \ \\
+    We get again the same result as mathematica.
 
+\newpage
 \paragraph{
     f) Apply it to the above problem, and plot the solution.
 } \ \\
@@ -226,8 +233,10 @@ We use $N=100$ grid points.
     residual is almost zero.
 } \ \\
     \\
-    The maximum of the residuals is 5e-16. This is the order of eps.
-\lstinputlisting[firstline=27, lastline=28]{../code/Aufg1.py}
+    The maximum of the residuals is $5\cdot10^{-16}$. 
+    This is on the order of $\varepsilon$. \\
+    \lstinputlisting[firstline=30, lastline=31]{../code/Aufg1.py}
+
 \paragraph{
     h) Why is it not exactly zero?
 } \ \\
@@ -243,6 +252,7 @@ We use $N=100$ grid points.
     performs.
 } \ \\
     \\
+    Output plot: 
     \begin{figure}[h!]
 	\centering
 	\includegraphics[width=.7\textwidth]{../figures/Aufg1h.pdf}
@@ -256,11 +266,20 @@ We use $N=100$ grid points.
     Perform 30 iteration steps.
 } \ \\
     \\
+    Jacobi step:
+    \lstinputlisting[firstline=5]{../code/Jacobi.py} \ \\
+    30 iterations:
+    \lstinputlisting[firstline=47, lastline=56]{../code/Aufg1.py} \ \\
+    For this, we used
+    \lstinputlisting[firstline=4]{../code/create_Diffmatrix.py} \ \\
+    Note that for this, we shifted the factor $-\frac{d}{\Delta x^2}$
+    to the right side of the equation.
 
+\newpage
 \paragraph{
     k) Plot the result of each iteration over each other, and overplot
-    the true solution that we found with the forward elimination,
-    backward substitution.
+    the true solution that we found with the forward elimination
+    backward substitution (febs).
 } \ \\
     \\
     \begin{figure}[h!]
@@ -280,4 +299,13 @@ We use $N=100$ grid points.
         \includegraphics[width=.7\textwidth]{../figures/Aufg1l.pdf}
         % \caption{}
     \end{figure} \ \\
+    As we can see clearly in the plot below, the convergence is much, 
+    much slower. \\
+    \\
+    From the lecture script: \\
+    \\ 
+    In every iteration, only neighboring points communicate, so the 
+    information travels only by one cell (or more generally, one 
+    stencil length) per iteration. And for convergence, it has to 
+    propagate back and forth over the whole domain a few times.
 
