@@ -39,8 +39,11 @@ have $2^0+1=2$ points.
                    &   &        & 1      & 2      & 1      & \\
             \vdots &   &        &        &        & 1      & 2 \\
         \end{pmatrix}
-    \end{equation}
+    \end{equation} \ \\
+    Implementation in python:
+    \lstinputlisting[firstline=4, lastline=10]{../code/multigrid_matrices.py}
 
+\newpage
 \paragraph{
     b) Construct the 2D matrices $P^{(2)}$, $P^{(1)}$, $P^{(0)}$ 
     for 
@@ -78,9 +81,11 @@ have $2^0+1=2$ points.
                    &   &        &   & 2      \\
             \vdots
         \end{pmatrix}
-    \end{equation}
+    \end{equation} \ \\
+    Implementation in python: 
+    \lstinputlisting[firstline=16, lastline=26]{../code/multigrid_matrices.py}
 
-
+\newpage
 \paragraph{
     c) Take the $9\times9$ matrix of the previous section (or the one 
     from the 1D diffusion problem in the lecture notes), again in full 
@@ -95,6 +100,8 @@ have $2^0+1=2$ points.
     $V$-shaped multi-grid procedure using Jacobi iteration.
 } \ \\
     \\
+    \lstinputlisting{../code/v_cycle.py}
+    \lstinputlisting{../code/Aufg2.py}
 
 \paragraph{
     e) Compare to the solution you found in the previous exercise.
