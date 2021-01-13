@@ -3,7 +3,7 @@ from multigrid_martices import *
 
 def Jacobi(M, b, x, n):
     D = np.diag(M)
-    LU = M - np.diag(D)
+    LU = np.diag(D)-M
     for i in range(n):
         x = (b + LU@x)/D
     return x
