@@ -111,8 +111,8 @@ We use $N=100$ grid points.
             0   & 0   & 0      & c_{n-1} & a_n
         \end{pmatrix}
     \end{equation} \ \\
-    can be stored in three separate arrays $A$ (with length $n$) as well as
-    $B$ and $C$, each with length $n-1$ as demonstrated below:
+    can be stored in 3 arrays $A$ (with length $n$) as well as
+    $B$ and $C$, each with length $n-1$ as follows:
     \begin{align}
         A&=[a_1,\ a_2,\ ...,\ a_n] \\
         B&=[b_1,\ b_2,\ ...,\ b_{n-1}] \\
@@ -125,8 +125,8 @@ We use $N=100$ grid points.
     any given vector. Test that it performs the multiplication correctly.
 } \ \\
     \\
-    If we are multiplying the $M$ with a vector
-    $v = (v_1, \dots, v_n)^T$ we will calculate
+    If we multiply the $M$ with a vector $v = (v_1, \dots, v_n)^T$,
+    we calculate \\
     \begin{align}
         \begin{pmatrix}
             a_1 & b_1 & 0      & 0       & 0 \\
@@ -142,12 +142,13 @@ We use $N=100$ grid points.
             c_{i-1} v_{i-1} + a_i v_i + b_i v_{i+1} \\
             c_{n-1} v_{n-1} + a_n v_n\\
         \end{pmatrix}
-    \end{align}
-    We see that the indices are sometimes shifted. To do this
+    \end{align} \ \\
+    We see that the indices are sometimes shifted. To do this in
     python using numpy multiplcation $\circ$ (each component), we
     define $\check{v} = (v_n, v_1, \dots, v_{n-1})^T$ and
-    $\hat{v} = (v_2, v_3, \dots, v_n , v_1)^T$. With this we
-    can rewrite the multiplication as
+    $\hat{v} = (v_2, v_3, \dots, v_n , v_1)^T$. \\
+    \\
+    With this we can rewrite the multiplication as
     \begin{equation}
     	Mv =
     	\begin{pmatrix} 0 \\ C \\	\end{pmatrix}
@@ -157,13 +158,16 @@ We use $N=100$ grid points.
     We've tested this with $n=4$, $a_i = 2$, $b_i = -5$,
     $c_i = -1$ $ \forall i$ and $v = (0,1,2,3)^T$. The code returns
     \begin{equation}
-    	Mv = (-5, -8, -12, 4)
+    	Mv = (-5, -8, -12, 4),
     \end{equation}
+    which is what one would expect. \\
+    \\
+    The python code is shown below:
+    \lstinputlisting[firstline=4, lastline=10]{../code/tridiag_matrix_mult.py}
+
     which is what one would expect. The python code is shown below:
     \lstinputlisting[firstline=4, lastline=5]{../code/tridiag_matrix_mult.py}
-	We tested it with the
-	\lstinputlisting[firstline=11,lastline=14]{../code/tridiag_matrix_mult.py}
-	and got the same result as mathematica.
+    We tested it with Mathematica and got the same result.
 \newpage
 \paragraph{
     e) Design and test a function/subroutine that uses the
@@ -171,11 +175,13 @@ We use $N=100$ grid points.
     equation.
 } \ \\
     \\
-    We do forward elimination for the eqation $Mx = r$.  $R_i$ is the i-th row,
+    We do forward elimination for the eqation $Mx = r$. \\
+    \\
+    Here, $R_i$ is the i-th row of the matrix,
     $\tilde{a}_i = a_i - \frac{c_{i-1} b_{i-1}}{\tilde{a}_{i-1}}$,
     $\tilde{a}_1 = a_1$,
     $\tilde{r}_i = r_i - \frac{\tilde{r}_{i-1} c_{i-1}}{\tilde{a}_{i-1}}$ and
-    $\tilde{r}_1 = r_1$
+    $\tilde{r}_1 = r_1$ \\
     \begin{align}
 	\begin{pmatrix}
 	a_1 & b_1 & 0      & 0       & 0   & r_1\\
@@ -212,15 +218,14 @@ We use $N=100$ grid points.
 	and get again the same result as mathematica.
 
 \paragraph{
-    f) Apply it to the above problem, and plot the solution to the
-    above problem.
+    f) Apply it to the above problem, and plot the solution.
 } \ \\
     \\
-    This algorithm works in our case, since $M$ is diagonally
+    This algorithm works in our case, since $M$ is a diagonally
     dominant matrix and regular.
     \begin{figure}[h!]
         \centering
-        \includegraphics[width=\textwidth]{../figures/Aufg1f.pdf}
+        \includegraphics[width=.7\textwidth]{../figures/Aufg1f.pdf}
         % \caption{}
     \end{figure} \ \\
 
@@ -237,7 +242,9 @@ We use $N=100$ grid points.
     h) Why is it not exactly zero?
 } \ \\
     \\
-numerical errors. These are arrows inorder of eps.
+    It is not exactly zero due to numerical errors,
+    which are on the order of $\varepsilon$.
+
 \paragraph{
     i) Change $N$ to e.g. 1000 and see that the result is the same, but
     smoother. As you can see, this is a very efficient method for 1D
@@ -247,7 +254,7 @@ numerical errors. These are arrows inorder of eps.
     \\
     \begin{figure}[h!]
 	\centering
-	\includegraphics[width=\textwidth]{../figures/Aufg1h.pdf}
+	\includegraphics[width=.7\textwidth]{../figures/Aufg1h.pdf}
 	% \caption{}
 \end{figure} \ \\
 \newpage
@@ -266,7 +273,7 @@ numerical errors. These are arrows inorder of eps.
     \\
     \begin{figure}[h!]
         \centering
-        \includegraphics[width=\textwidth]{../figures/Aufg1k.pdf}
+        \includegraphics[width=.7\textwidth]{../figures/Aufg1k.pdf}
         % \caption{}
     \end{figure} \ \\
 
@@ -278,7 +285,7 @@ numerical errors. These are arrows inorder of eps.
     \\
     \begin{figure}[h!]
         \centering
-        \includegraphics[width=\textwidth]{../figures/Aufg1l.pdf}
+        \includegraphics[width=.7\textwidth]{../figures/Aufg1l.pdf}
         % \caption{}
     \end{figure} \ \\
 

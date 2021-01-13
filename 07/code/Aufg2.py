@@ -1,7 +1,8 @@
 import numpy as np
-from multigrid_martices import *
+
+from multigrid_matrices import *
 from create_Diffmatrix import create_matrices
-from v_cicle import Vcycle
+from v_cycle import main as v_cycle
 
 D = 0.5
 T0 = 1
@@ -20,7 +21,11 @@ print(P@R@M)
 
 # d
 x = np.zeros(N)
+<<<<<<< HEAD
 x = Vcycle(M, v, x, 5, N, smooth=3, solve=40)
+=======
+x = v_cycle(M, v, x, 2, N, smooth=3, solve=40)
+>>>>>>> 2dcc3bcbceaadfb5203dc1a80e3c5eac640254b2
 print(x)
 
 
