@@ -154,20 +154,17 @@ We use $N=100$ grid points.
     	\begin{pmatrix} 0 \\ C \\	\end{pmatrix}
     	\circ \check{v} + A \circ v +
     	\begin{pmatrix} B \\ 0	\end{pmatrix} \circ \hat{v}
-    \end{equation}
-    We've tested this with $n=4$, $a_i = 2$, $b_i = -5$,
+    \end{equation} \ \\
+    The python code is shown below:
+    \lstinputlisting[firstline=4, lastline=10]{../code/tridiag_matrix_mult.py}
+    \ \\
+    We've tested it with $n=4$, $a_i = 2$, $b_i = -5$,
     $c_i = -1$ $ \forall i$ and $v = (0,1,2,3)^T$. The code returns
     \begin{equation}
     	Mv = (-5, -8, -12, 4),
     \end{equation}
-    which is what one would expect. \\
-    \\
-    The python code is shown below:
-    \lstinputlisting[firstline=4, lastline=10]{../code/tridiag_matrix_mult.py}
+    which is what one would expect. We checked this using Mathematica. \\
 
-    which is what one would expect. The python code is shown below:
-    \lstinputlisting[firstline=4, lastline=5]{../code/tridiag_matrix_mult.py}
-    We tested it with Mathematica and got the same result.
 \newpage
 \paragraph{
     e) Design and test a function/subroutine that uses the
@@ -211,12 +208,6 @@ We use $N=100$ grid points.
     $x_n = \frac{\tilde{r}_n}{\tilde{a}_n} $ and
     $x_i = \frac{\tilde{r}_{i} - b_{i} x_{i+1}}{\tilde{a}_{i}}$.
 
-	We constructed it this way
-	\lstinputlisting[firstline=4, lastline=18]{../code/febs.py}
-	and tested it with
-	\lstinputlisting[firstline=22, lastline=28]{../code/febs.py}
-	and get again the same result as mathematica.
-
 \paragraph{
     f) Apply it to the above problem, and plot the solution.
 } \ \\
@@ -229,7 +220,6 @@ We use $N=100$ grid points.
         % \caption{}
     \end{figure} \ \\
 
-\newpage
 \paragraph{
     g) Verify that the result is correct by multiplying the solution
     with the matrix and computing the residual, and show that the
@@ -250,6 +240,7 @@ We use $N=100$ grid points.
         % \caption{}
     \end{figure} \ \\ 
 
+\newpage
 \paragraph{
     i) Change $N$ to e.g. 1000 and see that the result is the same, but
     smoother. As you can see, this is a very efficient method for 1D
@@ -262,6 +253,7 @@ We use $N=100$ grid points.
 	\includegraphics[width=.7\textwidth]{../figures/Aufg1h.pdf}
 	% \caption{}
 \end{figure} \ \\
+
 \newpage
 \paragraph{
     j) Design a function/subroutine to perform a single Jacobi iteration
