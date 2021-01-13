@@ -16,15 +16,15 @@ We use $N=100$ grid points.
     a) Write down the numeric form of this equation on the grid.
 } \ \\
     \\
-    The interval L is dicretized into $N$ equidistant points 
-    $(x_i)_{i \in \{1, \dots N\}}$ with 
-    $\Delta x = x_{i+1}-x_i = \frac{2L}{N}$. Therefore $T(x)$ 
-    becomes $T(x_i)$, with the boundary conditions 
-    $T(x_1)=T(x_N)=1$. For the second derivative we use the 
+    The interval L is dicretized into $N$ equidistant points
+    $(x_i)_{i \in \{1, \dots N\}}$ with
+    $\Delta x = x_{i+1}-x_i = \frac{2L}{N}$. Therefore $T(x)$
+    becomes $T(x_i)$, with the boundary conditions
+    $T(x_1)=T(x_N)=1$. For the second derivative we use the
     three-point stencil, which yields
     \begin{align}
         -D\cdot\frac{T(x_{i+1}) - 2 T(x_i) + T(x_{i-1})}
-        {(\Delta x)^2}&=\varepsilon \qquad \text{ for }i=2, 
+        {(\Delta x)^2}&=\varepsilon \qquad \text{ for }i=2,
         \dots, N-1.
     \end{align}
 
@@ -32,7 +32,7 @@ We use $N=100$ grid points.
     b) Write this in matrix notation.
 } \ \\
     \\
-    To get the matrix notation, we interpret $T(x_i)$ as the 
+    To get the matrix notation, we interpret $T(x_i)$ as the
     $i$-th component of a vector $\vec{T}$. \\
     \\
     Then, the equations above can be expressed as
@@ -125,7 +125,7 @@ We use $N=100$ grid points.
     any given vector. Test that it performs the multiplication correctly.
 } \ \\
     \\
-    If we are multiplying the $M$ with a vector 
+    If we are multiplying the $M$ with a vector
     $v = (v_1, \dots, v_n)^T$ we will calculate
     \begin{align}
         \begin{pmatrix}
@@ -144,23 +144,23 @@ We use $N=100$ grid points.
         \end{pmatrix}
     \end{align}
     We see that the indices are sometimes shifted. To do this
-    python using numpy multiplcation $\circ$ (each component), we 
-    define $\check{v} = (v_n, v_1, \dots, v_{n-1})^T$ and 
-    $\hat{v} = (v_2, v_3, \dots, v_n , v_1)^T$. With this we 
+    python using numpy multiplcation $\circ$ (each component), we
+    define $\check{v} = (v_n, v_1, \dots, v_{n-1})^T$ and
+    $\hat{v} = (v_2, v_3, \dots, v_n , v_1)^T$. With this we
     can rewrite the multiplication as
     \begin{equation}
     	Mv =
     	\begin{pmatrix} 0 \\ C \\	\end{pmatrix}
     	\circ \check{v} + A \circ v +
     	\begin{pmatrix} B \\ 0	\end{pmatrix} \circ \hat{v}
-    \end{equation}  
-    We've tested this with $n=4$, $a_i = 2$, $b_i = -5$, 
+    \end{equation}
+    We've tested this with $n=4$, $a_i = 2$, $b_i = -5$,
     $c_i = -1$ $ \forall i$ and $v = (0,1,2,3)^T$. The code returns
     \begin{equation}
     	Mv = (-5, -8, -12, 4)
     \end{equation}
     which is what one would expect. The python code is shown below:
-    \lstinputlisting{../code/tridiag_matrix_mult.py}
+    \lstinputlisting[firstline=4, lastline=10]{../code/tridiag_matrix_mult.py}
 
 \newpage
 \paragraph{
@@ -169,10 +169,10 @@ We use $N=100$ grid points.
     equation.
 } \ \\
     \\
-    We do forward elimination for the eqation $Mx = r$.  $R_i$ is the i-th row, 
-    $\tilde{a}_i = a_i - \frac{c_{i-1} b_{i-1}}{\tilde{a}_{i-1}}$, 
-    $\tilde{a}_1 = a_1$, 
-    $\tilde{r}_i = r_i - \frac{\tilde{r}_{i-1} c_{i-1}}{\tilde{a}_{i-1}}$ and 
+    We do forward elimination for the eqation $Mx = r$.  $R_i$ is the i-th row,
+    $\tilde{a}_i = a_i - \frac{c_{i-1} b_{i-1}}{\tilde{a}_{i-1}}$,
+    $\tilde{a}_1 = a_1$,
+    $\tilde{r}_i = r_i - \frac{\tilde{r}_{i-1} c_{i-1}}{\tilde{a}_{i-1}}$ and
     $\tilde{r}_1 = r_1$
     \begin{align}
 	\begin{pmatrix}
@@ -199,8 +199,8 @@ We use $N=100$ grid points.
 	0   & 0   & 0      & 0 & \tilde{a}_n& \tilde{r}_n
 	\end{pmatrix}
     \end{align}
-    Now we can substitute back in to get 
-    $x_n = \frac{\tilde{r}_n}{\tilde{a}_n} $ and 
+    Now we can substitute back in to get
+    $x_n = \frac{\tilde{r}_n}{\tilde{a}_n} $ and
     $x_i = \frac{\tilde{r}_{i} - b_{i} x_{i+1}}{\tilde{a}_{i}}$.
 
 \paragraph{
@@ -208,13 +208,13 @@ We use $N=100$ grid points.
     above problem.
 } \ \\
     \\
-    This algorithm works in our case, since $M$ is diagonally 
+    This algorithm works in our case, since $M$ is diagonally
     dominant matrix and regular.
     \begin{figure}[h!]
         \centering
         \includegraphics[width=\textwidth]{../figures/Aufg1f.pdf}
         % \caption{}
-    \end{figure} \ \\ 
+    \end{figure} \ \\
 
 \paragraph{
     g) Verify that the result is correct by multiplying the solution
@@ -222,17 +222,13 @@ We use $N=100$ grid points.
     residual is almost zero.
 } \ \\
     \\
-
+    The maximum of the residuals is 5e-16. This is the order of eps.
+\lstinputlisting[firstline=27, lastline=28]{../code/Aufg1.py}
 \paragraph{
     h) Why is it not exactly zero?
 } \ \\
     \\
-    \begin{figure}[h!]
-        \centering
-        \includegraphics[width=\textwidth]{../figures/Aufg1h.pdf}
-        % \caption{}
-    \end{figure} \ \\ 
-
+numerical errors. These are arrows inorder of eps.
 \paragraph{
     i) Change $N$ to e.g. 1000 and see that the result is the same, but
     smoother. As you can see, this is a very efficient method for 1D
@@ -240,6 +236,11 @@ We use $N=100$ grid points.
     performs.
 } \ \\
     \\
+    \begin{figure}[h!]
+	\centering
+	\includegraphics[width=\textwidth]{../figures/Aufg1h.pdf}
+	% \caption{}
+\end{figure} \ \\
 
 \paragraph{
     j) Design a function/subroutine to perform a single Jacobi iteration
@@ -258,7 +259,7 @@ We use $N=100$ grid points.
         \centering
         \includegraphics[width=\textwidth]{../figures/Aufg1k.pdf}
         % \caption{}
-    \end{figure} \ \\ 
+    \end{figure} \ \\
 
 \newpage
 \paragraph{
@@ -270,5 +271,5 @@ We use $N=100$ grid points.
         \centering
         \includegraphics[width=\textwidth]{../figures/Aufg1l.pdf}
         % \caption{}
-    \end{figure} \ \\ 
-    
+    \end{figure} \ \\
+
