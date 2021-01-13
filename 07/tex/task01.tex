@@ -165,6 +165,9 @@ We use $N=100$ grid points.
     The python code is shown below:
     \lstinputlisting[firstline=4, lastline=10]{../code/tridiag_matrix_mult.py}
 
+    which is what one would expect. The python code is shown below:
+    \lstinputlisting[firstline=4, lastline=5]{../code/tridiag_matrix_mult.py}
+    We tested it with Mathematica and got the same result.
 \newpage
 \paragraph{
     e) Design and test a function/subroutine that uses the
@@ -208,6 +211,12 @@ We use $N=100$ grid points.
     $x_n = \frac{\tilde{r}_n}{\tilde{a}_n} $ and
     $x_i = \frac{\tilde{r}_{i} - b_{i} x_{i+1}}{\tilde{a}_{i}}$.
 
+	We constructed it this way
+	\lstinputlisting[firstline=4, lastline=18]{../code/febs.py}
+	and tested it with
+	\lstinputlisting[firstline=22, lastline=28]{../code/febs.py}
+	and get again the same result as mathematica.
+
 \paragraph{
     f) Apply it to the above problem, and plot the solution.
 } \ \\
@@ -220,6 +229,7 @@ We use $N=100$ grid points.
         % \caption{}
     \end{figure} \ \\
 
+\newpage
 \paragraph{
     g) Verify that the result is correct by multiplying the solution
     with the matrix and computing the residual, and show that the
@@ -252,7 +262,7 @@ We use $N=100$ grid points.
 	\includegraphics[width=.7\textwidth]{../figures/Aufg1h.pdf}
 	% \caption{}
 \end{figure} \ \\
-
+\newpage
 \paragraph{
     j) Design a function/subroutine to perform a single Jacobi iteration
     step for this problem. Take initially $N=8$ (yes, really that low!).
