@@ -1,5 +1,6 @@
 import numpy as np
 
+
 def febs(a, b, c, r):
     # a diag, b upper diag, c sub diag,  r right hand side
     # Elimination: asume a neq 0 f.a. i
@@ -8,8 +9,8 @@ def febs(a, b, c, r):
     # r_elem = np.append(r[0], np.zeros(dim-1))
 
     for i in range(1, dim):
-        print("\n", i)
-        print(a[i-1])
+        # print("\n", i)
+        # print(a[i-1])
         gausratio = -c[i-1] / a[i-1]
         # print(gausratio)
         # print(b[i-1], a[i], gausratio * b[i-1])
