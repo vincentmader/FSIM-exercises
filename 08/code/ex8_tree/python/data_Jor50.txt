@@ -1,0 +1,36 @@
+N = 50, angle = 0.2 
+
+starting tree gravity
+done in 0.09604787826538086 seconds
+the mean number of interactions is 160.0
+
+starting N^2 gravity
+done in 0.01807880401611328 seconds
+
+the relative error is: 0.00 \pm 0.00%
+---------------------------------------------------
+
+N = 50, angle = 0.4 
+
+starting tree gravity
+done in 0.07427430152893066 seconds
+the mean number of interactions is 127.84
+
+starting N^2 gravity
+done in 0.017940998077392578 seconds
+
+the relative error is: 0.87 \pm 0.48%
+---------------------------------------------------
+
+N = 50, angle = 0.8 
+
+starting tree gravity
+done in 0.034961700439453125 seconds
+the mean number of interactions is 59.84
+
+starting N^2 gravity
+done in 0.017960309982299805 seconds
+
+the relative error is: 12.18 \pm 11.59%
+---------------------------------------------------
+

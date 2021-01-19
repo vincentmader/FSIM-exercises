@@ -1,0 +1,12 @@
+N = 10000, angle = 0.2 
+
+starting tree gravity
+done in 755.3814322948456 seconds
+the mean number of interactions is 5141.1496
+
+starting N^2 gravity
+done in 1574.456298828125 seconds
+
+the relative error is: 0.24 \pm 0.12%
+---------------------------------------------------
+

@@ -1,0 +1,36 @@
+N = 5000, angle = 0.2 
+
+starting tree gravity
+done in 233.5058557987213 seconds
+the mean number of interactions is 4020.3648
+
+starting N^2 gravity
+done in 186.2028112411499 seconds
+
+the relative error is: 0.13 \pm 0.02%
+---------------------------------------------------
+
+N = 5000, angle = 0.4 
+
+starting tree gravity
+done in 55.57449746131897 seconds
+the mean number of interactions is 980.664
+
+starting N^2 gravity
+done in 188.37353324890137 seconds
+
+the relative error is: 1.10 \pm 0.22%
+---------------------------------------------------
+
+N = 5000, angle = 0.8 
+
+starting tree gravity
+done in 11.370157241821289 seconds
+the mean number of interactions is 201.6944
+
+starting N^2 gravity
+done in 192.09033250808716 seconds
+
+the relative error is: 8.18 \pm 1.96%
+---------------------------------------------------
+

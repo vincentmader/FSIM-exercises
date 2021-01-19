@@ -3,6 +3,7 @@ from random import *
 import time
 from copy import *
 from math import sqrt
+import sys
 
 '''
 #
@@ -104,7 +105,9 @@ def call_tree(N, angle):
     drel    = np.std((fapprox-fexact)/fexact)*100/np.sqrt(N)
     print(r"the relative error is: {:.2f} \pm {:.2f}%".format(rel_err, drel))
 
-for N in [5000]:  # ,10000,20000,40000]: #
-    for angle in [0.2, 0.4,0.8]:
-        call_tree(N, angle)
-        print('---------------------------------------------------\n')
+
+# for N in [5000]: # ,10000,20000,40000]: #
+
+# for angle in [0.2, 0.4,0.8]:
+call_tree(int(sys.argv[1]), float(sys.argv[2]))
+print('---------------------------------------------------\n')
