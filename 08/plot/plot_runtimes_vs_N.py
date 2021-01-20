@@ -17,8 +17,9 @@ Nopt, Ncov = curve_fit(linear, np.log(N), np.log(tNsqr))
 
 print(Topt)
 print(Nopt)
-print("Tree(1e10)=", np.exp(linear(np.log(1e10), Topt[0], Topt[1])))
-print("Nsqr(1e10)=", np.exp(linear(np.log(1e10), Nopt[0], Nopt[1])))
+ytos = 60*60*24*365
+print("Tree(1e10)=", np.exp(linear(np.log(1e10), Topt[0], Topt[1]))/ytos)
+print("Nsqr(1e10)=", np.exp(linear(np.log(1e10), Nopt[0], Nopt[1]))/ytos)
 
 plt.figure(figsize=(7, 5))
 # plt.title("execution time vs. particle number")
