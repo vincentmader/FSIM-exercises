@@ -1,29 +1,45 @@
-import numpy as np
+import matplotlib
 import matplotlib.pyplot as plt
+import numpy as np
 from scipy.optimize import curve_fit
 
-def loglin(x,a,b):
+
+def linear(x, a, b):
     return a * x + b
+
+
+plt.figure(figsize=(7, 5))
+plt.title("execution time vs. particle number")
 
 N = np.array([2.5, 5, 10, 20])*1000
 tTree = np.array([24.8, 55.6, 198, 598])
 tNsqr = np.array([46, 188, 1455, 4666])
-Topt, Tcov = curve_fit(loglin, np.log(N), np.log(tTree))
-Nopt, Ncov = curve_fit(loglin, np.log(N), np.log(tNsqr))
+
+Topt, Tcov = curve_fit(linear, np.log(N), np.log(tTree))
+Nopt, Ncov = curve_fit(linear, np.log(N), np.log(tNsqr))
+
 print(Topt)
 print(Nopt)
-print("Tree(1e10)=", np.exp(loglin(np.log(1e10), Topt[0], Topt[1])))
-print("Nsqr(1e10)=", np.exp(loglin(np.log(1e10), Nopt[0], Nopt[1])))
-plt.plot(N, tTree, '.', label="Tree")
-plt.plot(N, tNsqr, '.', label="exact")
+print("Tree(1e10)=", np.exp(linear(np.log(1e10), Topt[0], Topt[1])))
+print("Nsqr(1e10)=", np.exp(linear(np.log(1e10), Nopt[0], Nopt[1])))
 
-plt.plot(N, np.exp(loglin(np.log(N), Topt[0], Topt[1])), "-")
-plt.plot(N, np.exp(loglin(np.log(N), Nopt[0], Nopt[1])), "-")
-plt.title("Runtimes ")
+plt.scatter(N, tTree, label="tree method", color='blue', s=20)
+plt.scatter(N, tNsqr, label="direct method", color='red', s=20)
+x = range(1, int(max(100*N)))
+plt.plot(x, np.exp(linear(np.log(x), Topt[0], Topt[1])), color='blue')
+plt.plot(x, np.exp(linear(np.log(x), Nopt[0], Nopt[1])), color='red')
+
+plt.xlim(.5*min(N), 2*max(N))
+plt.ylim(5, 10**5)
+
+# plt.gca().get_xaxis().get_major_formatter().labelOnlyBase = False
+# plt.gca().get_xaxis().set_major_formatter(matplotlib.ticker.ScalarFormatter())
 plt.xscale('log')
 plt.yscale('log')
-plt.xlabel("log(N)")
-plt.ylabel("log(time/s)")
-plt.legend()
+plt.xticks([5e3, 1e4, 2e4])
+plt.xlabel("particle number")
+plt.ylabel("execution time [s]")
+plt.legend(loc='upper left')
 plt.savefig("runtimes.png")
+
 # plt.show()
