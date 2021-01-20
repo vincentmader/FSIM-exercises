@@ -9,7 +9,7 @@ def linear(x, a, b):
 
 
 plt.figure(figsize=(7, 5))
-plt.title("execution time vs. particle number")
+# plt.title("execution time vs. particle number")
 
 N = np.array([2.5, 5, 10, 20])*1000
 tTree = np.array([24.8, 55.6, 198, 598])
