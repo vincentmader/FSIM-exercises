@@ -107,10 +107,11 @@ def call_tree(N, angle):
 
     print(r"the relative error is: {:.2f} \pm {:.2f}%".format(rel_err, drel))
 
-
-# for N in [5000]: # ,10000,20000,40000]: #
+# if you calculate with for loop, one time exact solution is enough 
+# for N in [5000]: # ,10000,20000,40000]: 
 # for angle in [0.2, 0.4,0.8]:
 
+# call from command line, easier for paralelisation, if python uses only 1 core 
 call_tree(
     int(sys.argv[1]),   # particle number (integer)
     float(sys.argv[2])  # opening angle (float between 0 and 1)
