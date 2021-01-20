@@ -35,11 +35,13 @@ To this end, carry out the following steps:
     code provided at the end of the sheet.
 } \ \\
     \\
+    -
 
 
+\newpage
 \paragraph{b)
     The provided code template is incomplete, so start by filling 
-    kin the missing pieces. In particular, you need to add the 
+    in the missing pieces. In particular, you need to add the 
     computation of the centers of mass and total masses of tree 
     nodes from their subnodes, as well as the partial force 
     calculation from a tree node that is used in the tree walk. 
@@ -49,28 +51,40 @@ To this end, carry out the following steps:
     by adding suitable output to the code.
 } \ \\
     \\
+    tree.py
+    \lstinputlisting[firstline=98, lastline=123]{../code/ex8_tree/python/tree.py} \ \\
+    \newpage
+    tree.py
+    \lstinputlisting[firstline=125, lastline=156]{../code/ex8_tree/python/tree.py} \ \\
+    call\_tree.py
+    \lstinputlisting[firstline=86, lastline=101]{../code/ex8_tree/python/call_tree.py}
 
+\newpage
 \paragraph{c)
     To allow a more quantitative analysis, add an automatic 
     measurement of the average force error after all forces 
     have been calculated by the tree and direct summation.
 } \ \\ 
     \\
-To this end, consider the relative force error
-\begin{equation}
-    \eta
-    =\frac{\vec{a}_\textnormal{tree}-
-    \vec{a}_\textnormal{direct}}{\vec{a}_\textnormal{direct}}
-\end{equation}
-for each particle, and determine a simple arithmetic average 
-$\langle\eta\rangle$ of the mean relative force error. Also, 
-add diagnostic code that tells you the average number of 
-particle-node interactions per particle, i.e. how many nodes 
-the multipole expansion on average involves.
+    To this end, consider the relative force error
+    \begin{equation}
+        \eta
+        =\frac{\vec{a}_\textnormal{tree}-
+        \vec{a}_\textnormal{direct}}{\vec{a}_\textnormal{direct}}
+    \end{equation}
+    for each particle, and determine a simple arithmetic average 
+    $\langle\eta\rangle$ of the mean relative force error. Also, 
+    add diagnostic code that tells you the average number of 
+    particle-node interactions per particle, i.e. how many nodes 
+    the multipole expansion on average involves. \ \\
+    \\
+    call\_tree.py
+    \lstinputlisting[firstline=103, lastline=108]{../code/ex8_tree/python/call_tree.py}
 
 
+\newpage
 \paragraph{d) Make a little grid of calculations for 
-    $N=5000, 10000, 20000 and 40000$, and opening angles 
+    $N=5000, 10000, 20000$ and $40000$, and opening angles 
     $\theta^*=0.2$, $0.4$ and $0.8$. In each case, measure the 
     calculation time for the tree-based force calculation and 
     for direction summation, as well as $\langle\eta\rangle$ 
@@ -86,12 +100,13 @@ the multipole expansion on average involves.
     still have at least four different $N$ to be able to 
     extrapolate).
 
+\newpage
 \paragraph{e)
     Using the previous results, make a plot of the execution 
     time of the force calculation with the tree as a function of 
     $N$ (for the $\theta_c=0.4$ case). Use logarithmic axes and 
     fit a regression line (in the log) to the 4 data points you 
     obtained. Also include the results for direct summation. 
-    Estimate the time needed for $10^10$ particles for both 
+    Estimate the time needed for $10^{10}$ particles for both 
     methods.
 }
