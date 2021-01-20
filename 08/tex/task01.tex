@@ -101,14 +101,14 @@ To this end, carry out the following steps:
     Report the results in a table.
 } \ \\
     \\
-    NOTE: For direct summation with $N=40000$ particles the 
-    calculation could take very long; you can extrapolate from 
-    smaller $N$ cases since we know it scales as $N^2$.
-    Especially Python users might need to run smaller resolution 
-    problems, e.g. divide the number by ten (however, you should 
-    still have at least four different $N$ to be able to 
-    extrapolate). \\
-    \\
+    % NOTE: For direct summation with $N=40000$ particles the 
+    % calculation could take very long; you can extrapolate from 
+    % smaller $N$ cases since we know it scales as $N^2$.
+    % Especially Python users might need to run smaller resolution 
+    % problems, e.g. divide the number by ten (however, you should 
+    % still have at least four different $N$ to be able to 
+    % extrapolate). \\
+    % \\
     We used Python, therefore we chose to test the algorithm on 
     $N=$ 2500, 5000, 10000 and 20000.
     \begin{table}[h!]
@@ -147,6 +147,22 @@ To this end, carry out the following steps:
         \end{tabular}
         \end{center}
     \end{table} 
+    For small angles and particle numbers 
+    ($\theta^*=0.2$, $N=2500,5000$) the execution time 
+    of the direct method is less than that of the tree 
+    method. For $\theta^*=0.2$ and $N=2500$,
+    the same holds for the mean number of interactions.
+    It is interesting to see that the mean number of 
+    interactions can surpass the number of particles 
+    in the system. The reason for that is that for 
+    small angles it can happen that a cell with only a 
+    single particle in it is divided again. For large 
+    angles and particle numbers, the opposite is true, 
+    and the tree method outperforms the direct method.  \\
+    \\
+    The execution time seems to depend much more 
+    strongly on the angle $\theta^*$ than it does on 
+    the particle number $N$. 
     \begin{table}[h!]
         \begin{center}
             \caption{relative error $\langle\eta\rangle$}
@@ -163,9 +179,13 @@ To this end, carry out the following steps:
             \end{tabular}
         \end{center}
     \end{table} \ \\ 
-    \red{hier noch was vergleichen/beschreiben?}
+    The relative error $\langle\eta\rangle$ seems to 
+    grow with the angle $\theta^*$. There is not 
+    really a trend to be seen for the relative error
+    as a function of $N$. There is one notable
+    outlier for $\theta^*=0.8$ and $N=2500$.
 
-\newpage
+% \newpage
 \paragraph{e)
     Using the previous results, make a plot of the execution 
     time of the force calculation with the tree as a function of 
@@ -180,3 +200,11 @@ To this end, carry out the following steps:
         \includegraphics[width=\textwidth]{../plot/runtimes.png}
         \caption{execution time vs. particle number}
     \end{figure} \ \\ 
+    For the tree method, we calculated the exponent,
+    which is approximately 1.6, while the exponent for 
+    the direct method is about 2.3. For $N=10^{10}$, 
+    we extrapolate that the tree algorithm would take 
+    14 thousand years, while the direct algorithm 
+    would take 2 billion years.
+
+
