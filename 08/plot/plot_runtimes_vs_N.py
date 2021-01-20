@@ -35,7 +35,7 @@ plt.gca().set_xticks([5e3, 1e4, 2e4])
 plt.scatter(N, tTree, label="tree method", color='blue', s=20)
 plt.scatter(N, tNsqr, label="direct method", color='red', s=20)
 
-x = range(1, int(max(100*N)))
+x = range(1000, 40000)
 plt.plot(x, np.exp(linear(np.log(x), Topt[0], Topt[1])), color='blue')
 plt.plot(x, np.exp(linear(np.log(x), Nopt[0], Nopt[1])), color='red')
 
