@@ -23,3 +23,5 @@
 *.toc
 *.vrb
 **/ex*.pdf
+.vim
+03/figures
