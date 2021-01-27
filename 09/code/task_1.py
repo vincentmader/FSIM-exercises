@@ -40,6 +40,8 @@ q = advection(q_0, boundary_conditions=[1, .5], t_N=10000)
 plot(q, 5, ts=[0, 1000, 10000])
 
 # exercise 01, part 6, 7
+q = advection(q_0, t_N=100)
+plot(q, '6_0', ts=[3])
 q = advection(q_0, t_N=1000)
 plot(q, 6, ts=[3])
 q = advection(q_0, t_N=10)

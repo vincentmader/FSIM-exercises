@@ -49,7 +49,7 @@ $t=3$ using 100 equal-size time steps $\Delta t$.
     \begin{figure}[h!]
         \centering
         \includegraphics[width=.6\textwidth]{../figures/symmetric_1.png}
-        \caption{}
+        \caption{Symmetrical numerical derivative leads to unstability.}
     \end{figure} \ \\ 
 
 \newpage
@@ -60,7 +60,7 @@ $t=3$ using 100 equal-size time steps $\Delta t$.
     \begin{figure}[h!]
         \centering
         \includegraphics[width=.6\textwidth]{../figures/upwind_2.png}
-        \caption{}
+        \caption{Upwind method leads to stable solution.}
     \end{figure} \ \\ 
 
 \paragraph{3. Now use the one-sided numerical derivative 
@@ -70,7 +70,7 @@ $t=3$ using 100 equal-size time steps $\Delta t$.
     \begin{figure}[h!]
         \centering
         \includegraphics[width=.6\textwidth]{../figures/downwind_3.png}
-        \caption{}
+        \caption{Downwind method leads to instability.}
     \end{figure} \ \\ 
 
 \newpage \noindent
@@ -110,9 +110,24 @@ only use the upwind method.
 } \ \\
     \begin{figure}[h!]
         \centering
-        \includegraphics[width=.6\textwidth]{../figures/upwind_6.png}
-        \caption{}
-    \end{figure} \ \\ 
+        \begin{minipage}{.5\linewidth}
+          \centering
+          \subfloat[100 time steps]{
+            \label{:a}
+            \includegraphics[scale=.6]{../figures/upwind_6_0.png}
+          }
+        \end{minipage}%
+        \begin{minipage}{.5\linewidth}
+          \centering
+          \subfloat[1000 time steps]{
+            \label{:b}
+            \includegraphics[scale=.6]{../figures/upwind_6.png}
+          }
+        \end{minipage}
+        % \caption{}
+    \end{figure} \ \\
+    The behavior at $x=0$ is smoother when using 
+    smaller time steps. It becomes better.
 
 \paragraph{7. Repeat, but now use a $10\times$ larger time 
     step, i.e. take 10 time steps between $t=0$ and $t=3$. 
@@ -121,6 +136,8 @@ only use the upwind method.
     \begin{figure}[h!]
         \centering
         \includegraphics[width=.6\textwidth]{../figures/upwind_7.png}
-        \caption{}
+        \caption{10 time steps}
     \end{figure} \ \\ 
+    Less time steps lead to a less steep descent 
+    from 1 down to 0.
 
