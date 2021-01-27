@@ -3,7 +3,7 @@ import numpy as np
 
 def main(
     q_0, scheme="upwind", v=1, x_N=100, L=10,
-    t_end=30, t_N=100, boundary_conditions=[1, 0]
+    t_end=3., t_N=100, boundary_conditions=[1, 0]
 ):
     dx = x_N / L
     dt = t_end / t_N
