@@ -90,18 +90,28 @@ only use the upwind method.
     \begin{figure}[h!]
         \centering
         \includegraphics[width=.6\textwidth]{../figures/upwind_4.png}
-        \caption{}
+        % \caption{}
     \end{figure} \ \\ 
+    Near the left edge, the expected behavior can 
+    be seen. Apart from that, the overall structure 
+    of the curve is the same as for the initial 
+    boundary condition. 
 
 \paragraph{5. Reset, and put the right boundary condition 
     to $q(+L/2,t)=0.5$. What happens, and why?
-} \ \\
+} \ \\ 
     % \lstinputlisting[firstline=39, lastline=39]{../code/task_1.py}
     \begin{figure}[h!]
         \centering
         \includegraphics[width=.6\textwidth]{../figures/upwind_5.png}
-        \caption{}
+        % \caption{}
     \end{figure} \ \\ 
+    Contrary to the last plot, the expected smooth 
+    rise towards the boundary condition can not 
+    be seen here.
+    This is because we're using the upwind method, 
+    where information is transported only from left
+    to right.
 
 \paragraph{6. Reset again, and use a $10\times$ smaller 
     time step, i.e. take 1000 time steps between $t=0$ and 

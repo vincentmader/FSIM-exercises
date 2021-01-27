@@ -5,7 +5,7 @@ from advection import main as advection
 
 x_N = 100
 L = 10
-dx = x_N/L
+dx = L/x_N
 
 x = np.linspace(-L/2-dx, L/2+dx, num=x_N+2)
 q_0 = (x - np.abs(x))/(2*x)
@@ -18,7 +18,7 @@ def plot(q, task, scheme='upwind', ts=[0, 250, 500]):
     for idx, t in enumerate(ts):
         plt.plot(x, q[t], label=f"t={t}", color=colors[idx])
 
-    plt.xticks([-L, 0, L], ['$-1$', 0, '1'])
+    plt.xticks([-L/2, 0, L/2], ['$-1/2$', 0, '1/2'])
     plt.xlabel('x/L')
     plt.ylabel('q(x)')
     # plt.xlim(-L, L)
