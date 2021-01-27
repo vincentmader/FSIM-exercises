@@ -41,6 +41,9 @@ $t=3$ using 100 equal-size time steps $\Delta t$.
     scheme will lead to a numerical instability.
 } \ \\
     \\
+    For the time integration, we use 
+    an euler scheme. \\
+    \\
     Code for $1D$ advection:
     \lstinputlisting[firstline=4, lastline=29]{../code/advection.py}
     \newpage\noindent
@@ -48,7 +51,7 @@ $t=3$ using 100 equal-size time steps $\Delta t$.
     \lstinputlisting[firstline=6, lastline=35]{../code/task_1.py} \ \\
     As one can see in the plot below, the 
     symmetrical scheme leads to high-frequency 
-    oscillations near $x=0$.
+    \& high-amplitude oscillations near $x=0$.
     \begin{figure}[h!]
         \centering
         \includegraphics[width=.6\textwidth]{../figures/symmetric_1.png}
@@ -60,6 +63,10 @@ $t=3$ using 100 equal-size time steps $\Delta t$.
     operator $(q_i-q_{i-1})/\Delta x$. Show that this 
     so-called upwind scheme stays stable.
 } \ \\
+    \\
+    As expected, the curve moves towards the right 
+    as time increases with the velocity $v=1$. 
+    Also, the step function is smoothed out a bit.
     \begin{figure}[h!]
         \centering
         \includegraphics[width=.6\textwidth]{../figures/upwind_2.png}
@@ -70,6 +77,10 @@ $t=3$ using 100 equal-size time steps $\Delta t$.
     operator $(q_{i+1}-q_i)/\Delta x$. Show that this 
     approach is unstable again.
 } \ \\
+    \\
+    Once again, the (very high-amplitude)
+    oscillations can be seen 
+    clearly in the plot.
     \begin{figure}[h!]
         \centering
         \includegraphics[width=.6\textwidth]{../figures/downwind_3.png}
@@ -81,8 +92,7 @@ A good way to visualize the stability properties of the
 different numerical methods is to plot the values of 
 $q(x,t)$ across the entire computational domain at 
 different times. This exercise demonstrates that only the 
-upwind advection algorithm leads to a stable solution. \\
-\\
+upwind advection algorithm leads to a stable solution.
 Let us investigate this scheme further, and from now on 
 only use the upwind method.
 
@@ -95,10 +105,13 @@ only use the upwind method.
         \includegraphics[width=.6\textwidth]{../figures/upwind_4.png}
         % \caption{}
     \end{figure} \ \\ 
-    Near the left edge, the expected behavior can 
-    be seen. Apart from that, the overall structure 
-    of the curve is the same as for the initial 
-    boundary condition. 
+    Near the left edge, the expected boundary 
+    behavior can be seen. The curve is moved to 
+    the right and smoothed out. The "newly-added"
+    points on the left side come from the  
+    constant boundary term. Apart from that, the 
+    overall structure of the curve is the same as 
+    for the initial boundary condition. 
 
 \paragraph{5. Reset, and put the right boundary condition 
     to $q(+L/2,t)=0.5$. What happens, and why?
@@ -111,7 +124,8 @@ only use the upwind method.
     \end{figure} \ \\ 
     Contrary to the last plot, the expected smooth 
     rise towards the boundary condition can not 
-    be seen here.
+    be seen here. Instead, a sharp rise can be 
+    seen between the last two cells on the right.
     This is because we're using the upwind method, 
     where information is transported only from left
     to right.
@@ -139,8 +153,7 @@ only use the upwind method.
         \end{minipage}
         % \caption{}
     \end{figure} \ \\
-    The behavior at $x=0$ is smoother when using 
-    smaller time steps. It becomes better.
+    Both solutions look approximately the same.
 
 \paragraph{7. Repeat, but now use a $10\times$ larger time 
     step, i.e. take 10 time steps between $t=0$ and $t=3$. 
@@ -151,6 +164,5 @@ only use the upwind method.
         \includegraphics[width=.6\textwidth]{../figures/upwind_7.png}
         \caption{10 time steps}
     \end{figure} \ \\ 
-    Less time steps lead to a less steep descent 
-    from 1 down to 0.
+    Small time-steps lead to an unstable solution.
 

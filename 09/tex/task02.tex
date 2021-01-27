@@ -28,9 +28,11 @@ length of the $q$ array.
     that your function reproduces the same results.
 } \ \\
     \\
-    \lstinputlisting[firstline=4,lastline=21]{../code/ex2.py}
+    \lstinputlisting[firstline=5, lastline=29]{../code/ex2.py}
+    \newpage
+    \lstinputlisting[firstline=31, lastline=58]{../code/ex2.py}
 
-
+\newpage
 \paragraph{9. Now let us choose the velocity $v(x)=-2x/L$. 
     This is a converging velocity field. Take as an initial 
     density profile $q(x, 0)=1$ for $|x|\le L/4$ and 
@@ -39,8 +41,13 @@ length of the $q$ array.
     different times and explain the result.
 } \ \\
     \\
+    Depending on the velocity, either the upwind 
+    or downwind method was used. If there was a 
+    sign, the symmetrical method was used, and 
+    for the velocity we used the average of the 
+    two edges.
     \begin{figure}[h!]
         \centering
-        \includegraphics[width=\textwidth]{../figures/2.png}
-        \caption{}
+        \includegraphics[width=.7\textwidth]{../figures/plot2.png}
+        % \caption{}
     \end{figure} \ \\ 
