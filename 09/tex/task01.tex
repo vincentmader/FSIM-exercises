@@ -39,18 +39,41 @@ $t=3$ using 100 equal-size time steps $\Delta t$.
     integration using the symmetric numerical derivative 
     operator $(q_{i+1}-q{i-1})/(2\Delta x)$. Show that this 
     scheme will lead to a numerical instability.
-}
+} \ \\
+    \\
+    Code for $1D$ advection:
+    \lstinputlisting[firstline=4, lastline=29]{../code/advection.py}
+    \newpage\noindent
+    Plotting:
+    \lstinputlisting[firstline=6, lastline=35]{../code/task_1.py}
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[width=.6\textwidth]{../figures/symmetric_1.png}
+        \caption{}
+    \end{figure} \ \\ 
 
+\newpage
 \paragraph{2. Now use the one-sided numerical derivative 
     operator $(q_i-q_{i-1})/\Delta x$. Show that this 
     so-called upwind scheme stays stable.
-}
+} \ \\
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[width=.6\textwidth]{../figures/upwind_2.png}
+        \caption{}
+    \end{figure} \ \\ 
 
 \paragraph{3. Now use the one-sided numerical derivative 
     operator $(q_{i+1}-q_i)/\Delta x$. Show that this 
     approach is unstable again.
 } \ \\
-    \\
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[width=.6\textwidth]{../figures/downwind_3.png}
+        \caption{}
+    \end{figure} \ \\ 
+
+\newpage \noindent
 A good way to visualize the stability properties of the 
 different numerical methods is to plot the values of 
 $q(x,t)$ across the entire computational domain at 
@@ -62,20 +85,42 @@ only use the upwind method.
 
 \paragraph{4. Put the left boundary condition to 
     $q(-L/2,t)=0.5$. What happens, and why?
-}
+} \ \\
+    % \lstinputlisting[firstline=38, lastline=38]{../code/task_1.py}
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[width=.6\textwidth]{../figures/upwind_4.png}
+        \caption{}
+    \end{figure} \ \\ 
 
 \paragraph{5. Reset, and put the right boundary condition 
     to $q(+L/2,t)=0.5$. What happens, and why?
-}
+} \ \\
+    % \lstinputlisting[firstline=39, lastline=39]{../code/task_1.py}
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[width=.6\textwidth]{../figures/upwind_5.png}
+        \caption{}
+    \end{figure} \ \\ 
 
 \paragraph{6. Reset again, and use a $10\times$ smaller 
     time step, i.e. take 1000 time steps between $t=0$ and 
     $t=3$. What is the difference in the result at $t=3$? 
     Does it become better or worse?
-}
+} \ \\
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[width=.6\textwidth]{../figures/upwind_6.png}
+        \caption{}
+    \end{figure} \ \\ 
 
-\paragraph{7. Repeat, but now use a $10\times$ larger time 
+\paragraph{6. Repeat, but now use a $10\times$ larger time 
     step, i.e. take 10 time steps between $t=0$ and $t=3$. 
     Explain what happens.
-}
+} \ \\
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[width=.6\textwidth]{../figures/upwind_7.png}
+        \caption{}
+    \end{figure} \ \\ 
 
