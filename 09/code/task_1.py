@@ -50,3 +50,5 @@ q = advection(q_0, t_N=1000)
 plot(q, 6, ts=[1000], xlims=xlims)
 q = advection(q_0, t_N=10)
 plot(q, 7, ts=[10], xlims=xlims)
+
+print("Done.")

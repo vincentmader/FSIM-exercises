@@ -5,7 +5,7 @@ def main(
     q_0, scheme="upwind", v=1, x_N=100, L=10,
     t_end=3., t_N=100, boundary_conditions=[1, 0]
 ):
-    dx = x_N / L
+    dx = L/x_N
     dt = t_end / t_N
     # reserve storage
     q_all = np.zeros((t_N+1, x_N+2))
