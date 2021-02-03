@@ -1,68 +1,104 @@
-In this exercise you are going to write and 
-use an Eulerian finite-volume code (based on 
+In this exercise you are going to write and
+use an Eulerian finite-volume code (based on
 the Godunov method) to solve the 1D equations
 of isothermal hydrodynamics:
 \begin{align}
     0&=
     \pder{\rho}{t}+
-    \pder{\rho u}{x} \\
+    \pder{\rho u}{x} \\ \label{Euler1}
     0&=
     \pder{(\rho u)}{t}+
-    \pder{[\rho u^2+P]}{x} \\
+    \pder{[\rho u^2+P]}{x} \\ \label{Euler2}
 \end{align}
-where $\rho$ is the density, $u$ the velocity, 
+where $\rho$ is the density, $u$ the velocity,
 and $P$ the pressure. \\
 \\
-The system is written in 
-conservative form. The set of conservative 
-variables is 
+The system is written in
+conservative form. The set of conservative
+variables is
 \begin{equation}
     \vec q=
     \begin{bmatrix}
-        \rho \\ \rho u        
+        \rho \\ \rho u
     \end{bmatrix}
 \end{equation}
-and the fluxes are 
+and the fluxes are
 \begin{equation}
     \vec F_\textnormal{Euler}=
     \begin{bmatrix}
-        \rho u \\ \rho u^2+P     
+        \rho u \\ \rho u^2+P
     \end{bmatrix}
 \end{equation}
-Consider a small linear perturbation on 
+Consider a small linear perturbation on
 the density:
 \begin{equation}
     \rho(x,t)=
     \rho_0+\delta\rho(x,t)
 \end{equation}
 We can Fourier-decompose $\delta\rho(x,t)$
-into modes of the type 
+into modes of the type
 \begin{equation}
     \delta\rho(x,t)
     =A\cdot e^{i(kx-\omega t)}
 \end{equation}
 
-\paragraph{1. Derive the dispersion relation 
+\paragraph{1. Derive the dispersion relation
     between $\omega$ and $k$.
 } \ \\
     \\
+We assume, that $\rho_0$ is in equilibrium and therefore the spacial and the time derivatives are zero. In equilibrium $u=0$. If we perturb $\rho$, we need also perturb $u$ and $P$.
 
-\paragraph{2. Explain the meaning of the 
+The perturbed quantities satisfying the Euler equations and we get from \eqref{Euler1}
+ \begin{align}
+ 	0 &= \partial_t(\rho_0 + \delta \rho) + \partial_x [(\rho_0 + \delta \rho) \delta u]\\
+ 	&\approx \partial_t (\delta \rho)+ \rho_0 \partial_x \delta u
+ 	\label{App1}
+ \end{align}
+In the last step we used, that $\delta \rho \delta u = \mathcal{O}(\delta^2)$ and therefore negligible.
+Instead of \eqref{Euler2} we use the equivalent
+\begin{equation}
+	0 = \partial_t u + (u \partial_x)u + \frac{1}{\rho} \partial_x P \end{equation}
+
+and get with perturbations to
+\begin{align}
+	0 &= \partial_t \delta u + (\delta u \partial_x)\delta u + \frac{1}{\rho_0 + \delta \rho} \partial_x (P+\delta P) \\
+	& \approx \partial_t \delta u + \frac{1}{\rho}\partial_x P
+	\label{App2}
+\end{align}
+
+by taking the time derivative of \eqref{App1} and the spacial deriavative and subtracting \eqref{App1} from \eqref{App2} we get:
+\begin{align}
+	0&=\partial_t(\partial_t (\delta \rho)+ \rho_0 partial_x \delta u) - \partial_x (
+	\partial_t \delta u + \frac{1}{\rho}\partial_x P)\\
+	&= \partial_t^2\delta \rho - \partial_x^2 \delta P\\
+    &= \partial_t^2\delta \rho - c_s^2\partial_x^2 \delta \rho
+\end{align}
+where we used $ P = c_s^2 / \rho$.
+With $\rho = A e^{i(kx-\omega t)}$ we get
+
+\begin{equation}
+	0=\omega^2-k^2 \qquad\Rightarrow\qquad \omega= \pm k
+\end{equation}
+
+
+
+\paragraph{2. Explain the meaning of the
     solution
 } \ \\
     \\
+The dispersion relation $\omega(k)$ is linear in $k$. This means, the perturbation is stable for all times.
 
-\paragraph{3. Argue, on the basis of these 
-    solutions, that the isothermal sound 
-    speed is $c_s=\sqrt{P/\rho}$, so that 
+\paragraph{3. Argue, on the basis of these
+    solutions, that the isothermal sound
+    speed is $c_s=\sqrt{P/\rho}$, so that
     $P=\rho c_s^2$.
 } \ \\
     \\
 
-\paragraph{4. Show that the system of 
-    isothermal Euler equations has the 
+\paragraph{4. Show that the system of
+    isothermal Euler equations has the
     Eigen-values $\lambda_{1}=u-c_s$,
-    $\lambda_{2}=u+c_s$ associated with the 
-    Eigen-vectors $\vec K_{1}=[1, u-c_s]^T$ 
+    $\lambda_{2}=u+c_s$ associated with the
+    Eigen-vectors $\vec K_{1}=[1, u-c_s]^T$
     and $\vec K_{2}=[1, u+c_s]^T$
 }
