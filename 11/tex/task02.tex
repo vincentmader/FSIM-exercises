@@ -27,7 +27,9 @@ to your previous finite-volume solver: \\
         recover the value of the pressure from the total
         energy density:
         \begin{equation}
-            P=(\gamma-1)(\rho E-\frac{\rho u^2}{2})
+            P=(\gamma-1)\cdot\bigg(
+                \rho E-\frac{\rho u^2}{2}
+            \bigg)
         \end{equation}
         where $\gamma$ is the \textit{adiabatic index}.
         For this simulation you can set $\gamma=1.4$.
