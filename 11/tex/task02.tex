@@ -1,0 +1,106 @@
+In order to simulate the Riemann problem for the 1D Euler 
+system, you'll have to implement a few modifications 
+to your previous finite-volume solver: \\
+\\
+\begin{itemize}
+    \item the set of conservative variables now is:
+        \begin{equation}
+            \vec q=
+            \begin{bmatrix}
+                \rho \\ \rho u \\ \rho E 
+            \end{bmatrix}
+        \end{equation}
+        where $\rho E$ is the \textit{total energy density}:
+        \begin{equation}
+            \rho E:=e_\textnormal{int}+\frac{\rho u^2}{2}
+        \end{equation}
+        and $e_\textnormal{int}$ is the 
+        \textit{internal energy density}.
+    \item the physical fluxes are 
+        \begin{equation}
+            \vec q=
+            \begin{bmatrix}
+                \rho u \\ \rho u^2+P \\ u(\rho E+P) 
+            \end{bmatrix}
+        \end{equation}
+    \item the equation of state is now adiabatic: You can 
+        recover the value of the pressure from the total
+        energy density:
+        \begin{equation}
+            P=(\gamma-1)(\rho E-\frac{\rho u^2}{2})
+        \end{equation}
+        where $\gamma$ is the \textit{adiabatic index}.
+        For this simulation you can set $\gamma=1.4$.
+    \item In order to calculate the time step you can 
+        use the formula given in the last exercise sheet.
+        The only difference is that the sound speed $c_s$
+        is not constant anymore:
+        \begin{equation}
+            c_s:=\frac{\gamma P}{\rho}
+        \end{equation}
+    \item the last two equations apply both at 
+        cell centers and face centers.
+    \item for setting \textit{Dirichlet} boundary 
+        conditions, you can simply fill the first and 
+        second ghost cells with the provided boundary
+        values. In this case, there is no need to update 
+        the ghost cells at every time step, just remember
+        to fill them before entering the time loop.
+\end{itemize}
+You can now setup the following 1D Riemann problem: the 
+$x$-grid goes from $x=0$ to $x=1$ and it is divided into 
+$N_x=100$ cells. At $t=0$ the system is divided into 
+\textit{left} and \textit{right} states:
+\begin{itemize}
+    \item left state ($x\leq0.5: \rho=1,p=1,u=0$)
+    \item right state ($x>0.5: \rho=0.125,p=0.1,u=0$)
+\end{itemize}
+and $\gamma=1.4$. \\
+\\
+Dirichlet boundary conditions apply, and 
+the boundary values are given by the initial L/R states. \\
+\\
+Note that 
+\begin{equation}
+    \rho E_\textnormal{L/R}(t=0)
+    =\frac{p_\textnormal{L/R}(t=0)}{\gamma-1}
+\end{equation}
+\newpage
+
+\paragraph{1. Solve this problem and plot the results for 
+    $\rho(x)$, $u(x)$, and $p(x)$ at the final time
+    ($t=0.2$).
+} \ \\
+    \\
+
+\paragraph{2. Plot the time evolution of these quantities 
+    in a $x$-$t$ diagram. (For instance, you can use 
+    pyplot.imshow)
+} \ \\
+    \\
+
+\paragraph{3. Redo the problem using $N_x=1000$. } \ \\
+    \\
+
+\paragraph{4. Explain the shape of the solution: where is 
+    the contact discontinuity, where is the rarefaction 
+    wave, and where is the shock wave?
+} \ \\
+    \\
+
+\paragraph{5. Describe the differences that you observe 
+    when increasing the resolution, especially with 
+    respect to numerical diffusivity across the 
+    rarefaction wave, the shock wave and the contact 
+    discontinuity.
+} \ \\
+    \\
+
+\paragraph{6. Experiment with the setup values of the 
+    Riemann problem and try to find initial conditions 
+    such that the outer (non-linear) sonic waves are both 
+    shock waves travelling outwards. Plot the results for 
+    $\rho(x)$, $u(x)$, and $p(x)$ at what you think it 
+    may be a good final time.
+} \ \\
+    \\
